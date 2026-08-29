@@ -28,7 +28,7 @@ export default function Category() {
           {CATEGORIES.map((cat) => (
             <div
               key={cat.title}
-              className=" mx-auto flex h-[340px] w-full max-w-[630px]  overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-4"
+              className=" mx-auto flex h-[340px] w-full max-w-[600px]  overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-4"
             >
               <div className="flex w-full flex-col justify-center text-left px-3">
                 <h3 className="text-3xl font-bold text-white">{cat.title}</h3>
