@@ -28,9 +28,9 @@ export default function Category() {
           {CATEGORIES.map((cat) => (
             <div
               key={cat.title}
-              className=" mx-auto flex h-[340px] w-full max-w-[620px]  overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-4"
+              className=" mx-auto flex h-[340px] w-full max-w-[630px]  overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-4"
             >
-              <div className="flex w-1/2 flex-col justify-center text-left px-3">
+              <div className="flex w-full flex-col justify-center text-left px-3">
                 <h3 className="text-3xl font-bold text-white">{cat.title}</h3>
                 <p className="mt-2 text-lg text-gray-400">{cat.description}</p>
                 <button className="mt-6 w-fit rounded-md bg-lime-400 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-lime-300">
@@ -38,7 +38,7 @@ export default function Category() {
                 </button>
               </div>
 
-              <div className="relative h-full w-1/2">
+              <div className="relative h-full w-full">
                 <Image
                   src={cat.image}
                   alt={cat.title}
