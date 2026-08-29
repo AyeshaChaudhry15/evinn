@@ -38,7 +38,7 @@ export default function Category() {
                 </button>
               </div>
 
-              <div className="relative h-full w-full">
+              <div className="relative h-full w-170">
                 <Image
                   src={cat.image}
                   alt={cat.title}
