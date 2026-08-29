@@ -241,9 +241,7 @@ export default function Vehicles() {
                 <option>Yamaha</option>
               </select>
 
-              {/* <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
-              </span> */}
+            
             </div>
           </div>
 
@@ -299,7 +297,7 @@ export default function Vehicles() {
                 <option>90+ km/h</option>
               </select>
 
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
+              <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
                 <ChevronDown />
               </span>
             </div>
@@ -314,7 +312,7 @@ export default function Vehicles() {
               <select
                 value={range}
                 onChange={(e) => setRange(e.target.value)}
-                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All</option>
                 <option>Under 80 km</option>
@@ -322,7 +320,7 @@ export default function Vehicles() {
                 <option>150+ km</option>
               </select>
 
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
+              <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
                 <ChevronDown />
               </span>
             </div>
@@ -353,7 +351,7 @@ export default function Vehicles() {
                   </div>
 
                   <div className="px-[17px] pb-[17px] pt-2">
-                    <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
+                    <h3 className="mb-2  text-[15px] font-semibold text-[#E7EBED]">
                       {scooter.name}
                     </h3>
 
