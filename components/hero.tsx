@@ -12,7 +12,7 @@ const STATS = [
 
 export default function Hero() {
   return (
-    <section className="bg-[#06111A] px-5 lg:px-8 w-full">
+    <section className="bg-[#06111A] px-5 lg:px-8 w-full pt-10">
       <div className="mx-auto grid max-w-7xl items-center gap-2 lg:grid-cols-2">
         <div>
           <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
