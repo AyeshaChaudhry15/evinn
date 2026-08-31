@@ -30,7 +30,7 @@ export default function Category() {
               key={cat.title}
               className="mx-auto flex w-full max-w-[630px] flex-col overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-4 sm:h-[340px] sm:flex-row"
             >
-              <div className="flex w-80 flex-col justify-center text-left px-3 py-6 sm:py-0 ">
+              <div className="flex w-70 flex-col justify-center text-left px-3 py-6 sm:py-0 ">
                 <h3 className="text-2xl font-bold text-white sm:text-3xl">{cat.title}</h3>
                 <p className="mt-2 text-base text-gray-400 sm:text-lg">{cat.description}</p>
                 <button className="mt-6 w-fit rounded-md bg-lime-400 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-lime-300">
