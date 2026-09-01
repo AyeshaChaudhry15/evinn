@@ -6,14 +6,14 @@ const CATEGORIES = [
     title: "Electric Bikes",
     description: "High Performance. Zero Emission.",
     cta: "Explore Bikes",
-    image: "/hero3.webp",
+    image: "/hero3.png",
     href: "/ElectricBikes",
   },
   {
     title: "Electric Scooters",
     description: "Smart, Stylish, Sustainable.",
     cta: "Explore Scooters",
-    image: "/hero2.webp",
+    image: "/hero2.png",
     href: "/ElectricScooters",
   },
 ];
@@ -22,7 +22,7 @@ export default function Category() {
   return (
     <section className="bg-[#06111A] px-5 pb-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-6 text-2xl font-bold text-white mt-10 px-3">Shop By Category</h2>
+        <h2 className="mb-6 text-2xl font-bold text-white pt-10 px-3">Shop By Category</h2>
 
         <div className="grid gap-6 sm:grid-cols-2 justify-items-center ">
           {CATEGORIES.map((cat) => (
@@ -38,12 +38,12 @@ export default function Category() {
                 </button>
               </div>
 
-              <div className="relative h-[220px] w-80 sm:h-full sm:w-1/2 ">
+              <div className="relative h-[220px] w-80 sm:h-full sm:w-80 ">
                 <Image
                   src={cat.image}
                   alt={cat.title}
                   fill
-                  className="object-cover"
+                  className=""
                 />
               </div>
             </div>

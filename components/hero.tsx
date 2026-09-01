@@ -19,26 +19,30 @@ export default function Hero() {
             The Future <br />
             Moves <span className="text-lime-400">Electric</span>
           </h1>
+
           <p className="mt-6 max-w-md text-gray-400 text-base sm:text-xl">
             Explore 10+ Trusted Brands, 50+ Models. One Destination.
           </p>
+
           <div className="mt-8 flex flex-wrap gap-4">
             <button className="rounded-md bg-lime-400 px-6 py-4 text-md font-semibold text-black transition-colors hover:bg-lime-300">
-              <Link href={"/Vehicles"}> Explore Vehicles</Link>
+              <Link href={"/Vehicles"}>Explore Vehicles</Link>
             </button>
+
             <button className="rounded-md border border-white/20 px-6 py-4 text-md font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400">
               Compare Vehicles
             </button>
           </div>
         </div>
 
-        <div className="relative mt-8 h-[280px] w-full sm:h-[380px] md:h-[480px] lg:mt-0 lg:h-[500px] lg:-ml-8 lg:scale-125">
+        <div className="relative h-[250px] w-full sm:h-[320px] md:h-[350px] lg:h-[430px] lg:-ml-10">
           <Image
-            src="/hero1.webp"
+            src="/hero1.png"
             alt="Electric motorbike"
             fill
             priority
-            className="object-cover"
+            className="object-contain object-center lg:object-right"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
       </div>
