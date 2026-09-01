@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 interface Stat {
   value: string;
@@ -10,6 +11,7 @@ interface Model {
   name: string;
   price: string;
   imgSrc: string;
+  link: string;
 }
 
 interface Feature {
@@ -27,21 +29,24 @@ const stats: Stat[] = [
 const models: Model[] = [
   {
     id: "s1-pro",
-    name: "Ola S1 Pro",
+    name: "OKla S1 Pro",
     price: "PKR 849,000",
     imgSrc: "/ola-s1-pro.png",
+    link: "/ModelDetail",
   },
   {
     id: "s1-air",
-    name: "Ola S1 Air",
+    name: "OKla S1 Air",
     price: "PKR 649,000",
     imgSrc: "/ola-s1-air.png",
+    link: "/ModelDetail",
   },
   {
     id: "s1-x",
-    name: "Ola S1 X",
+    name: "OKla S1 X",
     price: "PKR 549,000",
     imgSrc: "/ola-s1-x.png",
+    link: "/ModelDetail",
   },
 ];
 
@@ -136,9 +141,10 @@ export default function Okla() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
             {models.map((model) => (
-              <div
+              <Link
                 key={model.id}
-                className="rounded-xl border border-[#212c37] bg-[#131a22] p-5"
+                href={model.link}
+                className="block rounded-xl border border-[#212c37] bg-[#131a22] p-5 transition hover:border-[#b6ff3c]/50"
               >
                 <img
                   src={model.imgSrc}
@@ -151,7 +157,7 @@ export default function Okla() {
                 <div className="mt-1 text-[13px] text-[#8b98a3]">
                   {model.price}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
