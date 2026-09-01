@@ -35,7 +35,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[250px] w-full sm:h-[320px] md:h-[350px] lg:h-[400px] lg:-ml-10">
+        <div className="relative h-[250px] sm:h-[320px] md:h-[350px] lg:h-[400px] lg:-ml-10">
           <Image
             src="/hero1.png"
             alt="Electric motorbike"
