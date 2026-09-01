@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 
 interface Stat {
@@ -94,25 +95,27 @@ const features: Feature[] = [
 
 export default function Okla() {
   return (
-    <div className="h-full w-full bg-[#0b0f14] font-sans text-[#f4f7f5]">
-      <div className="mx-auto w-full max-w-[1200px] px-6 py-10 sm:px-10 lg:px-16 ">
+    <div className="min-h-screen w-full bg-[#0b0f14] font-sans text-[#f4f7f5]">
+      <div className="mx-auto w-full max-w-[1200px] px-3 py-6 sm:px-10 sm:py-10 lg:px-16">
         <section className="relative flex min-h-[70vh] flex-col justify-center">
           <div className="max-w-[420px]">
-            <h1 className="text-[42px] font-bold leading-tight tracking-tight sm:text-[56px]">
+            <h1 className="text-[38px] font-bold leading-tight tracking-tight sm:text-[56px]">
               Ola Electric
             </h1>
-            <p className="mt-4 text-[16px] leading-relaxed text-[#8b98a3] sm:text-[18px]">
+
+            <p className="mt-3 text-[14px] leading-relaxed text-[#8b98a3] sm:mt-4 sm:text-[18px]">
               Building a better future with smart electric mobility.
             </p>
           </div>
 
-          <div className="mt-10 flex gap-10 sm:gap-20">
+          <div className="mt-8 flex gap-4 sm:mt-10 sm:gap-20">
             {stats.map((stat) => (
               <div key={stat.label}>
-                <div className="text-[28px] font-bold text-[#b6ff3c] sm:text-[32px]">
+                <div className="text-[20px] font-bold text-[#b6ff3c] sm:text-[32px]">
                   {stat.value}
                 </div>
-                <div className="mt-1 text-[13px] text-[#8b98a3] sm:text-[14px]">
+
+                <div className="mt-1 text-[9px] text-[#8b98a3] sm:text-[14px]">
                   {stat.label}
                 </div>
               </div>
@@ -122,39 +125,42 @@ export default function Okla() {
           <img
             src="/oklaelectrichero.png"
             alt="Okla Electric Hero"
-            className="ml-auto mt-10 h-auto w-full max-w-[600px] object-cover sm:absolute sm:right-0 sm:top-1/2 sm:mt-0 sm:w-[55%] sm:-translate-y-1/2"
+            className="ml-auto mt-8 h-auto w-full max-w-[600px] object-contain sm:absolute sm:right-0 sm:top-1/2 sm:mt-0 sm:w-[55%] sm:-translate-y-1/2"
           />
         </section>
 
-        <section className="mt-16">
-          <div className="mb-6 flex items-baseline justify-between">
-            <h2 className="text-[22px] font-semibold sm:text-[26px]">
+        <section className="mt-10 sm:mt-16">
+          <div className="mb-5 flex items-baseline justify-between">
+            <h2 className="text-[18px] font-semibold sm:text-[26px]">
               Popular Models
             </h2>
+
             <a
               href="#"
-              className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]"
+              className="whitespace-nowrap text-[10px] font-semibold text-[#b6ff3c] sm:text-[14px]"
             >
               View All Models →
             </a>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+          <div className="grid grid-cols-3 gap-2 sm:gap-5">
             {models.map((model) => (
               <Link
                 key={model.id}
                 href={model.link}
-                className="block rounded-xl border border-[#212c37] bg-[#131a22] p-5 transition hover:border-[#b6ff3c]/50"
+                className="block rounded-lg border border-[#212c37] bg-[#131a22] p-2 transition hover:border-[#b6ff3c]/50 sm:rounded-xl sm:p-5"
               >
                 <img
                   src={model.imgSrc}
                   alt={model.name}
-                  className="h-[200px] w-full object-contain"
+                  className="h-[90px] w-full object-contain sm:h-[200px]"
                 />
-                <div className="mt-4 text-[20px] font-semibold">
+
+                <div className="mt-2 text-[10px] font-semibold sm:mt-4 sm:text-[20px]">
                   {model.name}
                 </div>
-                <div className="mt-1 text-[13px] text-[#8b98a3]">
+
+                <div className="mt-1 text-[8px] text-[#8b98a3] sm:text-[13px]">
                   {model.price}
                 </div>
               </Link>
@@ -162,22 +168,23 @@ export default function Okla() {
           </div>
         </section>
 
-        <section className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-5">
+        <section className="mt-8 grid grid-cols-2 gap-2 sm:mt-12 sm:grid-cols-4 sm:gap-5">
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="rounded-xl border border-[#212c37] bg-[#131a22] px-3 py-6 text-center"
+              className="rounded-lg border border-[#212c37] bg-[#131a22] px-2 py-4 text-center sm:rounded-xl sm:px-3 sm:py-6"
             >
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.6"
-                className="mx-auto mb-3 h-8 w-8 text-[#b6ff3c]"
+                className="mx-auto mb-2 h-6 w-6 text-[#b6ff3c] sm:mb-3 sm:h-8 sm:w-8"
               >
                 {feature.icon}
               </svg>
-              <div className="text-[15px] leading-snug text-[#8b98a3] sm:text-[15px]">
+
+              <div className="text-[9px] leading-snug text-[#8b98a3] sm:text-[15px]">
                 {feature.label}
               </div>
             </div>
