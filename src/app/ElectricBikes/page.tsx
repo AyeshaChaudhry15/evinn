@@ -4,7 +4,20 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-const bikes = [
+
+
+interface Bike {
+  id: number | string;
+  name: string;
+  brand: string;
+  priceText: number | string;
+  price:number;
+  rating: number | string;
+  image: string;
+  link: string;
+}
+
+const bikes: Bike[]= [
   {
     id: 1,
     name: "Revolt RV1+",

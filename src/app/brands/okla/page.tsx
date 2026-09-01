@@ -32,21 +32,21 @@ const models: Model[] = [
     name: "OKla S1 Pro",
     price: "PKR 849,000",
     imgSrc: "/ola-s1-pro.png",
-    link: "/ModelDetail",
+    link: "/modelDetail",
   },
   {
     id: "s1-air",
     name: "OKla S1 Air",
     price: "PKR 649,000",
     imgSrc: "/ola-s1-air.png",
-    link: "/ModelDetail",
+    link: "/modelDetail",
   },
   {
     id: "s1-x",
     name: "OKla S1 X",
     price: "PKR 549,000",
     imgSrc: "/ola-s1-x.png",
-    link: "/ModelDetail",
+    link: "/modelDetail",
   },
 ];
 
