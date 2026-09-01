@@ -7,8 +7,8 @@ import { Search, MapPin, Menu, X } from "lucide-react";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Brands", href: "/brands" },
-  { label: "Electric Bikes", href: "/electric-bikes" },
-  { label: "Electric Scooters", href: "/electric-scooters" },
+  { label: "Electric Bikes", href: "/ElectricBikes" },
+  { label: "Electric Scooters", href: "/ElectricScooters" },
   { label: "Compare", href: "/compare" },
   { label: "Showrooms", href: "/showrooms" },
 ];
@@ -43,12 +43,12 @@ export default function Navbar() {
             <Search size={18} />
           </button>
          
-          <button
+          {/* <button
             aria-label="Menu"
             className="rounded-md border border-white/10 p-2 transition-colors hover:border-[#8fdf0d] hover:text-[#8fdf0d]"
           >
             <Menu size={18} />
-          </button>
+          </button> */}
         </div>
 
         <button
