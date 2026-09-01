@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 const bikes = [
   {
@@ -12,6 +13,7 @@ const bikes = [
     priceText: "PKR 680,000",
     rating: "4.8",
     image: "/images/bike1.png",
+    link: "/modelDetail",
   },
   {
     id: 2,
@@ -21,6 +23,7 @@ const bikes = [
     priceText: "PKR 1,299,000",
     rating: "4.9",
     image: "/images/bike2.png",
+    link: "/modelDetail",
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const bikes = [
     priceText: "PKR 1,500,000",
     rating: "4.7",
     image: "/images/bike3.png",
+    link: "/modelDetail",
   },
   {
     id: 4,
@@ -39,6 +43,7 @@ const bikes = [
     priceText: "PKR 840,500",
     rating: "4.8",
     image: "/images/bike4.png",
+    link: "/modelDetail",
   },
   {
     id: 5,
@@ -48,6 +53,7 @@ const bikes = [
     priceText: "PKR 1,099,500",
     rating: "4.6",
     image: "/images/bike5.png",
+    link: "/modelDetail",
   },
   {
     id: 6,
@@ -57,6 +63,7 @@ const bikes = [
     priceText: "PKR 770,000",
     rating: "4.7",
     image: "/images/bike6.png",
+    link: "/modelDetail",
   },
   {
     id: 7,
@@ -66,6 +73,7 @@ const bikes = [
     priceText: "PKR 890,000",
     rating: "4.8",
     image: "/images/bike7.png",
+    link: "/modelDetail",
   },
   {
     id: 8,
@@ -75,6 +83,7 @@ const bikes = [
     priceText: "PKR 2,340,000",
     rating: "4.9",
     image: "/images/bike8.png",
+    link: "/modelDetail",
   },
   {
     id: 9,
@@ -84,6 +93,7 @@ const bikes = [
     priceText: "PKR 2,450,000",
     rating: "4.8",
     image: "/images/bike9.png",
+    link: "/modelDetail",
   },
   {
     id: 10,
@@ -93,6 +103,7 @@ const bikes = [
     priceText: "PKR 950,000",
     rating: "4.8",
     image: "/images/bike1.png",
+    link: "/modelDetail",
   },
   {
     id: 11,
@@ -102,6 +113,7 @@ const bikes = [
     priceText: "PKR 1,200,000",
     rating: "4.7",
     image: "/images/bike3.png",
+    link: "/modelDetail",
   },
   {
     id: 12,
@@ -111,6 +123,7 @@ const bikes = [
     priceText: "PKR 1,750,000",
     rating: "4.9",
     image: "/images/bike7.png",
+    link: "/modelDetail",
   },
 ];
 
@@ -319,9 +332,10 @@ export default function ElectricBikesPage() {
           {displayedBikes.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {displayedBikes.map((bike) => (
-                <article
+                <Link
                   key={bike.id}
-                  className="group min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                  href={bike.link}
+                  className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
                     <img
@@ -346,7 +360,7 @@ export default function ElectricBikesPage() {
                       <span>{bike.rating}</span>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           ) : (

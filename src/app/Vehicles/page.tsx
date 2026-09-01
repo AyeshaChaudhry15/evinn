@@ -12,6 +12,7 @@ const scooters = [
     priceText: "PKR 549,000",
     rating: "4.8",
     image: "/images/scooter1.png",
+    Link: "/ModelDetail",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const scooters = [
     priceText: "PKR 630,500",
     rating: "4.9",
     image: "/images/scooter2.png",
+    Link: "/ModelDetail",
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const scooters = [
     priceText: "PKR 799,000",
     rating: "4.7",
     image: "/images/scooter3.png",
+    Link: "/ModelDetail",
   },
   {
     id: 4,
@@ -39,6 +42,7 @@ const scooters = [
     priceText: "PKR 549,000",
     rating: "4.8",
     image: "/images/scooter4.png",
+    Link: "/ModelDetail",
   },
   {
     id: 5,
@@ -48,6 +52,7 @@ const scooters = [
     priceText: "PKR 898,350",
     rating: "4.6",
     image: "/images/scooter5.png",
+    Link: "/ModelDetail",
   },
   {
     id: 6,
@@ -57,6 +62,7 @@ const scooters = [
     priceText: "PKR 680,000",
     rating: "4.7",
     image: "/images/scooter6.png",
+    Link: "/ModelDetail",
   },
   {
     id: 7,
@@ -66,6 +72,7 @@ const scooters = [
     priceText: "PKR 419,010",
     rating: "4.8",
     image: "/images/scooter7.png",
+    Link: "/ModelDetail",
   },
   {
     id: 8,
@@ -75,6 +82,7 @@ const scooters = [
     priceText: "PKR 369,500",
     rating: "4.9",
     image: "/images/scooter8.png",
+    Link: "/ModelDetail",
   },
   {
     id: 9,
@@ -84,6 +92,7 @@ const scooters = [
     priceText: "PKR 949,000",
     rating: "4.8",
     image: "/images/scooter9.png",
+    Link: "/ModelDetail",
   },
   {
     id: 10,
@@ -93,6 +102,7 @@ const scooters = [
     priceText: "PKR 410,000",
     rating: "4.6",
     image: "/images/scooter1.png",
+    Link: "/ModelDetail",
   },
   {
     id: 11,
@@ -102,6 +112,7 @@ const scooters = [
     priceText: "PKR 520,000",
     rating: "4.7",
     image: "/images/scooter2.png",
+    Link: "/ModelDetail",
   },
   {
     id: 12,
@@ -111,6 +122,7 @@ const scooters = [
     priceText: "PKR 950,000",
     rating: "4.8",
     image: "/images/scooter3.png",
+    Link: "/ModelDetail",
   },
 ];
 
@@ -240,8 +252,6 @@ export default function Vehicles() {
                 <option>Ampere</option>
                 <option>Yamaha</option>
               </select>
-
-            
             </div>
           </div>
 
