@@ -7,11 +7,11 @@ import Link from "next/link";
 
 
 interface Bike {
-  id: number | string;
+  id: number;
   name: string;
   brand: string;
   priceText: number | string;
-  price:number;
+  price: number;
   rating: number | string;
   image: string;
   link: string;
