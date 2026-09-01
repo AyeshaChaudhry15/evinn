@@ -45,7 +45,7 @@ export default function Okla() {
     <main className="min-h-screen bg-[#06111A] px-5 py-6 text-white lg:px-10">
       <div className="mx-auto max-w-7xl">
 
-        <section className="rounded-xl border border-white/10 bg-[#091923] p-6 lg:p-8">
+        <section className="rounded-xl  p-6 lg:p-8">
 
           <div className="grid items-center gap-8 lg:grid-cols-2">
 
@@ -135,7 +135,7 @@ export default function Okla() {
 
         </section>
 
-        <section className="mt-5 rounded-xl border border-white/10 bg-[#091923] p-6">
+        <section className="mt-5 rounded-xl border-lime-400 border-1    p-6">
 
           <div className="flex gap-10 border-b border-white/10">
             <button className="border-b-2 border-lime-400 pb-3 text-sm font-semibold text-lime-400">
