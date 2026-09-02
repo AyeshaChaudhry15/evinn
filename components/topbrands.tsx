@@ -7,23 +7,23 @@ interface Brand {
 }
 
 const BRANDS: Brand[] = [
-  { name: "Okla", logo: "/logos/okla.png", link: "/brands/okla" },
-  { name: "Evee", logo: "/logos/evee.png", link: "/brands/evee" },
-  { name: "Metro", logo: "/logos/metro.png", link: "/brands/metro" },
-  { name: "Yadea", logo: "/logos/yadea.png", link: "/brands/yadea" },
-  { name: "Luyuan", logo: "/logos/luyuan.png", link: "/brands/luyuan" },
-  { name: "Revoo", logo: "/logos/revoo.png", link: "/brands/revoo" },
-  { name: "Orevo", logo: "/logos/orevo.png", link: "/brands/orevo" },
-  { name: "Jolta", logo: "/logos/jolta.png", link: "/brands/jolta" },
-  { name: "United", logo: "/logos/united.png", link: "/brands/united" },
+  { name: "Okla", logo: "/okla.png", link: "/brands/okla" },
+  { name: "Evee", logo: "/evee.png", link: "/brands/evee" },
+  { name: "Metro", logo: "/metro.jfif", link: "/brands/metro" },
+  { name: "Yadea", logo: "/yadea.png", link: "/brands/yadea" },
+  { name: "Luyuan", logo: "/luyuan.png", link: "/brands/luyuan" },
+  { name: "Revoo", logo: "/revoo.png", link: "/brands/revoo" },
+  { name: "Orevo", logo: "/orevo.jfif", link: "/brands/orevo" },
+  { name: "Jolta", logo: "/jolta.png", link: "/brands/jolta" },
+  { name: "United", logo: "/united.jfif", link: "/brands/united" },
 ];
 
 export default function TopBrands() {
   return (
-    <section className="bg-[#06111A] px-5 pb-20 lg:px-8">
+    <section className="bg-[#06111A] px-5 lg:px-8 pt-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">Top Brands</h2>
+          <h2 className="text-4xl font-bold text-white">Top Brands</h2>
 
           <Link
             href="/brands"
