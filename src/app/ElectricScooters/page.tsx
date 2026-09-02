@@ -3,142 +3,40 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import vehicleData from "../../bike-details/bikes.json";
 
-const bikes = [
-  {
-    id: 1,
-    name: "Ola S1 Pro",
-    brand: "Ola",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/modelDetail",
-  },
-  {
-    id: 2,
-    name: "Ather 450X",
-    brand: "Ather",
-    price: 630500,
-    priceText: "PKR 630,500",
-    rating: "4.9",
-    image: "/hero2.png",
-    link: "/modelDetail",
-  },
-  {
-    id: 3,
-    name: "TVS iQube",
-    brand: "TVS",
-    price: 799000,
-    priceText: "PKR 799,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/modelDetail",
-  },
-  {
-    id: 4,
-    name: "Bajaj Chetak",
-    brand: "Bajaj",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/modelDetail",
-  },
-  {
-    id: 5,
-    name: "Hero Vida V1",
-    brand: "Hero",
-    price: 898350,
-    priceText: "PKR 898,350",
-    rating: "4.6",
-    image: "/hero2.png",
-    link: "/modelDetail",
-  },
-  {
-    id: 6,
-    name: "Okla Truvio",
-    brand: "Okla",
-    price: 770000,
-    priceText: "PKR 770,000",
-    rating: "4.7",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 7,
-    name: "Kawasaki Rumpo",
-    brand: "Kawasaki",
-    price: 890000,
-    priceText: "PKR 890,000",
-    rating: "4.8",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 8,
-    name: "Ertuga One",
-    brand: "Ertuga",
-    price: 2340000,
-    priceText: "PKR 2,340,000",
-    rating: "4.9",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 9,
-    name: "Kawhy HHH0009",
-    brand: "Kawhy",
-    price: 2450000,
-    priceText: "PKR 2,450,000",
-    rating: "4.8",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 10,
-    name: "Revolt RV400",
-    brand: "Revolt",
-    price: 950000,
-    priceText: "PKR 950,000",
-    rating: "4.8",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 11,
-    name: "Trek Urban X",
-    brand: "Trek",
-    price: 1200000,
-    priceText: "PKR 1,200,000",
-    rating: "4.7",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-  {
-    id: 12,
-    name: "Kawasaki E-One",
-    brand: "Kawasaki",
-    price: 1750000,
-    priceText: "PKR 1,750,000",
-    rating: "4.9",
- image: "/hero2.png",
-     link: "/modelDetail",
-  },
-];
+interface Bike {
+  id: number;
+  name: string;
+  brand: string;
+  type: string;
+  price: number;
+  priceText: string;
+  rating: number;
+  image: string;
+  slug: string;
+}
+
+const PRICE_MIN = 0;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
+const MIN_GAP = 50000;
 
 export default function ElectricBikesPage() {
+  const bikes: Bike[] = vehicleData.scooters;
+
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
   const [sortBy, setSortBy] = useState("Popular");
-  const [price, setPrice] = useState(5000000);
+  const [minPrice, setMinPrice] = useState(PRICE_MIN);
+  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredBikes = bikes.filter((bike) => {
     const brandMatch = brand === "All Brands" || bike.brand === brand;
 
-    const priceMatch = bike.price <= price;
+    const priceMatch = bike.price >= minPrice && bike.price <= maxPrice;
 
     return brandMatch && priceMatch;
   });
@@ -151,26 +49,60 @@ export default function ElectricBikesPage() {
     filteredBikes.sort((a, b) => b.price - a.price);
   }
 
-  if (sortBy === "Newest") {
-    filteredBikes.sort((a, b) => b.id - a.id);
-  }
-
   const clearFilters = () => {
     setBrand("All Brands");
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
-    setPrice(5000000);
+    setMinPrice(PRICE_MIN);
+    setMaxPrice(PRICE_MAX);
   };
 
   const loadMore = () => {
     setVisibleProducts((previous) => previous + 3);
   };
 
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+    setMinPrice(value);
+  };
+
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
+    setMaxPrice(value);
+  };
+
   const displayedBikes = filteredBikes.slice(0, visibleProducts);
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
+      <style jsx global>{`
+        .range-thumb {
+          pointer-events: none;
+        }
+        .range-thumb::-webkit-slider-thumb {
+          pointer-events: all;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+        }
+        .range-thumb::-moz-range-thumb {
+          pointer-events: all;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
+
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold tracking-[-1.5px] sm:text-[38px] lg:text-[42px]">
@@ -193,10 +125,8 @@ export default function ElectricBikesPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
-              <option>Popular</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
-              <option>Newest</option>
             </select>
 
             <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
@@ -245,31 +175,41 @@ export default function ElectricBikesPage() {
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>PKR 0</span>
-              <span>PKR 5,000,000</span>
+              <span>PKR {minPrice.toLocaleString()}</span>
+              <span>PKR {maxPrice.toLocaleString()}</span>
             </div>
 
             <div className="relative h-6">
-              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]" />
+              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
+
+              <div
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                style={{
+                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
+                }}
+              />
 
               <input
                 type="range"
-                min="0"
-                max="5000000"
-                step="50000"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={minPrice}
+                onChange={handleMinChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
               />
 
-              <div className="pointer-events-none absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
-
-              <div
-                className="pointer-events-none absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
-                style={{
-                  right: `${100 - (price / 5000000) * 100}%`,
-                  transform: "translateX(50%)",
-                }}
+              <input
+                type="range"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={maxPrice}
+                onChange={handleMaxChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: 4 }}
               />
             </div>
           </div>
@@ -334,7 +274,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={bike.link}
+                  href={`/models/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

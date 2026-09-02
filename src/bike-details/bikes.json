@@ -1,0 +1,271 @@
+{
+  "bikes": [
+    {
+      "id": 1,
+      "name": "Revolt RV1+",
+      "brand": "Revolt",
+      "type": "bike",
+      "price": 680000,
+      "priceText": "PKR 680,000",
+      "rating": 4.8,
+      "image": "/hero1.png",
+      "slug": "revolt-rv1"
+    },
+    {
+      "id": 2,
+      "name": "Ultraviolette F77",
+      "brand": "Ultraviolette",
+      "type": "bike",
+      "price": 1299000,
+      "priceText": "PKR 1,299,000",
+      "rating": 4.9,
+      "image": "/hero1.png",
+      "slug": "ultraviolette-f77"
+    },
+    {
+      "id": 3,
+      "name": "Trek Madone R",
+      "brand": "Trek",
+      "type": "bike",
+      "price": 1500000,
+      "priceText": "PKR 1,500,000",
+      "rating": 4.7,
+      "image": "/hero1.png",
+      "slug": "trek-madone-r"
+    },
+    {
+      "id": 4,
+      "name": "Obern Baer",
+      "brand": "Obern",
+      "type": "bike",
+      "price": 840500,
+      "priceText": "PKR 840,500",
+      "rating": 4.8,
+      "image": "/hero1.png",
+      "slug": "obern-baer"
+    },
+    {
+      "id": 5,
+      "name": "Menor Aura",
+      "brand": "Menor",
+      "type": "bike",
+      "price": 1099500,
+      "priceText": "PKR 1,099,500",
+      "rating": 4.6,
+      "image": "/hero1.png",
+      "slug": "menor-aura"
+    },
+    {
+      "id": 6,
+      "name": "Okla Truvio",
+      "brand": "Okla",
+      "type": "bike",
+      "price": 770000,
+      "priceText": "PKR 770,000",
+      "rating": 4.7,
+      "image": "/hero1.png",
+      "slug": "okla-truvio"
+    },
+    {
+      "id": 7,
+      "name": "Kawasaki Rumpo",
+      "brand": "Kawasaki",
+      "type": "bike",
+      "price": 890000,
+      "priceText": "PKR 890,000",
+      "rating": 4.8,
+      "image": "/hero1.png",
+      "slug": "kawasaki-rumpo"
+    },
+    {
+      "id": 8,
+      "name": "Ertuga One",
+      "brand": "Ertuga",
+      "type": "bike",
+      "price": 2340000,
+      "priceText": "PKR 2,340,000",
+      "rating": 4.9,
+      "image": "/hero1.png",
+      "slug": "ertuga-one"
+    },
+    {
+      "id": 9,
+      "name": "Kawhy HHH0009",
+      "brand": "Kawhy",
+      "type": "bike",
+      "price": 2450000,
+      "priceText": "PKR 2,450,000",
+      "rating": 4.8,
+      "image": "/hero1.png",
+      "slug": "kawhy-hhh0009"
+    },
+    {
+      "id": 10,
+      "name": "Revolt RV400",
+      "brand": "Revolt",
+      "type": "bike",
+      "price": 950000,
+      "priceText": "PKR 950,000",
+      "rating": 4.8,
+      "image": "/hero1.png",
+      "slug": "revolt-rv400"
+    },
+    {
+      "id": 11,
+      "name": "Trek Urban X",
+      "brand": "Trek",
+      "type": "bike",
+      "price": 1200000,
+      "priceText": "PKR 1,200,000",
+      "rating": 4.7,
+      "image": "/hero1.png",
+      "slug": "trek-urban-x"
+    },
+    {
+      "id": 12,
+      "name": "Kawasaki E-One",
+      "brand": "Kawasaki",
+      "type": "bike",
+      "price": 1750000,
+      "priceText": "PKR 1,750,000",
+      "rating": 4.9,
+      "image": "/hero1.png",
+      "slug": "kawasaki-e-one"
+    }
+  ],
+
+  "scooters": [
+    {
+      "id": 13,
+      "name": "Ola S1 Pro",
+      "brand": "Ola",
+      "type": "scooter",
+      "price": 549000,
+      "priceText": "PKR 549,000",
+      "rating": 4.8,
+      "image": "/hero2.png",
+      "slug": "ola-s1-pro"
+    },
+    {
+      "id": 14,
+      "name": "Ather 450X",
+      "brand": "Ather",
+      "type": "scooter",
+      "price": 520000,
+      "priceText": "PKR 520,000",
+      "rating": 4.7,
+      "image": "/hero2.png",
+      "slug": "ather-450x"
+    },
+    {
+      "id": 15,
+      "name": "TVS iQube",
+      "brand": "TVS",
+      "type": "scooter",
+      "price": 480000,
+      "priceText": "PKR 480,000",
+      "rating": 4.6,
+      "image": "/hero2.png",
+      "slug": "tvs-iqube"
+    },
+    {
+      "id": 16,
+      "name": "Bajaj Chetak",
+      "brand": "Bajaj",
+      "type": "scooter",
+      "price": 500000,
+      "priceText": "PKR 500,000",
+      "rating": 4.7,
+      "image": "/hero2.png",
+      "slug": "bajaj-chetak"
+    },
+    {
+      "id": 17,
+      "name": "Hero Vida V1",
+      "brand": "Hero",
+      "type": "scooter",
+      "price": 465000,
+      "priceText": "PKR 465,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "hero-vida-v1"
+    },
+    {
+      "id": 18,
+      "name": "Okla Truvio",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 430000,
+      "priceText": "PKR 430,000",
+      "rating": 4.4,
+      "image": "/hero2.png",
+      "slug": "okla-truvio"
+    },
+    {
+      "id": 19,
+      "name": "Kawasaki Rumpo",
+      "brand": "Kawasaki",
+      "type": "scooter",
+      "price": 590000,
+      "priceText": "PKR 590,000",
+      "rating": 4.6,
+      "image": "/hero2.png",
+      "slug": "kawasaki-rumpo"
+    },
+    {
+      "id": 20,
+      "name": "Ertuga One",
+      "brand": "Ertuga",
+      "type": "scooter",
+      "price": 450000,
+      "priceText": "PKR 450,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "ertuga-one"
+    },
+    {
+      "id": 21,
+      "name": "Kawhy HHH0009",
+      "brand": "Kawhy",
+      "type": "scooter",
+      "price": 510000,
+      "priceText": "PKR 510,000",
+      "rating": 4.6,
+      "image": "/hero2.png",
+      "slug": "kawhy-hhh0009"
+    },
+    {
+      "id": 22,
+      "name": "Revolt RV400",
+      "brand": "Revolt",
+      "type": "scooter",
+      "price": 560000,
+      "priceText": "PKR 560,000",
+      "rating": 4.8,
+      "image": "/hero2.png",
+      "slug": "revolt-rv400"
+    },
+    {
+      "id": 23,
+      "name": "Trek Urban X",
+      "brand": "Trek",
+      "type": "scooter",
+      "price": 475000,
+      "priceText": "PKR 475,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "trek-urban-x"
+    },
+    {
+      "id": 24,
+      "name": "Kawasaki E-One",
+      "brand": "Kawasaki",
+      "type": "scooter",
+      "price": 620000,
+      "priceText": "PKR 620,000",
+      "rating": 4.7,
+      "image": "/hero2.png",
+      "slug": "kawasaki-e-one"
+    }
+  ]
+}
