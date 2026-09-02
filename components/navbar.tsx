@@ -412,7 +412,7 @@ export default function Navbar() {
           </ul>
 
           <Link
-            href="/contact"
+            href="/contactus"
             onClick={() => setMobileOpen(false)}
             className="mt-4 block rounded-lg bg-[#8fdf0d] px-5 py-2.5 text-center text-sm font-semibold text-[#0B0F0C] transition-colors hover:bg-[#a3f722]"
           >
