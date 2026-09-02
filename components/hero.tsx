@@ -24,18 +24,18 @@ export default function Hero() {
             Explore 10+ Trusted Brands, 50+ Models. One Destination.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <button className="rounded-md bg-lime-400 px-6 py-4 text-md font-semibold text-black transition-colors hover:bg-lime-300">
+          <div className="mt-8 flex flex-wrap gap-3 lg:gap-4">
+            <button className="rounded-md bg-lime-400 px-4 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-lime-300 lg:px-6 lg:py-4 lg:text-md">
               <Link href={"/Vehicles"}>Explore Vehicles</Link>
             </button>
 
-            <button className="rounded-md border border-white/20 px-6 py-4 text-md font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400">
+            <button className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400 lg:px-6 lg:py-4 lg:text-md">
               Compare Vehicles
             </button>
           </div>
         </div>
 
-        <div className="relative h-[250px] sm:h-[320px] md:h-[350px] lg:h-[400px] lg:-ml-10">
+        <div className="relative mt-8 h-[250px] sm:h-[320px] md:h-[350px] lg:mt-0 lg:h-[400px] lg:-ml-10">
           <Image
             src="/hero1.png"
             alt="Electric motorbike"

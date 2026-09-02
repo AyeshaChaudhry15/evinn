@@ -1,37 +1,172 @@
-
 "use client";
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import bikes from "../../bike-details/bikes.json";
+import vehicleData from "../../bike-details/bikes.json";
 
+<<<<<<< HEAD:src/app/ElectricScooters/page.tsx
 interface Bike {
   id: number;
   name: string;
   brand: string;
-  priceText: string;
+  type: string;
   price: number;
+  priceText: string;
   rating: number;
   image: string;
   slug: string;
 }
 
+const PRICE_MIN = 0;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
+const MIN_GAP = 50000;
+=======
+const bikes = [
+  {
+    id: 1,
+    name: "Ola S1 Pro",
+    brand: "Ola",
+    price: 549000,
+    priceText: "PKR 549,000",
+    rating: "4.8",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 2,
+    name: "Ather 450X",
+    brand: "Ather",
+    price: 630500,
+    priceText: "PKR 630,500",
+    rating: "4.9",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 3,
+    name: "TVS iQube",
+    brand: "TVS",
+    price: 799000,
+    priceText: "PKR 799,000",
+    rating: "4.7",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 4,
+    name: "Bajaj Chetak",
+    brand: "Bajaj",
+    price: 549000,
+    priceText: "PKR 549,000",
+    rating: "4.8",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 5,
+    name: "Hero Vida V1",
+    brand: "Hero",
+    price: 898350,
+    priceText: "PKR 898,350",
+    rating: "4.6",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 6,
+    name: "Okla Truvio",
+    brand: "Okla",
+    price: 770000,
+    priceText: "PKR 770,000",
+    rating: "4.7",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 7,
+    name: "Kawasaki Rumpo",
+    brand: "Kawasaki",
+    price: 890000,
+    priceText: "PKR 890,000",
+    rating: "4.8",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 8,
+    name: "Ertuga One",
+    brand: "Ertuga",
+    price: 2340000,
+    priceText: "PKR 2,340,000",
+    rating: "4.9",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 9,
+    name: "Kawhy HHH0009",
+    brand: "Kawhy",
+    price: 2450000,
+    priceText: "PKR 2,450,000",
+    rating: "4.8",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 10,
+    name: "Revolt RV400",
+    brand: "Revolt",
+    price: 950000,
+    priceText: "PKR 950,000",
+    rating: "4.8",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 11,
+    name: "Trek Urban X",
+    brand: "Trek",
+    price: 1200000,
+    priceText: "PKR 1,200,000",
+    rating: "4.7",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+  {
+    id: 12,
+    name: "Kawasaki E-One",
+    brand: "Kawasaki",
+    price: 1750000,
+    priceText: "PKR 1,750,000",
+    rating: "4.9",
+    image: "/hero2.png",
+    link: "/model-detail",
+  },
+];
+>>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-scooters/page.tsx
+
+const PRICE_MIN = 0;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
+const MIN_GAP = 50000;
+
 export default function ElectricBikesPage() {
+  const bikes: Bike[] = vehicleData.scooters;
+
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
   const [sortBy, setSortBy] = useState("Popular");
-  const [price, setPrice] = useState(5000000);
+  const [minPrice, setMinPrice] = useState(PRICE_MIN);
+  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  const bikeData: Bike[] = bikes.bikes;
+  let filteredBikes = bikes.filter((bike) => {
+    const brandMatch = brand === "All Brands" || bike.brand === brand;
 
-  let filteredBikes = bikeData.filter((bike) => {
-    const brandMatch =
-      brand === "All Brands" || bike.brand === brand;
-
-    const priceMatch = bike.price <= price;
+    const priceMatch = bike.price >= minPrice && bike.price <= maxPrice;
 
     return brandMatch && priceMatch;
   });
@@ -44,46 +179,75 @@ export default function ElectricBikesPage() {
     filteredBikes.sort((a, b) => b.price - a.price);
   }
 
-  if (sortBy === "Newest") {
-    filteredBikes.sort((a, b) => b.id - a.id);
-  }
-
   const clearFilters = () => {
     setBrand("All Brands");
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
-    setPrice(5000000);
-    setVisibleProducts(9);
+    setMinPrice(PRICE_MIN);
+    setMaxPrice(PRICE_MAX);
   };
 
   const loadMore = () => {
     setVisibleProducts((previous) => previous + 3);
   };
 
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+    setMinPrice(value);
+  };
+
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
+    setMaxPrice(value);
+  };
+
   const displayedBikes = filteredBikes.slice(0, visibleProducts);
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
+      <style jsx global>{`
+        .range-thumb {
+          pointer-events: none;
+        }
+        .range-thumb::-webkit-slider-thumb {
+          pointer-events: all;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+        }
+        .range-thumb::-moz-range-thumb {
+          pointer-events: all;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
 
-      {/* Header */}
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold tracking-[-1.5px] sm:text-[38px] lg:text-[42px]">
-            Electric Bikes
+            Electric Scooters
           </h1>
 
           <p className="mt-4 text-sm font-medium leading-7 text-[#8B969C] sm:text-[15px]">
-            High-performance electric bikes built for speed, style
+            Smart,reliable and eco-friendly scooters for everyday rides.{" "}
             <br className="hidden sm:block" />
-            and sustainability.
+            for everyday rides.
           </p>
         </div>
 
         <div className="flex items-center gap-4 lg:mt-3">
-          <span className="text-sm text-[#AEB7BC]">
-            Sort by
-          </span>
+          <span className="text-sm text-[#AEB7BC]">Sort by</span>
 
           <div className="relative w-[140px]">
             <select
@@ -91,10 +255,8 @@ export default function ElectricBikesPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
-              <option>Popular</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
-              <option>Newest</option>
             </select>
 
             <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
@@ -104,17 +266,10 @@ export default function ElectricBikesPage() {
         </div>
       </header>
 
-      {/* Main */}
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-
-        {/* Filters */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
+          <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
-          <h2 className="mb-7 text-[19px] font-semibold">
-            Filters
-          </h2>
-
-          {/* Brand */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -127,15 +282,15 @@ export default function ElectricBikesPage() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
-
-                {/* JSON se brands automatically */}
-                {[...new Set(bikeData.map((bike) => bike.brand))].map(
-                  (bikeBrand) => (
-                    <option key={bikeBrand} value={bikeBrand}>
-                      {bikeBrand}
-                    </option>
-                  )
-                )}
+                <option>Revolt</option>
+                <option>Ultraviolette</option>
+                <option>Trek</option>
+                <option>Obern</option>
+                <option>Menor</option>
+                <option>Okla</option>
+                <option>Kawasaki</option>
+                <option>Ertuga</option>
+                <option>Kawhy</option>
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
@@ -144,44 +299,51 @@ export default function ElectricBikesPage() {
             </div>
           </div>
 
-          {/* Price */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>PKR 0</span>
-              <span>PKR 5,000,000</span>
+              <span>PKR {minPrice.toLocaleString()}</span>
+              <span>PKR {maxPrice.toLocaleString()}</span>
             </div>
 
             <div className="relative h-6">
+              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
 
-              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]" />
+              <div
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                style={{
+                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
+                }}
+              />
 
               <input
                 type="range"
-                min="0"
-                max="5000000"
-                step="50000"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={minPrice}
+                onChange={handleMinChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
               />
 
-              <div className="pointer-events-none absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
-
-              <div
-                className="pointer-events-none absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
-                style={{
-                  right: `${100 - (price / 5000000) * 100}%`,
-                  transform: "translateX(50%)",
-                }}
+              <input
+                type="range"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={maxPrice}
+                onChange={handleMaxChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: 4 }}
               />
             </div>
           </div>
 
-          {/* Top Speed */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -205,7 +367,6 @@ export default function ElectricBikesPage() {
             </div>
           </div>
 
-          {/* Range */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -229,7 +390,6 @@ export default function ElectricBikesPage() {
             </div>
           </div>
 
-          {/* Clear */}
           <button
             onClick={clearFilters}
             className="h-[50px] w-full rounded-lg border border-[#293943] bg-[#0A151E] text-sm font-medium text-[#D3D9DC] transition duration-200 hover:border-[#40515B] hover:bg-[#101E27] active:scale-[0.98]"
@@ -238,31 +398,24 @@ export default function ElectricBikesPage() {
           </button>
         </aside>
 
-        {/* Products */}
         <section className="w-full">
-
           {displayedBikes.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
                   href={`/models/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
-
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
-
                     <img
                       src={bike.image}
                       alt={bike.name}
                       className="block h-full w-full object-contain drop-shadow-[0_13px_9px_rgba(0,0,0,0.55)] transition duration-300 group-hover:scale-[1.04]"
                     />
-
                   </div>
 
                   <div className="px-[17px] pb-[17px] pt-2">
-
                     <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
                       {bike.name}
                     </h3>
@@ -272,26 +425,17 @@ export default function ElectricBikesPage() {
                     </p>
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">
-                        ★
-                      </span>
+                      <span className="text-[13px] text-[#B9ED42]">★</span>
 
-                      <span>
-                        {bike.rating}
-                      </span>
+                      <span>{bike.rating}</span>
                     </div>
-
                   </div>
                 </Link>
               ))}
-
             </div>
           ) : (
-
             <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
-
               <div className="text-center">
-
                 <p className="text-lg font-semibold text-[#DCE1E4]">
                   No bikes found
                 </p>
@@ -299,13 +443,10 @@ export default function ElectricBikesPage() {
                 <p className="mt-2 text-sm text-[#78858C]">
                   Try changing your filters.
                 </p>
-
               </div>
-
             </div>
           )}
 
-          {/* Load More */}
           {visibleProducts < filteredBikes.length && (
             <button
               onClick={loadMore}
@@ -314,10 +455,8 @@ export default function ElectricBikesPage() {
               Load More
             </button>
           )}
-
         </section>
       </div>
     </main>
   );
 }
-
