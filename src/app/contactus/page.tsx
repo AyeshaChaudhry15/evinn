@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { FaInstagram, FaYoutube } from "react-icons/fa";
 
-export default function ContactPage() {
+export default function Contact() {
   return (
     <main className="min-h-screen bg-[#071019] px-5 py-8 text-white">
       <div className="mx-auto max-w-[1100px]">
