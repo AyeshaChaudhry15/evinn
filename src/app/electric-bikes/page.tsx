@@ -282,7 +282,6 @@ export default function ElectricBikesPage() {
           </button>
         </aside>
 
-        {/* Products */}
         <section className="w-full">
 
           {displayedBikes.length > 0 ? (
@@ -291,7 +290,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={` /${bike.slug}`}
+                  href={`/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
 
