@@ -19,7 +19,7 @@ const ALL_PRODUCTS = [
     name: "Revolt RV1+",
     brand: "Revolt",
     priceText: "PKR 680,000",
-    image: "/images/bike1.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -27,7 +27,7 @@ const ALL_PRODUCTS = [
     name: "Ultraviolette F77",
     brand: "Ultraviolette",
     priceText: "PKR 1,299,000",
-    image: "/images/bike2.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -35,7 +35,7 @@ const ALL_PRODUCTS = [
     name: "Trek Madone R",
     brand: "Trek",
     priceText: "PKR 1,500,000",
-    image: "/images/bike3.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -43,7 +43,7 @@ const ALL_PRODUCTS = [
     name: "Obern Baer",
     brand: "Obern",
     priceText: "PKR 840,500",
-    image: "/images/bike4.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -51,7 +51,7 @@ const ALL_PRODUCTS = [
     name: "Menor Aura",
     brand: "Menor",
     priceText: "PKR 1,099,500",
-    image: "/images/bike5.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -59,7 +59,7 @@ const ALL_PRODUCTS = [
     name: "Okla Truvio",
     brand: "Okla",
     priceText: "PKR 770,000",
-    image: "/images/bike6.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -67,7 +67,7 @@ const ALL_PRODUCTS = [
     name: "Kawasaki Rumpo",
     brand: "Kawasaki",
     priceText: "PKR 890,000",
-    image: "/images/bike7.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -75,7 +75,7 @@ const ALL_PRODUCTS = [
     name: "Ertuga One",
     brand: "Ertuga",
     priceText: "PKR 2,340,000",
-    image: "/images/bike8.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -83,7 +83,7 @@ const ALL_PRODUCTS = [
     name: "Kawhy HHH0009",
     brand: "Kawhy",
     priceText: "PKR 2,450,000",
-    image: "/images/bike9.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -91,7 +91,7 @@ const ALL_PRODUCTS = [
     name: "Revolt RV400",
     brand: "Revolt",
     priceText: "PKR 950,000",
-    image: "/images/bike1.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -99,7 +99,7 @@ const ALL_PRODUCTS = [
     name: "Trek Urban X",
     brand: "Trek",
     priceText: "PKR 1,200,000",
-    image: "/images/bike3.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -107,7 +107,7 @@ const ALL_PRODUCTS = [
     name: "Kawasaki E-One",
     brand: "Kawasaki",
     priceText: "PKR 1,750,000",
-    image: "/images/bike7.png",
+    image: "/hero1.png",
     link: "/ModelDetail",
   },
   {
@@ -115,7 +115,7 @@ const ALL_PRODUCTS = [
     name: "Ola S1 Pro",
     brand: "Ola",
     priceText: "PKR 549,000",
-    image: "/images/scooter1.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -123,7 +123,7 @@ const ALL_PRODUCTS = [
     name: "Ather 450X",
     brand: "Ather",
     priceText: "PKR 630,500",
-    image: "/images/scooter2.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -131,7 +131,7 @@ const ALL_PRODUCTS = [
     name: "TVS iQube",
     brand: "TVS",
     priceText: "PKR 799,000",
-    image: "/images/scooter3.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -139,7 +139,7 @@ const ALL_PRODUCTS = [
     name: "Bajaj Chetak",
     brand: "Bajaj",
     priceText: "PKR 549,000",
-    image: "/images/scooter4.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -147,7 +147,7 @@ const ALL_PRODUCTS = [
     name: "Hero Vida V1",
     brand: "Hero",
     priceText: "PKR 898,350",
-    image: "/images/scooter5.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -155,7 +155,7 @@ const ALL_PRODUCTS = [
     name: "Okla Truvio",
     brand: "Okla",
     priceText: "PKR 770,000",
-    image: "/images/scooty6.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -163,7 +163,7 @@ const ALL_PRODUCTS = [
     name: "Kawasaki Rumpo",
     brand: "Kawasaki",
     priceText: "PKR 890,000",
-    image: "/images/scooty7.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -171,7 +171,7 @@ const ALL_PRODUCTS = [
     name: "Ertuga One",
     brand: "Ertuga",
     priceText: "PKR 2,340,000",
-    image: "/images/scooty8.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -179,7 +179,7 @@ const ALL_PRODUCTS = [
     name: "Kawhy HHH0009",
     brand: "Kawhy",
     priceText: "PKR 2,450,000",
-    image: "/images/scooty9.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -187,7 +187,7 @@ const ALL_PRODUCTS = [
     name: "Revolt RV400",
     brand: "Revolt",
     priceText: "PKR 950,000",
-    image: "/images/scooty1.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -195,7 +195,7 @@ const ALL_PRODUCTS = [
     name: "Trek Urban X",
     brand: "Trek",
     priceText: "PKR 1,200,000",
-    image: "/images/scooty3.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
   {
@@ -203,7 +203,7 @@ const ALL_PRODUCTS = [
     name: "Kawasaki E-One",
     brand: "Kawasaki",
     priceText: "PKR 1,750,000",
-    image: "/images/scooty7.png",
+    image: "/hero2.png",
     link: "/ModelDetail",
   },
 ];

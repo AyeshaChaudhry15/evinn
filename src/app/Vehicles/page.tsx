@@ -175,13 +175,13 @@ export default function Vehicles() {
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold  sm:text-[38px] lg:text-[42px]">
-            Electric Scooters
+           All Electric Vehicles
           </h1>
 
           <p className="mt-4 text-sm font-medium  text-[#8B969C] sm:text-[15px]">
-            Smart, stylish and sustainable electric scooters for
+           Explore our wide range of electric bikes and scooters
             <br className="hidden sm:block" />
-            everyday city rides.
+            from top brands.
           </p>
         </div>
 
