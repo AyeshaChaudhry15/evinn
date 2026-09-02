@@ -26,7 +26,7 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap gap-3 lg:gap-4">
             <button className="rounded-md bg-lime-400 px-4 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-lime-300 lg:px-6 lg:py-4 lg:text-md">
-              <Link href={"/Vehicles"}>Explore Vehicles</Link>
+              <Link href={"/vehicles"}>Explore Vehicles</Link>
             </button>
 
             <button className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400 lg:px-6 lg:py-4 lg:text-md">
