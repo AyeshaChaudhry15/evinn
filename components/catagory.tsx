@@ -7,14 +7,14 @@ const CATEGORIES = [
     description: "High Performance. Zero Emission.",
     cta: "Explore Bikes",
     image: "/hero3.png",
-    href: "/ElectricBikes",
+    href: "/electric-bikes",
   },
   {
     title: "Electric Scooters",
     description: "Smart, Stylish, Sustainable.",
     cta: "Explore Scooters",
     image: "/hero2.png",
-    href: "/ElectricScooters",
+    href: "/electric-scooters",
   },
 ];
 

@@ -28,7 +28,7 @@ export default function Contact() {
               <Phone className="h-6 w-6 text-[#8BCB00]" />
 
               <div>
-                <p className="text-[12px] text-[#D5D9DF]">Call Us</p>
+                <p className="text-[15px] text-[#D5D9DF]">Call Us</p>
 
                 <p className="mt-0.5 text-[13px] text-white">+92 300 1234567</p>
               </div>
@@ -38,7 +38,7 @@ export default function Contact() {
               <Mail className="h-6 w-6 text-[#8BCB00]" />
 
               <div>
-                <p className="text-[12px] text-[#D5D9DF]">Email Us</p>
+                <p className="text-[15px] text-[#D5D9DF]">Email Us</p>
 
                 <p className="mt-0.5 text-[13px] text-white">info@evinn.pk</p>
               </div>
@@ -48,7 +48,7 @@ export default function Contact() {
               <MapPin className="h-6 w-6 text-[#8BCB00]" />
 
               <div>
-                <p className="text-[12px] text-[#D5D9DF]">Visit Us</p>
+                <p className="text-[15px] text-[#D5D9DF]">Visit Us</p>
 
                 <p className="mt-0.5 text-[13px] text-white">
                   Lahore, Pakistan
@@ -57,7 +57,7 @@ export default function Contact() {
             </div>
 
             <div className="pt-3">
-              <h2 className="mb-4 text-[16px] font-medium">Follow Us</h2>
+              <h2 className="mb-4 text-[20px] font-medium">Follow Us</h2>
 
               <div className="flex gap-3">
                 <a
@@ -95,16 +95,16 @@ export default function Contact() {
             <input
               type="text"
               placeholder="Your Name"
-              className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[12px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
+              className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[15px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
             />
 
             <input
               type="email"
               placeholder="Your Email"
-              className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[12px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
+              className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[15px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
             />
 
-            <select className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[12px] text-[#87909C] outline-none focus:border-[#8BCB00]">
+            <select className="mb-3 h-[40px] w-full rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 text-[15px] text-[#87909C] outline-none focus:border-[#8BCB00]">
               <option>General Inquiry</option>
               <option>Product Inquiry</option>
               <option>Support</option>
@@ -113,12 +113,12 @@ export default function Contact() {
 
             <textarea
               placeholder="Your Message"
-              className="mb-3 h-[115px] w-full resize-none rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 py-3 text-[12px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
+              className="mb-3 h-[115px] w-full resize-none rounded-[7px] border border-[#263544] bg-[#0A141D] px-3 py-3 text-[15px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]"
             />
 
             <button
               type="button"
-              className="h-[46px] w-full rounded-[7px] bg-[#82C900] text-[13px] font-medium text-white transition hover:bg-[#70B500]"
+              className="h-[46px] w-full rounded-[7px] bg-[#82C900] text-[15px] font-medium text-white transition hover:bg-[#70B500]"
             >
               Send Message
             </button>
@@ -131,7 +131,7 @@ export default function Contact() {
               <Zap className="h-4 w-4 text-[#8BCB00]" />
             </div>
 
-            <span className="text-[12px] text-[#E1E5EA]">Quick Response</span>
+            <span className="text-[15px] text-[#E1E5EA]">Quick Response</span>
           </div>
 
           <div className="flex items-center justify-center gap-3">
@@ -139,7 +139,7 @@ export default function Contact() {
               <Headphones className="h-4 w-4 text-[#8BCB00]" />
             </div>
 
-            <span className="text-[12px] text-[#E1E5EA]">
+            <span className="text-[15px] text-[#E1E5EA]">
               Dedicated Support
             </span>
           </div>
@@ -149,7 +149,7 @@ export default function Contact() {
               <ShieldCheck className="h-4 w-4 text-[#8BCB00]" />
             </div>
 
-            <span className="text-[12px] text-[#E1E5EA]">
+            <span className="text-[15px] text-[#E1E5EA]">
               Your Mobility Partner
             </span>
           </div>

@@ -32,21 +32,21 @@ const models: Model[] = [
     name: "OKla S1 Pro",
     price: "PKR 849,000",
     imgSrc: "/hero1.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: "s1-air",
     name: "OKla S1 Air",
     price: "PKR 649,000",
     imgSrc: "/hero1.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: "s1-x",
     name: "OKla S1 X",
     price: "PKR 549,000",
     imgSrc: "/hero1.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
 ];
 
@@ -132,7 +132,7 @@ export default function Okla() {
               Popular Models
             </h2>
           <button  className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]">
-              <Link href={"/Vehicles"}> View All Models → </Link>
+              <Link href={"/vehicles"}> View All Models → </Link>
             </button>
           </div>
                        

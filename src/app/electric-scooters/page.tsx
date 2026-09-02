@@ -13,7 +13,7 @@ const bikes = [
     priceText: "PKR 549,000",
     rating: "4.8",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const bikes = [
     priceText: "PKR 630,500",
     rating: "4.9",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const bikes = [
     priceText: "PKR 799,000",
     rating: "4.7",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const bikes = [
     priceText: "PKR 549,000",
     rating: "4.8",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 5,
@@ -53,7 +53,7 @@ const bikes = [
     priceText: "PKR 898,350",
     rating: "4.6",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 6,
@@ -63,7 +63,7 @@ const bikes = [
     priceText: "PKR 770,000",
     rating: "4.7",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 7,
@@ -73,7 +73,7 @@ const bikes = [
     priceText: "PKR 890,000",
     rating: "4.8",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 8,
@@ -83,7 +83,7 @@ const bikes = [
     priceText: "PKR 2,340,000",
     rating: "4.9",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 9,
@@ -93,7 +93,7 @@ const bikes = [
     priceText: "PKR 2,450,000",
     rating: "4.8",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 10,
@@ -103,7 +103,7 @@ const bikes = [
     priceText: "PKR 950,000",
     rating: "4.8",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 11,
@@ -113,7 +113,7 @@ const bikes = [
     priceText: "PKR 1,200,000",
     rating: "4.7",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
   {
     id: 12,
@@ -123,7 +123,7 @@ const bikes = [
     priceText: "PKR 1,750,000",
     rating: "4.9",
     image: "/hero2.png",
-    link: "/modelDetail",
+    link: "/model-detail",
   },
 ];
 
@@ -155,10 +155,6 @@ export default function ElectricBikesPage() {
 
   if (sortBy === "Price: High to Low") {
     filteredBikes.sort((a, b) => b.price - a.price);
-  }
-
-  if (sortBy === "Newest") {
-    filteredBikes.sort((a, b) => b.id - a.id);
   }
 
   const clearFilters = () => {
@@ -237,10 +233,8 @@ export default function ElectricBikesPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
-              <option>Popular</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
-              <option>Newest</option>
             </select>
 
             <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">

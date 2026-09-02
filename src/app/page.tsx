@@ -1,6 +1,6 @@
 import Category from "../../components/catagory";
 import Hero from "../../components/hero";
-import TopBrands from "../../components/topbrands";
+import TopBrands from "../../components/top-brands";
 
 
 export default function Home() {
