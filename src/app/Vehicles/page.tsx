@@ -11,7 +11,7 @@ const scooters = [
     price: 549000,
     priceText: "PKR 549,000",
     rating: "4.8",
-    image: "/images/scooter1.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
   {
@@ -21,7 +21,7 @@ const scooters = [
     price: 630500,
     priceText: "PKR 630,500",
     rating: "4.9",
-    image: "/images/scooter2.png",
+    image: "/hero1.png",
     Link: "/ModelDetail",
   },
   {
@@ -31,7 +31,7 @@ const scooters = [
     price: 799000,
     priceText: "PKR 799,000",
     rating: "4.7",
-    image: "/images/scooter3.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
   {
@@ -41,7 +41,7 @@ const scooters = [
     price: 549000,
     priceText: "PKR 549,000",
     rating: "4.8",
-    image: "/images/scooter4.png",
+    image: "/hero1.png",
     Link: "/ModelDetail",
   },
   {
@@ -51,7 +51,7 @@ const scooters = [
     price: 898350,
     priceText: "PKR 898,350",
     rating: "4.6",
-    image: "/images/scooter5.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
   {
@@ -61,7 +61,7 @@ const scooters = [
     price: 680000,
     priceText: "PKR 680,000",
     rating: "4.7",
-    image: "/images/scooter6.png",
+    image: "/hero3.png",
     Link: "/ModelDetail",
   },
   {
@@ -71,7 +71,7 @@ const scooters = [
     price: 419000,
     priceText: "PKR 419,010",
     rating: "4.8",
-    image: "/images/scooter7.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
   {
@@ -81,7 +81,7 @@ const scooters = [
     price: 369500,
     priceText: "PKR 369,500",
     rating: "4.9",
-    image: "/images/scooter8.png",
+    image: "/hero3.png",
     Link: "/ModelDetail",
   },
   {
@@ -91,7 +91,7 @@ const scooters = [
     price: 949000,
     priceText: "PKR 949,000",
     rating: "4.8",
-    image: "/images/scooter9.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
   {
@@ -101,7 +101,7 @@ const scooters = [
     price: 410000,
     priceText: "PKR 410,000",
     rating: "4.6",
-    image: "/images/scooter1.png",
+    image: "/hero1.png",
     Link: "/ModelDetail",
   },
   {
@@ -111,7 +111,7 @@ const scooters = [
     price: 520000,
     priceText: "PKR 520,000",
     rating: "4.7",
-    image: "/images/scooter2.png",
+    image: "/hero3.png",
     Link: "/ModelDetail",
   },
   {
@@ -121,7 +121,7 @@ const scooters = [
     price: 950000,
     priceText: "PKR 950,000",
     rating: "4.8",
-    image: "/images/scooter3.png",
+    image: "/hero2.png",
     Link: "/ModelDetail",
   },
 ];
