@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,7 +22,7 @@ export default function Category() {
   return (
     <section className="bg-[#06111A] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
       <div className="mx-auto w-full max-w-7xl">
-        <h2 className="mb-4 text-center text-2xl font-bold text-white sm:mb-8 sm:text-4xl lg:text-left lg:text-4xl">
+        <h2 className="mb-4 text-center text-3xl font-bold text-white sm:mb-8 sm:text-4xl lg:text-left lg:text-4xl">
           Shop By Category
         </h2>
 
@@ -67,4 +66,3 @@ export default function Category() {
     </section>
   );
 }
-
