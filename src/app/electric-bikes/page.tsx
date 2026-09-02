@@ -52,9 +52,9 @@ export default function ElectricBikesPage() {
     setBrand("All Brands");
     setTopSpeed("All");
     setRange("All");
-    setSortBy("Popular");
-    setMaxPrice(PRICE_MAX);
+    setSortBy("Price: Low to High");
     setMinPrice(PRICE_MIN);
+    setMaxPrice(PRICE_MAX);
     setVisibleProducts(9);
   };
 
@@ -76,6 +76,33 @@ export default function ElectricBikesPage() {
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
+      <style jsx global>{`
+        .range-thumb {
+          pointer-events: none;
+        }
+        .range-thumb::-webkit-slider-thumb {
+          pointer-events: all;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+        }
+        .range-thumb::-moz-range-thumb {
+          pointer-events: all;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
+
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold tracking-[-1.5px] sm:text-[38px] lg:text-[42px]">
@@ -152,7 +179,15 @@ export default function ElectricBikesPage() {
             </div>
 
             <div className="relative h-6">
-              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]" />
+              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
+
+              <div
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                style={{
+                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
+                }}
+              />
 
               <input
                 type="range"
@@ -238,7 +273,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={`/models/${bike.slug}`}
+                  href={` /${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

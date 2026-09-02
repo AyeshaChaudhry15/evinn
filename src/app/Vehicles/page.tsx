@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import vehiclesData from "../../bike-details/bikes.json";
@@ -22,20 +23,16 @@ export default function Vehicles() {
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredScooters = scooters.filter((scooter) => {
-    const brandMatch =
-      brand === "All Brands" || scooter.brand === brand;
+    const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
     const typeMatch =
       vehicleType === "All Types" ||
       (vehicleType === "Bike" && scooter.type === "bike") ||
       (vehicleType === "Scooter" && scooter.type === "scooter") ||
       (vehicleType === "Moped" && scooter.type === "moped") ||
-      (vehicleType === "Maxi Scooter" &&
-        scooter.type === "maxi scooter");
+      (vehicleType === "Maxi Scooter" && scooter.type === "maxi scooter");
 
-    const priceMatch =
-      scooter.price >= minPrice &&
-      scooter.price <= maxPrice;
+    const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
     return brandMatch && typeMatch && priceMatch;
   });
@@ -67,34 +64,21 @@ export default function Vehicles() {
     setVisibleProducts((previous) => previous + 3);
   };
 
-  const handleMinChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = Math.min(
-      Number(e.target.value),
-      maxPrice - MIN_GAP
-    );
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
 
     setMinPrice(value);
     setVisibleProducts(9);
   };
 
-  const handleMaxChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = Math.max(
-      Number(e.target.value),
-      minPrice + MIN_GAP
-    );
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
 
     setMaxPrice(value);
     setVisibleProducts(9);
   };
 
-  const displayedScooters = filteredScooters.slice(
-    0,
-    visibleProducts
-  );
+  const displayedScooters = filteredScooters.slice(0, visibleProducts);
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -141,9 +125,7 @@ export default function Vehicles() {
         </div>
 
         <div className="flex items-center gap-4 lg:mt-3">
-          <span className="text-sm text-[#AEB7BC]">
-            Sort by
-          </span>
+          <span className="text-sm text-[#AEB7BC]">Sort by</span>
 
           <div className="relative w-[140px]">
             <select
@@ -169,9 +151,7 @@ export default function Vehicles() {
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
-          <h2 className="mb-7 text-[19px] font-semibold">
-            Filters
-          </h2>
+          <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -243,13 +223,8 @@ export default function Vehicles() {
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>
-                PKR {minPrice.toLocaleString()}
-              </span>
-
-              <span>
-                PKR {maxPrice.toLocaleString()}
-              </span>
+              <span>PKR {minPrice.toLocaleString("en-US")}</span>
+              <span>PKR {maxPrice.toLocaleString("en-US")}</span>
             </div>
 
             <div className="relative h-6">
@@ -259,9 +234,7 @@ export default function Vehicles() {
                 className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d]"
                 style={{
                   left: `${(minPrice / PRICE_MAX) * 100}%`,
-                  right: `${
-                    100 - (maxPrice / PRICE_MAX) * 100
-                  }%`,
+                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
                 }}
               />
 
@@ -272,13 +245,7 @@ export default function Vehicles() {
                 step={PRICE_STEP}
                 value={minPrice}
                 onChange={handleMinChange}
-                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{
-                  zIndex:
-                    minPrice > PRICE_MAX - 500000
-                      ? 5
-                      : 3,
-                }}
+                className="range-thumb absolute left-0 top-0 h-6 w-full appearance-none bg-transparent"
               />
 
               <input
@@ -288,10 +255,7 @@ export default function Vehicles() {
                 step={PRICE_STEP}
                 value={maxPrice}
                 onChange={handleMaxChange}
-                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{
-                  zIndex: 4,
-                }}
+                className="range-thumb absolute left-0 top-0 h-6 w-full appearance-none bg-transparent"
               />
             </div>
           </div>
@@ -360,9 +324,10 @@ export default function Vehicles() {
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {displayedScooters.map((scooter) => (
-                <article
-                  key={scooter.id}
-                  className="group min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                <Link
+                  key={`${scooter.type}-${scooter.id}`}
+                  href="/model-detail"
+                  className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
                     <img
@@ -382,14 +347,11 @@ export default function Vehicles() {
                     </p>
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">
-                        ★
-                      </span>
-
+                      <span className="text-[13px] text-[#B9ED42]">★</span>
                       <span>{scooter.rating}</span>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           ) : (
