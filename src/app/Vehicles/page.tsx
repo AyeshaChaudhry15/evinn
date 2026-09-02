@@ -1,136 +1,10 @@
-
 "use client";
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import vehiclesData from "../../bike-details/bikes.json";
 
-<<<<<<< HEAD
 const scooters = [...vehiclesData.bikes, ...vehiclesData.scooters];
-=======
-const scooters = [
-  {
-    id: 1,
-    name: "Ola S1 Pro",
-    brand: "Ola",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 2,
-    name: "Ather 450X",
-    brand: "Ather",
-    price: 630500,
-    priceText: "PKR 630,500",
-    rating: "4.9",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 3,
-    name: "TVS iQube",
-    brand: "TVS",
-    price: 799000,
-    priceText: "PKR 799,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 4,
-    name: "Bajaj Chetak",
-    brand: "Bajaj",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 5,
-    name: "Hero Vida V1",
-    brand: "Hero",
-    price: 898350,
-    priceText: "PKR 898,350",
-    rating: "4.6",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 6,
-    name: "Revolt RV1+",
-    brand: "Revolt",
-    price: 680000,
-    priceText: "PKR 680,000",
-    rating: "4.7",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 7,
-    name: "Pure EV Epluto",
-    brand: "Pure EV",
-    price: 419000,
-    priceText: "PKR 419,010",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 8,
-    name: "Ampere Magnus",
-    brand: "Ampere",
-    price: 369500,
-    priceText: "PKR 369,500",
-    rating: "4.9",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 9,
-    name: "Yamaha E01",
-    brand: "Yamaha",
-    price: 949000,
-    priceText: "PKR 949,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 10,
-    name: "Ola S1 Air",
-    brand: "Ola",
-    price: 410000,
-    priceText: "PKR 410,000",
-    rating: "4.6",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 11,
-    name: "Ather 450 Plus",
-    brand: "Ather",
-    price: 520000,
-    priceText: "PKR 520,000",
-    rating: "4.7",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 12,
-    name: "TVS iQube ST",
-    brand: "TVS",
-    price: 950000,
-    priceText: "PKR 950,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-];
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
@@ -153,12 +27,15 @@ export default function Vehicles() {
 
     const typeMatch =
       vehicleType === "All Types" ||
+      (vehicleType === "Bike" && scooter.type === "bike") ||
       (vehicleType === "Scooter" && scooter.type === "scooter") ||
       (vehicleType === "Moped" && scooter.type === "moped") ||
       (vehicleType === "Maxi Scooter" &&
         scooter.type === "maxi scooter");
 
-    const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
+    const priceMatch =
+      scooter.price >= minPrice &&
+      scooter.price <= maxPrice;
 
     return brandMatch && typeMatch && priceMatch;
   });
@@ -181,30 +58,43 @@ export default function Vehicles() {
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
-<<<<<<< HEAD
-    setPrice(5000000);
-    setVisibleProducts(9);
-=======
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
+    setVisibleProducts(9);
   };
 
   const loadMore = () => {
     setVisibleProducts((previous) => previous + 3);
   };
 
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+  const handleMinChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Math.min(
+      Number(e.target.value),
+      maxPrice - MIN_GAP
+    );
+
     setMinPrice(value);
+    setVisibleProducts(9);
   };
 
-  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
+  const handleMaxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Math.max(
+      Number(e.target.value),
+      minPrice + MIN_GAP
+    );
+
     setMaxPrice(value);
+    setVisibleProducts(9);
   };
 
-  const displayedScooters = filteredScooters.slice(0, visibleProducts);
+  const displayedScooters = filteredScooters.slice(
+    0,
+    visibleProducts
+  );
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -212,6 +102,7 @@ export default function Vehicles() {
         .range-thumb {
           pointer-events: none;
         }
+
         .range-thumb::-webkit-slider-thumb {
           pointer-events: all;
           -webkit-appearance: none;
@@ -223,6 +114,7 @@ export default function Vehicles() {
           box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
           cursor: pointer;
         }
+
         .range-thumb::-moz-range-thumb {
           pointer-events: all;
           width: 18px;
@@ -249,26 +141,37 @@ export default function Vehicles() {
         </div>
 
         <div className="flex items-center gap-4 lg:mt-3">
-          <span className="text-sm text-[#AEB7BC]">Sort by</span>
+          <span className="text-sm text-[#AEB7BC]">
+            Sort by
+          </span>
 
           <div className="relative w-[140px]">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="h-12 w-full cursor-pointer rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                setVisibleProducts(9);
+              }}
+              className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
               <option>Popular</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
               <option>Newest</option>
             </select>
+
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+              <ChevronDown size={18} />
+            </span>
           </div>
         </div>
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
-          <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
+          <h2 className="mb-7 text-[19px] font-semibold">
+            Filters
+          </h2>
 
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -282,7 +185,7 @@ export default function Vehicles() {
                   setVehicleType(e.target.value);
                   setVisibleProducts(9);
                 }}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Types</option>
                 <option>Bike</option>
@@ -290,6 +193,10 @@ export default function Vehicles() {
                 <option>Moped</option>
                 <option>Maxi Scooter</option>
               </select>
+
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
+              </span>
             </div>
           </div>
 
@@ -305,7 +212,7 @@ export default function Vehicles() {
                   setBrand(e.target.value);
                   setVisibleProducts(9);
                 }}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
                 <option>Revolt</option>
@@ -323,6 +230,10 @@ export default function Vehicles() {
                 <option>Bajaj</option>
                 <option>Hero</option>
               </select>
+
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
+              </span>
             </div>
           </div>
 
@@ -332,51 +243,42 @@ export default function Vehicles() {
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>PKR {minPrice.toLocaleString()}</span>
-              <span>PKR {maxPrice.toLocaleString()}</span>
+              <span>
+                PKR {minPrice.toLocaleString()}
+              </span>
+
+              <span>
+                PKR {maxPrice.toLocaleString()}
+              </span>
             </div>
 
             <div className="relative h-6">
               <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
 
               <div
-                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d]"
                 style={{
                   left: `${(minPrice / PRICE_MAX) * 100}%`,
-                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
+                  right: `${
+                    100 - (maxPrice / PRICE_MAX) * 100
+                  }%`,
                 }}
               />
 
               <input
                 type="range"
-<<<<<<< HEAD
-                min="0"
-                max="5000000"
-                step="50000"
-                value={price}
-                onChange={(e) => {
-                  setPrice(Number(e.target.value));
-                  setVisibleProducts(9);
-                }}
-                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
-              />
-
-              <div className="absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
-
-              <div
-                className="absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
-                style={{
-                  right: `${100 - (price / 5000000) * 100}%`,
-                  transform: "translateX(50%)",
-                }}
-=======
                 min={PRICE_MIN}
                 max={PRICE_MAX}
                 step={PRICE_STEP}
                 value={minPrice}
                 onChange={handleMinChange}
                 className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
+                style={{
+                  zIndex:
+                    minPrice > PRICE_MAX - 500000
+                      ? 5
+                      : 3,
+                }}
               />
 
               <input
@@ -387,8 +289,9 @@ export default function Vehicles() {
                 value={maxPrice}
                 onChange={handleMaxChange}
                 className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{ zIndex: 4 }}
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
+                style={{
+                  zIndex: 4,
+                }}
               />
             </div>
           </div>
@@ -401,7 +304,10 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={topSpeed}
-                onChange={(e) => setTopSpeed(e.target.value)}
+                onChange={(e) => {
+                  setTopSpeed(e.target.value);
+                  setVisibleProducts(9);
+                }}
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All</option>
@@ -410,8 +316,8 @@ export default function Vehicles() {
                 <option>90+ km/h</option>
               </select>
 
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
               </span>
             </div>
           </div>
@@ -424,8 +330,11 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={range}
-                onChange={(e) => setRange(e.target.value)}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                onChange={(e) => {
+                  setRange(e.target.value);
+                  setVisibleProducts(9);
+                }}
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All</option>
                 <option>Under 80 km</option>
@@ -433,8 +342,8 @@ export default function Vehicles() {
                 <option>150+ km</option>
               </select>
 
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
               </span>
             </div>
           </div>
@@ -487,7 +396,7 @@ export default function Vehicles() {
             <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
               <div className="text-center">
                 <p className="text-lg font-semibold text-[#DCE1E4]">
-                  No scooters found
+                  No vehicles found
                 </p>
 
                 <p className="mt-2 text-sm text-[#78858C]">
