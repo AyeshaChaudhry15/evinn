@@ -12,7 +12,7 @@ const bikes = [
     price: 549000,
     priceText: "PKR 549,000",
     rating: "4.8",
-    image: "/images/scooter1.png",
+    image: "/hero2.png",
     link: "/modelDetail",
   },
   {
@@ -22,7 +22,7 @@ const bikes = [
     price: 630500,
     priceText: "PKR 630,500",
     rating: "4.9",
-    image: "/images/scooter2.png",
+    image: "/hero2.png",
     link: "/modelDetail",
   },
   {
@@ -32,7 +32,7 @@ const bikes = [
     price: 799000,
     priceText: "PKR 799,000",
     rating: "4.7",
-    image: "/images/scooter3.png",
+    image: "/hero2.png",
     link: "/modelDetail",
   },
   {
@@ -42,7 +42,7 @@ const bikes = [
     price: 549000,
     priceText: "PKR 549,000",
     rating: "4.8",
-    image: "/images/scooter4.png",
+    image: "/hero2.png",
     link: "/modelDetail",
   },
   {
@@ -52,7 +52,7 @@ const bikes = [
     price: 898350,
     priceText: "PKR 898,350",
     rating: "4.6",
-    image: "/images/scooter5.png",
+    image: "/hero2.png",
     link: "/modelDetail",
   },
   {
@@ -62,8 +62,8 @@ const bikes = [
     price: 770000,
     priceText: "PKR 770,000",
     rating: "4.7",
-    image: "/images/scooty6.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 7,
@@ -72,8 +72,8 @@ const bikes = [
     price: 890000,
     priceText: "PKR 890,000",
     rating: "4.8",
-    image: "/images/scooty7.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 8,
@@ -82,8 +82,8 @@ const bikes = [
     price: 2340000,
     priceText: "PKR 2,340,000",
     rating: "4.9",
-    image: "/images/scooty8.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 9,
@@ -92,8 +92,8 @@ const bikes = [
     price: 2450000,
     priceText: "PKR 2,450,000",
     rating: "4.8",
-    image: "/images/scooty9.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 10,
@@ -102,8 +102,8 @@ const bikes = [
     price: 950000,
     priceText: "PKR 950,000",
     rating: "4.8",
-    image: "/images/scooty1.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 11,
@@ -112,8 +112,8 @@ const bikes = [
     price: 1200000,
     priceText: "PKR 1,200,000",
     rating: "4.7",
-    image: "/images/scooty3.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
   {
     id: 12,
@@ -122,8 +122,8 @@ const bikes = [
     price: 1750000,
     priceText: "PKR 1,750,000",
     rating: "4.9",
-    image: "/images/scooty7.png",
-    link: "/modelDetail",
+ image: "/hero2.png",
+     link: "/modelDetail",
   },
 ];
 

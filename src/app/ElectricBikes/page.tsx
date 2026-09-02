@@ -25,7 +25,7 @@ const bikes: Bike[]= [
     price: 680000,
     priceText: "PKR 680,000",
     rating: "4.8",
-    image: "/images/bike1.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -35,7 +35,7 @@ const bikes: Bike[]= [
     price: 1299000,
     priceText: "PKR 1,299,000",
     rating: "4.9",
-    image: "/images/bike2.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -45,7 +45,7 @@ const bikes: Bike[]= [
     price: 1500000,
     priceText: "PKR 1,500,000",
     rating: "4.7",
-    image: "/images/bike3.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -55,7 +55,7 @@ const bikes: Bike[]= [
     price: 840500,
     priceText: "PKR 840,500",
     rating: "4.8",
-    image: "/images/bike4.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -65,7 +65,7 @@ const bikes: Bike[]= [
     price: 1099500,
     priceText: "PKR 1,099,500",
     rating: "4.6",
-    image: "/images/bike5.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -75,7 +75,7 @@ const bikes: Bike[]= [
     price: 770000,
     priceText: "PKR 770,000",
     rating: "4.7",
-    image: "/images/bike6.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -85,7 +85,7 @@ const bikes: Bike[]= [
     price: 890000,
     priceText: "PKR 890,000",
     rating: "4.8",
-    image: "/images/bike7.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -95,7 +95,7 @@ const bikes: Bike[]= [
     price: 2340000,
     priceText: "PKR 2,340,000",
     rating: "4.9",
-    image: "/images/bike8.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -105,7 +105,7 @@ const bikes: Bike[]= [
     price: 2450000,
     priceText: "PKR 2,450,000",
     rating: "4.8",
-    image: "/images/bike9.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -115,7 +115,7 @@ const bikes: Bike[]= [
     price: 950000,
     priceText: "PKR 950,000",
     rating: "4.8",
-    image: "/images/bike1.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -125,7 +125,7 @@ const bikes: Bike[]= [
     price: 1200000,
     priceText: "PKR 1,200,000",
     rating: "4.7",
-    image: "/images/bike3.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
   {
@@ -135,7 +135,7 @@ const bikes: Bike[]= [
     price: 1750000,
     priceText: "PKR 1,750,000",
     rating: "4.9",
-    image: "/images/bike7.png",
+    image: "/hero1.png",
     link: "/modelDetail",
   },
 ];

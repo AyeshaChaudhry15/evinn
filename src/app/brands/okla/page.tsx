@@ -32,21 +32,21 @@ const models: Model[] = [
     id: "s1-pro",
     name: "OKla S1 Pro",
     price: "PKR 849,000",
-    imgSrc: "/ola-s1-pro.png",
+    imgSrc: "/hero3.png",
     link: "/modelDetail",
   },
   {
     id: "s1-air",
     name: "OKla S1 Air",
     price: "PKR 649,000",
-    imgSrc: "/ola-s1-air.png",
+    imgSrc: "/hero3.png",
     link: "/modelDetail",
   },
   {
     id: "s1-x",
     name: "OKla S1 X",
     price: "PKR 549,000",
-    imgSrc: "/ola-s1-x.png",
+    imgSrc: "/hero3.png",
     link: "/modelDetail",
   },
 ];
@@ -100,7 +100,7 @@ export default function Okla() {
         <section className="relative flex min-h-[70vh] flex-col justify-center">
           <div className="max-w-[420px]">
             <h1 className="text-[38px] font-bold leading-tight tracking-tight sm:text-[56px]">
-              Ola Electric
+              Okla Electric
             </h1>
 
             <p className="mt-3 text-[14px] leading-relaxed text-[#8b98a3] sm:mt-4 sm:text-[18px]">
@@ -123,7 +123,7 @@ export default function Okla() {
           </div>
 
           <img
-            src="/oklaelectrichero.png"
+            src="/hero1.png"
             alt="Okla Electric Hero"
             className="ml-auto mt-8 h-auto w-full max-w-[600px] object-contain sm:absolute sm:right-0 sm:top-1/2 sm:mt-0 sm:w-[55%] sm:-translate-y-1/2"
           />

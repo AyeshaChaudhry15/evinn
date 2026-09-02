@@ -13,23 +13,19 @@ const products: Product[] = [
   {
     name: "Okla S1 Pro",
     price: "PKR 849,000",
-    image: "/products/okla-s1-pro.png",
-  },
+ image: "/hero1.png",  },
   {
     name: "Okla S1",
     price: "PKR 749,000",
-    image: "/products/okla-s1.png",
-  },
+ image: "/hero3.png",  },
   {
     name: "Okla S1X",
     price: "PKR 699,000",
-    image: "/products/okla-s1x.png",
-  },
+ image: "/hero1.png",  },
   {
     name: "Okla S1 Lite",
     price: "PKR 599,000",
-    image: "/products/okla-s1-lite.png",
-  },
+ image: "/hero3.png",  },
 ];
 
 const colors = [
@@ -101,7 +97,7 @@ export default function Okla() {
 
             <div className="flex w-full items-center justify-center">
               <Image
-                src="/products/okla-s1-pro.png"
+                src="/hero1.png"
                 alt="Okla S1 Pro"
                 width={650}
                 height={450}
