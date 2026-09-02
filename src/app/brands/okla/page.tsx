@@ -131,12 +131,12 @@ export default function Okla() {
             <h2 className="text-[22px] font-semibold sm:text-[26px]">
               Popular Models
             </h2>
-            <a
-              href="#"
+            <Link
+              href="/Vehicles"
               className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]"
             >
               View All Models →
-            </a>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">

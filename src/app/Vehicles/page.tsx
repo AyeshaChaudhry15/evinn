@@ -126,19 +126,25 @@ const scooters = [
   },
 ];
 
+const PRICE_MIN = 0;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
+const MIN_GAP = 50000;
+
 export default function Vehicles() {
   const [vehicleType, setVehicleType] = useState("All Types");
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
   const [sortBy, setSortBy] = useState("Popular");
-  const [price, setPrice] = useState(5000000);
+  const [minPrice, setMinPrice] = useState(PRICE_MIN);
+  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredScooters = scooters.filter((scooter) => {
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
-    const priceMatch = scooter.price <= price;
+    const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
     return brandMatch && priceMatch;
   });
@@ -161,17 +167,55 @@ export default function Vehicles() {
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
-    setPrice(5000000);
+    setMinPrice(PRICE_MIN);
+    setMaxPrice(PRICE_MAX);
   };
 
   const loadMore = () => {
     setVisibleProducts((previous) => previous + 3);
   };
 
+  const handleMinChange = (e) => {
+    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+    setMinPrice(value);
+  };
+
+  const handleMaxChange = (e) => {
+    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
+    setMaxPrice(value);
+  };
+
   const displayedScooters = filteredScooters.slice(0, visibleProducts);
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
+      <style jsx global>{`
+        .range-thumb {
+          pointer-events: none;
+        }
+        .range-thumb::-webkit-slider-thumb {
+          pointer-events: all;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+        }
+        .range-thumb::-moz-range-thumb {
+          pointer-events: all;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8fdf0d;
+          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
+
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold  sm:text-[38px] lg:text-[42px]">
@@ -261,31 +305,41 @@ export default function Vehicles() {
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>PKR 0</span>
-              <span>PKR 5,000,000</span>
+              <span>PKR {minPrice.toLocaleString()}</span>
+              <span>PKR {maxPrice.toLocaleString()}</span>
             </div>
 
             <div className="relative h-6">
-              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]" />
+              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
+
+              <div
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                style={{
+                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
+                }}
+              />
 
               <input
                 type="range"
-                min="0"
-                max="5000000"
-                step="50000"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={minPrice}
+                onChange={handleMinChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
               />
 
-              <div className=" absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
-
-              <div
-                className=" absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
-                style={{
-                  right: `${100 - (price / 5000000) * 100}%`,
-                  transform: "translateX(50%)",
-                }}
+              <input
+                type="range"
+                min={PRICE_MIN}
+                max={PRICE_MAX}
+                step={PRICE_STEP}
+                value={maxPrice}
+                onChange={handleMaxChange}
+                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
+                style={{ zIndex: 4 }}
               />
             </div>
           </div>
