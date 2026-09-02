@@ -43,7 +43,7 @@ export default function Category() {
 
                 <Link
                   href={cat.href}
-                  className="mt-5 inline-flex items-center justify-center rounded-md bg-lime-400 px-5 py-2.5 text-sm font-semibold text-black transition-all duration-200 hover:bg-lime-300 hover:shadow-lg hover:shadow-lime-400/20 sm:mt-6 sm:px-6 sm:py-3"
+                  className="mt-5 inline-flex items-center justify-center rounded-md bg-[#8fdf0d] px-5 py-2.5 text-sm font-semibold text-black transition-all duration-200 hover:bg-[#a3f722] sm:mt-6 sm:px-6 sm:py-3"
                 >
                   {cat.cta}
                 </Link>

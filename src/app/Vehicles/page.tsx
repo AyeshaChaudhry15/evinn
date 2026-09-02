@@ -205,8 +205,8 @@ export default function Vehicles() {
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
-              <span>PKR {minPrice.toLocaleString()}</span>
-              <span>PKR {maxPrice.toLocaleString()}</span>
+              <span>PKR {minPrice.toLocaleString("en-US")}</span>
+              <span>PKR {maxPrice.toLocaleString("en-US")}</span>
             </div>
 
             <div className="relative h-6">
@@ -301,7 +301,7 @@ export default function Vehicles() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {displayedScooters.map((scooter) => (
                 <article
-                  key={scooter.id}
+                  key={`${scooter.type}-${scooter.id}`}
                   className="group min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
