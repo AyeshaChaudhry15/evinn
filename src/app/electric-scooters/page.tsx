@@ -3,7 +3,26 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import vehicleData from "../../bike-details/bikes.json";
 
+<<<<<<< HEAD:src/app/ElectricScooters/page.tsx
+interface Bike {
+  id: number;
+  name: string;
+  brand: string;
+  type: string;
+  price: number;
+  priceText: string;
+  rating: number;
+  image: string;
+  slug: string;
+}
+
+const PRICE_MIN = 0;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
+const MIN_GAP = 50000;
+=======
 const bikes = [
   {
     id: 1,
@@ -126,6 +145,7 @@ const bikes = [
     link: "/model-detail",
   },
 ];
+>>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-scooters/page.tsx
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
@@ -133,6 +153,8 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function ElectricBikesPage() {
+  const bikes: Bike[] = vehicleData.scooters;
+
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
@@ -382,7 +404,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={bike.link}
+                  href={`/models/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

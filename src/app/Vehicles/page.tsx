@@ -1,8 +1,13 @@
+
 "use client";
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import vehiclesData from "../../bike-details/bikes.json";
 
+<<<<<<< HEAD
+const scooters = [...vehiclesData.bikes, ...vehiclesData.scooters];
+=======
 const scooters = [
   {
     id: 1,
@@ -125,6 +130,7 @@ const scooters = [
     link: "/model-detail",
   },
 ];
+>>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
@@ -142,11 +148,19 @@ export default function Vehicles() {
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredScooters = scooters.filter((scooter) => {
-    const brandMatch = brand === "All Brands" || scooter.brand === brand;
+    const brandMatch =
+      brand === "All Brands" || scooter.brand === brand;
+
+    const typeMatch =
+      vehicleType === "All Types" ||
+      (vehicleType === "Scooter" && scooter.type === "scooter") ||
+      (vehicleType === "Moped" && scooter.type === "moped") ||
+      (vehicleType === "Maxi Scooter" &&
+        scooter.type === "maxi scooter");
 
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
-    return brandMatch && priceMatch;
+    return brandMatch && typeMatch && priceMatch;
   });
 
   if (sortBy === "Price: Low to High") {
@@ -167,8 +181,13 @@ export default function Vehicles() {
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
+<<<<<<< HEAD
+    setPrice(5000000);
+    setVisibleProducts(9);
+=======
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
+>>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
   };
 
   const loadMore = () => {
@@ -218,12 +237,12 @@ export default function Vehicles() {
 
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
-          <h1 className="text-[32px] font-bold  sm:text-[38px] lg:text-[42px]">
-           All Electric Vehicles
+          <h1 className="text-[32px] font-bold sm:text-[38px] lg:text-[42px]">
+            All Electric Vehicles
           </h1>
 
-          <p className="mt-4 text-sm font-medium  text-[#8B969C] sm:text-[15px]">
-           Explore our wide range of electric bikes and scooters
+          <p className="mt-4 text-sm font-medium text-[#8B969C] sm:text-[15px]">
+            Explore our wide range of electric bikes and scooters
             <br className="hidden sm:block" />
             from top brands.
           </p>
@@ -236,7 +255,7 @@ export default function Vehicles() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="h-12 w-full cursor-pointer  rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
+              className="h-12 w-full cursor-pointer rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
               <option>Popular</option>
               <option>Price: Low to High</option>
@@ -259,18 +278,18 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={vehicleType}
-                onChange={(e) => setVehicleType(e.target.value)}
+                onChange={(e) => {
+                  setVehicleType(e.target.value);
+                  setVisibleProducts(9);
+                }}
                 className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Types</option>
+                <option>Bike</option>
                 <option>Scooter</option>
                 <option>Moped</option>
                 <option>Maxi Scooter</option>
               </select>
-              {/* 
-              <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
-              </span> */}
             </div>
           </div>
 
@@ -282,19 +301,27 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                className="h-12 w-full cursor-pointer  rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                onChange={(e) => {
+                  setBrand(e.target.value);
+                  setVisibleProducts(9);
+                }}
+                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
+                <option>Revolt</option>
+                <option>Ultraviolette</option>
+                <option>Trek</option>
+                <option>Obern</option>
+                <option>Menor</option>
+                <option>Okla</option>
+                <option>Kawasaki</option>
+                <option>Ertuga</option>
+                <option>Kawhy</option>
                 <option>Ola</option>
                 <option>Ather</option>
                 <option>TVS</option>
                 <option>Bajaj</option>
                 <option>Hero</option>
-                <option>Revolt</option>
-                <option>Pure EV</option>
-                <option>Ampere</option>
-                <option>Yamaha</option>
               </select>
             </div>
           </div>
@@ -322,6 +349,27 @@ export default function Vehicles() {
 
               <input
                 type="range"
+<<<<<<< HEAD
+                min="0"
+                max="5000000"
+                step="50000"
+                value={price}
+                onChange={(e) => {
+                  setPrice(Number(e.target.value));
+                  setVisibleProducts(9);
+                }}
+                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
+              />
+
+              <div className="absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
+
+              <div
+                className="absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
+                style={{
+                  right: `${100 - (price / 5000000) * 100}%`,
+                  transform: "translateX(50%)",
+                }}
+=======
                 min={PRICE_MIN}
                 max={PRICE_MAX}
                 step={PRICE_STEP}
@@ -340,6 +388,7 @@ export default function Vehicles() {
                 onChange={handleMaxChange}
                 className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
                 style={{ zIndex: 4 }}
+>>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
               />
             </div>
           </div>
@@ -361,7 +410,7 @@ export default function Vehicles() {
                 <option>90+ km/h</option>
               </select>
 
-              <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
                 <ChevronDown />
               </span>
             </div>
@@ -384,7 +433,7 @@ export default function Vehicles() {
                 <option>150+ km</option>
               </select>
 
-              <span className=" absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
                 <ChevronDown />
               </span>
             </div>
@@ -415,7 +464,7 @@ export default function Vehicles() {
                   </div>
 
                   <div className="px-[17px] pb-[17px] pt-2">
-                    <h3 className="mb-2  text-[15px] font-semibold text-[#E7EBED]">
+                    <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
                       {scooter.name}
                     </h3>
 
@@ -424,7 +473,9 @@ export default function Vehicles() {
                     </p>
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">★</span>
+                      <span className="text-[13px] text-[#B9ED42]">
+                        ★
+                      </span>
 
                       <span>{scooter.rating}</span>
                     </div>
