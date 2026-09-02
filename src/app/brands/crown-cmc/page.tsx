@@ -131,13 +131,21 @@ export default function Okla() {
             <h2 className="text-[22px] font-semibold sm:text-[26px]">
               Popular Models
             </h2>
+<<<<<<< HEAD
             <Link
               href="/vehicles"
               className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]"
             >
               View All Models →
             </Link>
+=======
+          <button  className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]">
+              <Link href={"/Vehicles"}> View All Models → </Link>
+            </button>
+>>>>>>> 5f17d0f31829d29e29e32520f0f9af24947eb52a
           </div>
+                       
+
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
             {models.map((model) => (
