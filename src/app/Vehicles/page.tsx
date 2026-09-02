@@ -175,12 +175,12 @@ export default function Vehicles() {
     setVisibleProducts((previous) => previous + 3);
   };
 
-  const handleMinChange = (e) => {
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
     setMinPrice(value);
   };
 
-  const handleMaxChange = (e) => {
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
     setMaxPrice(value);
   };
