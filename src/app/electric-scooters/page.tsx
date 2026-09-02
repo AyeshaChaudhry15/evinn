@@ -5,7 +5,6 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import vehicleData from "../../bike-details/bikes.json";
 
-<<<<<<< HEAD:src/app/ElectricScooters/page.tsx
 interface Bike {
   id: number;
   name: string;
@@ -22,135 +21,8 @@ const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
-=======
-const bikes = [
-  {
-    id: 1,
-    name: "Ola S1 Pro",
-    brand: "Ola",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 2,
-    name: "Ather 450X",
-    brand: "Ather",
-    price: 630500,
-    priceText: "PKR 630,500",
-    rating: "4.9",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 3,
-    name: "TVS iQube",
-    brand: "TVS",
-    price: 799000,
-    priceText: "PKR 799,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 4,
-    name: "Bajaj Chetak",
-    brand: "Bajaj",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 5,
-    name: "Hero Vida V1",
-    brand: "Hero",
-    price: 898350,
-    priceText: "PKR 898,350",
-    rating: "4.6",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 6,
-    name: "Okla Truvio",
-    brand: "Okla",
-    price: 770000,
-    priceText: "PKR 770,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 7,
-    name: "Kawasaki Rumpo",
-    brand: "Kawasaki",
-    price: 890000,
-    priceText: "PKR 890,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 8,
-    name: "Ertuga One",
-    brand: "Ertuga",
-    price: 2340000,
-    priceText: "PKR 2,340,000",
-    rating: "4.9",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 9,
-    name: "Kawhy HHH0009",
-    brand: "Kawhy",
-    price: 2450000,
-    priceText: "PKR 2,450,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 10,
-    name: "Revolt RV400",
-    brand: "Revolt",
-    price: 950000,
-    priceText: "PKR 950,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 11,
-    name: "Trek Urban X",
-    brand: "Trek",
-    price: 1200000,
-    priceText: "PKR 1,200,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 12,
-    name: "Kawasaki E-One",
-    brand: "Kawasaki",
-    price: 1750000,
-    priceText: "PKR 1,750,000",
-    rating: "4.9",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-];
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-scooters/page.tsx
 
-const PRICE_MIN = 0;
-const PRICE_MAX = 5000000;
-const PRICE_STEP = 50000;
-const MIN_GAP = 50000;
+
 
 export default function ElectricBikesPage() {
   const bikes: Bike[] = vehicleData.scooters;
@@ -404,7 +276,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={`/models/${bike.slug}`}
+                  href={`/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

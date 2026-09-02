@@ -1,136 +1,10 @@
-
 "use client";
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import vehiclesData from "../../bike-details/bikes.json";
 
-<<<<<<< HEAD
 const scooters = [...vehiclesData.bikes, ...vehiclesData.scooters];
-=======
-const scooters = [
-  {
-    id: 1,
-    name: "Ola S1 Pro",
-    brand: "Ola",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 2,
-    name: "Ather 450X",
-    brand: "Ather",
-    price: 630500,
-    priceText: "PKR 630,500",
-    rating: "4.9",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 3,
-    name: "TVS iQube",
-    brand: "TVS",
-    price: 799000,
-    priceText: "PKR 799,000",
-    rating: "4.7",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 4,
-    name: "Bajaj Chetak",
-    brand: "Bajaj",
-    price: 549000,
-    priceText: "PKR 549,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 5,
-    name: "Hero Vida V1",
-    brand: "Hero",
-    price: 898350,
-    priceText: "PKR 898,350",
-    rating: "4.6",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 6,
-    name: "Revolt RV1+",
-    brand: "Revolt",
-    price: 680000,
-    priceText: "PKR 680,000",
-    rating: "4.7",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 7,
-    name: "Pure EV Epluto",
-    brand: "Pure EV",
-    price: 419000,
-    priceText: "PKR 419,010",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 8,
-    name: "Ampere Magnus",
-    brand: "Ampere",
-    price: 369500,
-    priceText: "PKR 369,500",
-    rating: "4.9",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 9,
-    name: "Yamaha E01",
-    brand: "Yamaha",
-    price: 949000,
-    priceText: "PKR 949,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: 10,
-    name: "Ola S1 Air",
-    brand: "Ola",
-    price: 410000,
-    priceText: "PKR 410,000",
-    rating: "4.6",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 11,
-    name: "Ather 450 Plus",
-    brand: "Ather",
-    price: 520000,
-    priceText: "PKR 520,000",
-    rating: "4.7",
-    image: "/hero3.png",
-    link: "/model-detail",
-  },
-  {
-    id: 12,
-    name: "TVS iQube ST",
-    brand: "TVS",
-    price: 950000,
-    priceText: "PKR 950,000",
-    rating: "4.8",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-];
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
@@ -153,6 +27,7 @@ export default function Vehicles() {
 
     const typeMatch =
       vehicleType === "All Types" ||
+      (vehicleType === "Bike" && scooter.type === "bike") ||
       (vehicleType === "Scooter" && scooter.type === "scooter") ||
       (vehicleType === "Moped" && scooter.type === "moped") ||
       (vehicleType === "Maxi Scooter" &&
@@ -181,13 +56,9 @@ export default function Vehicles() {
     setTopSpeed("All");
     setRange("All");
     setSortBy("Popular");
-<<<<<<< HEAD
-    setPrice(5000000);
-    setVisibleProducts(9);
-=======
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
+    setVisibleProducts(9);
   };
 
   const loadMore = () => {
@@ -197,11 +68,13 @@ export default function Vehicles() {
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
     setMinPrice(value);
+    setVisibleProducts(9);
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
     setMaxPrice(value);
+    setVisibleProducts(9);
   };
 
   const displayedScooters = filteredScooters.slice(0, visibleProducts);
@@ -349,34 +222,12 @@ export default function Vehicles() {
 
               <input
                 type="range"
-<<<<<<< HEAD
-                min="0"
-                max="5000000"
-                step="50000"
-                value={price}
-                onChange={(e) => {
-                  setPrice(Number(e.target.value));
-                  setVisibleProducts(9);
-                }}
-                className="absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent opacity-0"
-              />
-
-              <div className="absolute left-0 top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]" />
-
-              <div
-                className="absolute top-[1px] h-[18px] w-[18px] rounded-full bg-[#8fdf0d] shadow-[0_0_9px_rgba(201,255,115,0.4)]"
-                style={{
-                  right: `${100 - (price / 5000000) * 100}%`,
-                  transform: "translateX(50%)",
-                }}
-=======
                 min={PRICE_MIN}
                 max={PRICE_MAX}
                 step={PRICE_STEP}
                 value={minPrice}
                 onChange={handleMinChange}
-                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
+                className="range-thumb absolute left-0 top-0 h-6 w-full appearance-none bg-transparent"
               />
 
               <input
@@ -386,9 +237,7 @@ export default function Vehicles() {
                 step={PRICE_STEP}
                 value={maxPrice}
                 onChange={handleMaxChange}
-                className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{ zIndex: 4 }}
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6
+                className="range-thumb absolute left-0 top-0 h-6 w-full appearance-none bg-transparent"
               />
             </div>
           </div>
@@ -473,10 +322,7 @@ export default function Vehicles() {
                     </p>
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">
-                        ★
-                      </span>
-
+                      <span className="text-[13px] text-[#B9ED42]">★</span>
                       <span>{scooter.rating}</span>
                     </div>
                   </div>

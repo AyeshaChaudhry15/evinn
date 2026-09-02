@@ -1,13 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-<<<<<<< HEAD:src/app/ElectricBikes/page.tsx
 import bikes from "../../bike-details/bikes.json";
-=======
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-bikes/page.tsx
 
 interface Bike {
   id: number;
@@ -20,142 +16,16 @@ interface Bike {
   slug: string;
 }
 
-<<<<<<< HEAD:src/app/ElectricBikes/page.tsx
-=======
-const bikes: Bike[] = [
-  {
-    id: 1,
-    name: "Revolt RV1+",
-    brand: "Revolt",
-    price: 680000,
-    priceText: "PKR 680,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 2,
-    name: "Ultraviolette F77",
-    brand: "Ultraviolette",
-    price: 1299000,
-    priceText: "PKR 1,299,000",
-    rating: "4.9",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 3,
-    name: "Trek Madone R",
-    brand: "Trek",
-    price: 1500000,
-    priceText: "PKR 1,500,000",
-    rating: "4.7",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 4,
-    name: "Obern Baer",
-    brand: "Obern",
-    price: 840500,
-    priceText: "PKR 840,500",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 5,
-    name: "Menor Aura",
-    brand: "Menor",
-    price: 1099500,
-    priceText: "PKR 1,099,500",
-    rating: "4.6",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 6,
-    name: "Okla Truvio",
-    brand: "Okla",
-    price: 770000,
-    priceText: "PKR 770,000",
-    rating: "4.7",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 7,
-    name: "Kawasaki Rumpo",
-    brand: "Kawasaki",
-    price: 890000,
-    priceText: "PKR 890,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 8,
-    name: "Ertuga One",
-    brand: "Ertuga",
-    price: 2340000,
-    priceText: "PKR 2,340,000",
-    rating: "4.9",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 9,
-    name: "Kawhy HHH0009",
-    brand: "Kawhy",
-    price: 2450000,
-    priceText: "PKR 2,450,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 10,
-    name: "Revolt RV400",
-    brand: "Revolt",
-    price: 950000,
-    priceText: "PKR 950,000",
-    rating: "4.8",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 11,
-    name: "Trek Urban X",
-    brand: "Trek",
-    price: 1200000,
-    priceText: "PKR 1,200,000",
-    rating: "4.7",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: 12,
-    name: "Kawasaki E-One",
-    brand: "Kawasaki",
-    price: 1750000,
-    priceText: "PKR 1,750,000",
-    rating: "4.9",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-];
-
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-bikes/page.tsx
 export default function ElectricBikesPage() {
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
-  const [sortBy, setSortBy] = useState("Popular");
+  const [sortBy, setSortBy] = useState("Price: Low to High");
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
@@ -179,20 +49,14 @@ export default function ElectricBikesPage() {
     filteredBikes.sort((a, b) => b.price - a.price);
   }
 
-
-
   const clearFilters = () => {
     setBrand("All Brands");
     setTopSpeed("All");
     setRange("All");
-    setSortBy("Popular");
-<<<<<<< HEAD:src/app/ElectricBikes/page.tsx
-    setPrice(5000000);
-    setVisibleProducts(9);
-=======
+    setSortBy("Price: Low to High");
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-bikes/page.tsx
+    setVisibleProducts(9);
   };
 
   const loadMore = () => {
@@ -213,10 +77,6 @@ export default function ElectricBikesPage() {
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
-<<<<<<< HEAD:src/app/ElectricBikes/page.tsx
-
-      {/* Header */}
-=======
       <style jsx global>{`
         .range-thumb {
           pointer-events: none;
@@ -244,7 +104,7 @@ export default function ElectricBikesPage() {
         }
       `}</style>
 
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-bikes/page.tsx
+      {/* Header */}
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold tracking-[-1.5px] sm:text-[38px] lg:text-[42px]">
@@ -304,7 +164,6 @@ export default function ElectricBikesPage() {
               >
                 <option>All Brands</option>
 
-                {/* JSON se brands automatically */}
                 {[...new Set(bikeData.map((bike) => bike.brand))].map(
                   (bikeBrand) => (
                     <option key={bikeBrand} value={bikeBrand}>
@@ -332,10 +191,6 @@ export default function ElectricBikesPage() {
             </div>
 
             <div className="relative h-6">
-
-<<<<<<< HEAD:src/app/ElectricBikes/page.tsx
-              <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]" />
-=======
               <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
 
               <div
@@ -345,7 +200,6 @@ export default function ElectricBikesPage() {
                   right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
                 }}
               />
->>>>>>> 414ebb79426a420e57c0f5ef85c6d376bc9c02d6:src/app/electric-bikes/page.tsx
 
               <input
                 type="range"
@@ -437,7 +291,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={`/models/${bike.slug}`}
+                  href={` /${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
 
@@ -510,4 +364,3 @@ export default function ElectricBikesPage() {
     </main>
   );
 }
-
