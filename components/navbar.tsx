@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: "Brands", href: "/brands" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
-  { label: "Compare", href: "/compare" },
+  { label: "Compare", href: "/compare-vehicles" },
   { label: "Showrooms", href: "/showrooms" },
 ];
 
