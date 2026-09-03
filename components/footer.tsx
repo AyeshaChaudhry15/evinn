@@ -5,14 +5,8 @@ const shopLinks = [
   { label: "All Vehicles", href: "/vehicles" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
-<<<<<<< HEAD
   { label: "All Brands", href: "/" },
-  { label: "Compare Vehicles", href: "/compare" },
-=======
-  { label: "All Brands", href: "/brands" },
-  { label: "All Models", href: "/model-detail" },
   { label: "Compare Vehicles", href: "/compare-vehicles" },
->>>>>>> 9d8a2acd266b62dbeb43c32a38f4a0494d4b6c4b
   { label: "Book a Test Ride", href: "/test-ride" },
 ];
 
@@ -28,13 +22,8 @@ const serviceLinks = [
 
 const infoLinks = [
   { label: "FAQs", href: "/faq" },
-<<<<<<< HEAD
-  { label: "Blog & News", href: "/blog" },
-  { label: "About Us", href: "/about" },
-=======
   { label: "Blog / News", href: "/blog" },
   { label: "About Us", href: "/about-us" },
->>>>>>> 9d8a2acd266b62dbeb43c32a38f4a0494d4b6c4b
   { label: "Contact Us", href: "/contact-us" },
   { label: "Terms & Conditions", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy-policy" },
