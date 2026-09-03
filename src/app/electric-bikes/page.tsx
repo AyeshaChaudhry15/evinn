@@ -273,7 +273,7 @@ export default function ElectricBikesPage() {
               {displayedBikes.map((bike) => (
                 <Link
                   key={bike.id}
-                  href={` /${bike.slug}`}
+                  href={`/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

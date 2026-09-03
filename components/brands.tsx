@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -22,7 +21,7 @@ const brands: Brand[] = [
   },
   {
     name: "Metro",
-    logo: "metro.jfif",
+    logo: "metro.png",
     link: "/brands/metro",
   },
   {
@@ -42,7 +41,7 @@ const brands: Brand[] = [
   },
   {
     name: "Orevo",
-    logo: "orevo.jfif",
+    logo: "orevo.png",
     link: "/brands/orevo",
   },
   {
@@ -52,17 +51,17 @@ const brands: Brand[] = [
   },
   {
     name: "United",
-    logo: "united.jfif",
+    logo: "united.png",
     link: "/brands/united",
   },
   {
     name: "Crown CMC",
-    logo: "crown-cmc.jfif",
+    logo: "crown-cmc.png",
     link: "/brands/crown-cmc",
   },
   {
     name: "Road King",
-    logo: "road-king.jfif",
+    logo: "road-king.png",
     link: "/brands/road-king",
   },
   {
@@ -82,7 +81,7 @@ const brands: Brand[] = [
   },
   {
     name: "ECruze",
-    logo: "ecruze.jfif",
+    logo: "ecruze.png",
     link: "/brands/ecruze",
   },
   {
@@ -97,24 +96,22 @@ const brands: Brand[] = [
   },
   {
     name: "Hi Speed",
-    logo: "hi-speed.jfif",
+    logo: "hi-speed.png",
     link: "/brands/hi-speed",
   },
 ];
 
 export default function Brands() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#081019] px-4 py-5 sm:px-5 md:px-6 lg:h-screen lg:overflow-hidden">
+    <main className="min-h-screen overflow-x-hidden bg-[#081019] py-5 sm:px-2 md:px-2 lg:h-screen lg:overflow-hidden">
       <div className="mx-auto max-w-[1200px]">
-
         <div className="mb-5">
-          <h1 className="text-2xl font-bold text-[#E8EBF2] sm:text-3xl">
+          <h1 className="text-4xl font-bold text-[#E8EBF2] sm:text-5xl ">
             All Brands
           </h1>
 
-          <p className="mt-1 text-base text-[#A8B0BE] sm:text-lg">
-            Explore the electric vehicle brands
-            in one place.
+          <p className="mt-1 text-lg text-[#A8B0BE] sm:text-xl">
+            Explore the electric vehicle brands in one place.
           </p>
         </div>
 
@@ -132,27 +129,37 @@ export default function Brands() {
                 border
                 border-[#1D2A36]
                 bg-[#101923]
-                transition
+                transition-all
+                duration-200
                 hover:border-lime-300
                 hover:bg-[#14212C]
               "
             >
-              <div className="flex flex-col items-center justify-center gap-2">
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className="h-[38px] w-[75px] object-contain sm:w-[85px]"
-                />
+              <div className="flex w-full flex-col items-center justify-center gap-1.5 px-2">
+                <div className="flex h-[95px] w-[92%] items-center justify-center">
+                  <img
+                    src={brand.logo}
+                    alt={brand.name}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
 
-                <span className="text-xs font-medium text-[#E8EBF2] sm:text-sm">
+                {/* <span
+                  className="
+                    text-[11px]
+                    font-medium
+                    leading-tight
+                    text-[#E8EBF2]
+                    sm:text-xs
+                  "
+                >
                   {brand.name}
-                </span>
+                </span> */}
               </div>
             </Link>
           ))}
         </div>
-
       </div>
     </main>
   );
-};
+}

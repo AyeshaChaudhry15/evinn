@@ -193,7 +193,7 @@ export default function Footer() {
 
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Image
-              src="/visa.jfif"
+              src="/visa.png"
               alt="Visa"
               width={55}
               height={32}
@@ -201,7 +201,7 @@ export default function Footer() {
             />
 
             <Image
-              src="/meezan-bank.webp"
+              src="/meezan-bank.png"
               alt="Meezan Bank"
               width={70}
               height={32}
@@ -209,7 +209,7 @@ export default function Footer() {
             />
 
             <Image
-              src="/easy-paisa.jfif"
+              src="/easy-paisa.png"
               alt="Easypaisa"
               width={80}
               height={32}
