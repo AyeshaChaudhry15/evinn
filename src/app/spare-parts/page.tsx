@@ -21,7 +21,7 @@ export default function SpareParts() {
           href="/all-spare-parts"
           className="mt-4 flex items-center gap-2 text-sm font-medium text-[#c8e51b] transition hover:text-[#d9f43b]"
         >
-          View All Spare Parts
+          View All
           <span className="text-lg">→</span>
         </Link>
       </div>

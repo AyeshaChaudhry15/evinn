@@ -10,7 +10,7 @@ export default function Accessories() {
       
       <div className="mb-5 flex items-start justify-between">
         <div>
-          <h2 className="text-5xl font-semibold text-white">
+          <h2 className="text-4xl font-semibold text-white">
             Accessories
           </h2>
 
@@ -23,7 +23,7 @@ export default function Accessories() {
           href="/all-accessories"
           className="mt-4 flex items-center gap-2 text-sm font-medium text-[#c8e51b] transition hover:text-[#d9f43b]"
         >
-          View All Accessories
+          View All
           <span className="text-lg">→</span>
         </Link>
       </div>
