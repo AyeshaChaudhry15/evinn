@@ -13,7 +13,6 @@ const shopLinks = [
 const serviceLinks = [
   { label: "Find a Dealer", href: "/find-dealer" },
   { label: "Warranty Information", href: "/warranty" },
-  { label: "After Sales / Service", href: "/after-sales" },
   { label: "Battery & Charging", href: "/battery-charging" },
   { label: "Accessories", href: "/accessories" },
   { label: "Spare Parts", href: "/spare-parts" },
