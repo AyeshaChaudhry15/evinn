@@ -3,9 +3,28 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import vehiclesData from "../../bike-details/bikes.json";
+import vehiclesData from "../../bike-details/bikes-scooter.json";
 
-const scooters = [...vehiclesData.bikes, ...vehiclesData.scooters];
+interface Vehicle {
+  id: string | number;
+  name: string;
+  brand: string;
+  type: string;
+  price: number;
+  priceText: string;
+  rating: number;
+  image: string;
+  slug: string;
+  specs?: {
+    range: string;
+    topSpeed: string;
+    battery: string;
+    chargingTime: string;
+    motorPower: string;
+    weight: string;
+    warranty: string;
+  };
+}
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
@@ -13,6 +32,12 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function Vehicles() {
+  // Safe Array Merging logic
+  const scooters: Vehicle[] = [
+    ...(vehiclesData?.bikes || []),
+    ...(vehiclesData?.scooters || []),
+  ];
+
   const [vehicleType, setVehicleType] = useState("All Types");
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
@@ -22,9 +47,12 @@ export default function Vehicles() {
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
+  // Complete Filtering Logic
   let filteredScooters = scooters.filter((scooter) => {
+    // 1. Brand Filter
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
+    // 2. Type Filter
     const typeMatch =
       vehicleType === "All Types" ||
       (vehicleType === "Bike" && scooter.type === "bike") ||
@@ -32,11 +60,33 @@ export default function Vehicles() {
       (vehicleType === "Moped" && scooter.type === "moped") ||
       (vehicleType === "Maxi Scooter" && scooter.type === "maxi scooter");
 
+    // 3. Price Filter
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
-    return brandMatch && typeMatch && priceMatch;
+    // 4. Top Speed Filter
+    let speedMatch = true;
+    if (topSpeed !== "All" && scooter.specs) {
+      const speedValue = parseInt(scooter.specs.topSpeed);
+      if (topSpeed === "Under 60 km/h") speedMatch = speedValue < 60;
+      else if (topSpeed === "60 - 90 km/h")
+        speedMatch = speedValue >= 60 && speedValue <= 90;
+      else if (topSpeed === "90+ km/h") speedMatch = speedValue > 90;
+    }
+
+    // 5. Range Filter
+    let rangeMatch = true;
+    if (range !== "All" && scooter.specs) {
+      const rangeValue = parseInt(scooter.specs.range);
+      if (range === "Under 80 km") rangeMatch = rangeValue < 80;
+      else if (range === "80 - 150 km")
+        rangeMatch = rangeValue >= 80 && rangeValue <= 150;
+      else if (range === "150+ km") rangeMatch = rangeValue > 150;
+    }
+
+    return brandMatch && typeMatch && priceMatch && speedMatch && rangeMatch;
   });
 
+  // Sorting Logic
   if (sortBy === "Price: Low to High") {
     filteredScooters.sort((a, b) => a.price - b.price);
   }
@@ -46,7 +96,7 @@ export default function Vehicles() {
   }
 
   if (sortBy === "Newest") {
-    filteredScooters.sort((a, b) => b.id - a.id);
+    filteredScooters.sort((a, b) => Number(b.id) - Number(a.id));
   }
 
   const clearFilters = () => {
@@ -66,14 +116,12 @@ export default function Vehicles() {
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
-
     setMinPrice(value);
     setVisibleProducts(9);
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
-
     setMaxPrice(value);
     setVisibleProducts(9);
   };
@@ -127,7 +175,7 @@ export default function Vehicles() {
         <div className="flex items-center gap-4 lg:mt-3">
           <span className="text-sm text-[#AEB7BC]">Sort by</span>
 
-          <div className="relative w-[140px]">
+          <div className="relative w-[180px]">
             <select
               value={sortBy}
               onChange={(e) => {
@@ -150,9 +198,11 @@ export default function Vehicles() {
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
+        {/* Sidebar Filters */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
+          {/* Vehicle Type */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
@@ -180,6 +230,7 @@ export default function Vehicles() {
             </div>
           </div>
 
+          {/* Dynamic Brands List */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -195,20 +246,11 @@ export default function Vehicles() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
-                <option>Revolt</option>
-                <option>Ultraviolette</option>
-                <option>Trek</option>
-                <option>Obern</option>
-                <option>Menor</option>
-                <option>Okla</option>
-                <option>Kawasaki</option>
-                <option>Ertuga</option>
-                <option>Kawhy</option>
-                <option>Ola</option>
-                <option>Ather</option>
-                <option>TVS</option>
-                <option>Bajaj</option>
-                <option>Hero</option>
+                {[...new Set(scooters.map((s) => s.brand))].map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -217,6 +259,7 @@ export default function Vehicles() {
             </div>
           </div>
 
+          {/* Price Range Slider */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -260,6 +303,7 @@ export default function Vehicles() {
             </div>
           </div>
 
+          {/* Top Speed Filter */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -286,6 +330,7 @@ export default function Vehicles() {
             </div>
           </div>
 
+          {/* Range Filter */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -320,13 +365,14 @@ export default function Vehicles() {
           </button>
         </aside>
 
+        {/* Vehicles Display Section */}
         <section className="w-full">
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {displayedScooters.map((scooter) => (
                 <Link
                   key={`${scooter.type}-${scooter.id}`}
-                  href="/model-detail"
+                  href={`/${scooter.slug || "model-detail"}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">

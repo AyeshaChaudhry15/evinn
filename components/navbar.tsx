@@ -6,7 +6,7 @@ import { Search, Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Brands", href: "/brands" },
+  { label: "Brands", href: "/" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
   { label: "Compare", href: "/compare-vehicles" },
