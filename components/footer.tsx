@@ -75,142 +75,155 @@ const badges = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0b0f14] text-[#cfd6dd] px-5 sm:px-8 lg:px-12 xl:px-16 pt-12">
-      <div className="flex flex-wrap justify-between gap-x-8 gap-y-10 pb-9">
-        <div className="flex-1 min-w-[220px] max-w-[260px]">
-          <Link
-            href="/"
-            className="text-xl font-extrabold text-white tracking-wide inline-block"
-          >
-            EV<span className="text-lime-400">INN</span>
-          </Link>
+    <footer className="w-full overflow-hidden bg-[#0b0f14] text-[#cfd6dd]">
+      <div className="mx-auto w-full max-w-[1600px] px-4 pt-10 sm:px-6 sm:pt-12 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
 
-          <div className="text-lime-400 text-sm font-semibold tracking-wider mt-1 mb-3">
-            ELECTRIC MOBILITY MARKETPLACE
+        <div className="grid grid-cols-1 gap-10 pb-10 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 xl:grid-cols-6 xl:gap-8">
+          
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+            <Link
+              href="/"
+              className="inline-block text-xl font-extrabold tracking-wide text-white transition-colors hover:text-lime-400 sm:text-2xl"
+            >
+              EV<span className="text-lime-400">INN</span>
+            </Link>
+
+            <div className="mb-3 mt-1 text-xs font-semibold tracking-wider text-lime-400 sm:text-sm">
+              ELECTRIC MOBILITY MARKETPLACE
+            </div>
+
+            <p className="mb-5 max-w-sm text-sm leading-6 text-gray-400 sm:text-[15px]">
+              Pakistan&apos;s trusted platform for electric bikes and
+              scooters. Discover, compare, and choose the future of mobility.
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-sm text-gray-300 transition-all duration-300 hover:border-lime-400/50 hover:text-lime-400 sm:h-10 sm:w-10"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
-          <p className="text-md text-gray-400 leading-relaxed mb-4">
-            Pakistan&apos;s trusted platform for electric bikes and scooters.
-            Discover, compare, and choose the future of mobility.
-          </p>
+          <FooterCol title="SHOP" links={shopLinks} />
 
-          <div className="flex gap-2.5">
-            {socialLinks.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="w-9 h-9 rounded-full border-2 border-white/10 flex items-center justify-center text-md text-gray-300 hover:text-lime-400 hover:border-lime-400/50 transition-all duration-300"
+          <FooterCol title="SERVICES" links={serviceLinks} />
+
+          <FooterCol title="INFORMATION" links={infoLinks} />
+
+          <FooterCol title="POPULAR BRANDS" links={brandLinks} />
+
+          <div className="min-w-0 sm:col-span-2 lg:col-span-3 xl:col-span-1">
+            <h4 className="mb-3.5 text-sm font-bold text-white sm:text-[15px]">
+              NEWSLETTER
+            </h4>
+
+            <p className="mb-4 max-w-md text-sm leading-6 text-gray-400 sm:text-[15px]">
+              Subscribe to get the latest updates, offers and EV news.
+            </p>
+
+            <form className="mb-5 flex w-full overflow-hidden rounded-md border border-white/10">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm text-white outline-none placeholder:text-gray-500"
+              />
+
+              <button
+                type="submit"
+                aria-label="Subscribe"
+                className="flex w-11 shrink-0 items-center justify-center bg-lime-400 text-lg text-black transition-colors hover:bg-lime-300"
               >
-                {social.icon}
-              </a>
-            ))}
+                →
+              </button>
+            </form>
+
+            <div className="grid grid-cols-2 gap-2">
+              {badges.map((b) => (
+                <div
+                  key={b.title}
+                  className="min-w-0 rounded-md border border-white/10 px-2 py-2.5 text-center"
+                >
+                  <div className="mb-1 text-base text-lime-400">
+                    {b.icon}
+                  </div>
+
+                  <div className="text-[10px] text-gray-400 sm:text-[11px]">
+                    <span className="block font-medium text-gray-300">
+                      {b.title}
+                    </span>
+
+                    <span className="mt-0.5 block text-[9px] sm:text-[10px]">
+                      {b.sub}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <FooterCol title="SHOP" links={shopLinks} />
+        <div className="flex flex-col gap-5 border-t border-white/10 py-5 text-xs text-gray-400 sm:text-sm lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+          
+          <div className="text-center lg:text-left">
+            © 2024{" "}
+            <Link
+              href="/"
+              className="font-semibold text-white transition-colors hover:text-lime-400"
+            >
+              EV<span className="text-lime-400">INN</span>
+            </Link>
+            . All Rights Reserved.
+          </div>
 
-        <FooterCol title="SERVICES" links={serviceLinks} />
+          <div className="flex items-center justify-center gap-1.5">
+            <span className="text-lime-400">✔</span>
+            <span>Trusted by</span>
+            <span className="font-semibold text-white">10K+</span>
+            <span>Happy Customers</span>
+          </div>
 
-        <FooterCol title="INFORMATION" links={infoLinks} />
-
-        <FooterCol title="POPULAR BRANDS" links={brandLinks} />
-
-        <div className="flex-1 min-w-[280px] max-w-[320px]">
-          <h4 className="text-white text-md font-bold mb-3.5">NEWSLETTER</h4>
-
-          <p className="text-md text-gray-400 leading-relaxed mb-4">
-            Subscribe to get the latest updates, offers and EV news.
-          </p>
-
-          <form className="flex border border-white/10 rounded-md overflow-hidden mb-5">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 min-w-0 bg-transparent outline-none px-3 py-2.5 text-md text-white placeholder:text-gray-500"
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Image
+              src="/visa.jfif"
+              alt="Visa"
+              width={55}
+              height={32}
+              className="h-7 w-auto object-contain"
             />
 
-            <button
-              type="submit"
-              className="bg-lime-400 px-4 flex items-center justify-center text-black hover:bg-lime-300 transition-colors"
-            >
-              →
-            </button>
-          </form>
+            <Image
+              src="/meezan-bank.webp"
+              alt="Meezan Bank"
+              width={70}
+              height={32}
+              className="h-7 w-auto object-contain"
+            />
 
-          <div className="grid grid-cols-2 gap-2.5">
-            {badges.map((b) => (
-              <div
-                key={b.title}
-                className="min-w-0 border border-white/10 rounded-md text-center px-2 py-2.5"
-              >
-                <div className="text-lime-400 text-base mb-1">{b.icon}</div>
+            <Image
+              src="/easy-paisa.jfif"
+              alt="Easypaisa"
+              width={80}
+              height={32}
+              className="h-7 w-auto object-contain"
+            />
 
-                <div className="text-[11px] text-gray-400 ">
-                  <span className="block font-medium text-gray-300">
-                    {b.title}
-                  </span>
-
-                  <span className="block mt-0.5 text-[10px]">{b.sub}</span>
-                </div>
-              </div>
-            ))}
+            <Image
+              src="/jazz-cash.jfif"
+              alt="JazzCash"
+              width={70}
+              height={32}
+              className="h-7 w-auto object-contain"
+            />
           </div>
-        </div>
-      </div>
-
-      <div className="border-t border-white/10 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-md text-gray-400">
-        <div className="text-center sm:text-left">
-          © 2024{" "}
-          <Link
-            href="/"
-            className="text-white font-semibold hover:text-lime-400 transition-colors"
-          >
-            EV<span className="text-lime-400">INN</span>
-          </Link>
-          . All Rights Reserved.
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <span className="text-lime-400">✔</span>
-          Trusted by <span className="text-white font-semibold">10K+</span>{" "}
-          Happy Customers
-        </div>
-
-        <div className="flex flex-wrap justify-center items-center gap-2">
-          <Image
-            src="/visa.jfif"
-            alt="Visa"
-            width={55}
-            height={32}
-            className="h-7 w-auto object-contain"
-          />
-
-          <Image
-            src="/meezan-bank.webp"
-            alt="Meezan Bank"
-            width={70}
-            height={32}
-            className="h-7 w-auto object-contain"
-          />
-
-          <Image
-            src="/easy-paisa.jfif"
-            alt="Easypaisa"
-            width={80}
-            height={32}
-            className="h-7 w-auto object-contain"
-          />
-
-          <Image
-            src="/jazz-cash.jfif"
-            alt="JazzCash"
-            width={70}
-            height={32}
-            className="h-7 w-auto object-contain"
-          />
         </div>
       </div>
     </footer>
@@ -225,17 +238,17 @@ function FooterCol({
   links: { label: string; href: string }[];
 }) {
   return (
-    <div className="flex-1 min-w-[140px]">
-      <h4 className="text-lime-400 text-[15px] font-bold tracking-wide mb-4">
+    <div className="min-w-0">
+      <h4 className="mb-4 text-sm font-bold tracking-wide text-lime-400 sm:text-[15px]">
         {title}
       </h4>
 
       <ul className="flex flex-col gap-2.5">
         {links.map((link) => (
-          <li key={link.label}>
+          <li key={link.label} className="min-w-0">
             <Link
               href={link.href}
-              className="text-md text-gray-400 hover:text-lime-400 transition-colors"
+              className="block break-words text-sm leading-5 text-gray-400 transition-colors hover:text-lime-400 sm:text-[15px]"
             >
               {link.label}
             </Link>
