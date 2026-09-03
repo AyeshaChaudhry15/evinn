@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import vehicleData from "../../bike-details/bikes.json";
+import vehicleData from "../../bike-details/bikes-scooter.json";
 
-interface Bike {
-  id: number;
+interface Scooter {
+  id: string | number;
   name: string;
   brand: string;
   type: string;
@@ -15,6 +15,15 @@ interface Bike {
   rating: number;
   image: string;
   slug: string;
+  specs?: {
+    range: string;
+    topSpeed: string;
+    battery: string;
+    chargingTime: string;
+    motorPower: string;
+    weight: string;
+    warranty: string;
+  };
 }
 
 const PRICE_MIN = 0;
@@ -22,42 +31,68 @@ const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
-
-
-export default function ElectricBikesPage() {
-  const bikes: Bike[] = vehicleData.scooters;
+export default function ElectricScootersPage() {
+  // JSON فائل سے صرف scooters کا ڈیٹا لیں۔ اگر فائل کا فارمیٹ الگ ہو تو یہ سیف رہے گا
+  const scooters: Scooter[] = Array.isArray(vehicleData)
+    ? vehicleData.filter((v: Scooter) => v.type === "scooter")
+    : vehicleData.scooters || [];
 
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
-  const [sortBy, setSortBy] = useState("Popular");
+  const [sortBy, setSortBy] = useState("Price: Low to High");
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  let filteredBikes = bikes.filter((bike) => {
-    const brandMatch = brand === "All Brands" || bike.brand === brand;
+  // تمام فلٹرز کا مکمل لاجک
+  let filteredScooters = scooters.filter((scooter) => {
+    // 1. Brand Filter
+    const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
-    const priceMatch = bike.price >= minPrice && bike.price <= maxPrice;
+    // 2. Price Filter
+    const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
-    return brandMatch && priceMatch;
+    // 3. Top Speed Filter
+    let speedMatch = true;
+    if (topSpeed !== "All" && scooter.specs) {
+      const speedValue = parseInt(scooter.specs.topSpeed);
+      if (topSpeed === "Under 80 km/h") speedMatch = speedValue < 80;
+      else if (topSpeed === "80 - 120 km/h")
+        speedMatch = speedValue >= 80 && speedValue <= 120;
+      else if (topSpeed === "120+ km/h") speedMatch = speedValue > 120;
+    }
+
+    // 4. Range Filter
+    let rangeMatch = true;
+    if (range !== "All" && scooter.specs) {
+      const rangeValue = parseInt(scooter.specs.range);
+      if (range === "Under 100 km") rangeMatch = rangeValue < 100;
+      else if (range === "100 - 200 km")
+        rangeMatch = rangeValue >= 100 && rangeValue <= 200;
+      else if (range === "200+ km") rangeMatch = rangeValue > 200;
+    }
+
+    return brandMatch && priceMatch && speedMatch && rangeMatch;
   });
 
+  // سارٹنگ لاجک
   if (sortBy === "Price: Low to High") {
-    filteredBikes.sort((a, b) => a.price - b.price);
+    filteredScooters.sort((a, b) => a.price - b.price);
   }
 
   if (sortBy === "Price: High to Low") {
-    filteredBikes.sort((a, b) => b.price - a.price);
+    filteredScooters.sort((a, b) => b.price - a.price);
   }
 
   const clearFilters = () => {
     setBrand("All Brands");
     setTopSpeed("All");
     setRange("All");
-    setSortBy("Popular");
+    setSortBy("Price: Low to High");
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
+    setVisibleProducts(9);
   };
 
   const loadMore = () => {
@@ -74,7 +109,7 @@ export default function ElectricBikesPage() {
     setMaxPrice(value);
   };
 
-  const displayedBikes = filteredBikes.slice(0, visibleProducts);
+  const displayedScooters = filteredScooters.slice(0, visibleProducts);
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -112,16 +147,14 @@ export default function ElectricBikesPage() {
           </h1>
 
           <p className="mt-4 text-sm font-medium leading-7 text-[#8B969C] sm:text-[15px]">
-            Smart,reliable and eco-friendly scooters for everyday rides.{" "}
-            <br className="hidden sm:block" />
-            for everyday rides.
+            Smart, reliable and eco-friendly scooters for everyday rides.
           </p>
         </div>
 
         <div className="flex items-center gap-4 lg:mt-3">
           <span className="text-sm text-[#AEB7BC]">Sort by</span>
 
-          <div className="relative w-[140px]">
+          <div className="relative w-[170px]">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -132,16 +165,18 @@ export default function ElectricBikesPage() {
             </select>
 
             <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-              <ChevronDown />
+              <ChevronDown className="h-4 w-4" />
             </span>
           </div>
         </div>
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
+        {/* Sidebar Filters */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
+          {/* Dynamic Brand Dropdown */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -154,23 +189,20 @@ export default function ElectricBikesPage() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
-                <option>Revolt</option>
-                <option>Ultraviolette</option>
-                <option>Trek</option>
-                <option>Obern</option>
-                <option>Menor</option>
-                <option>Okla</option>
-                <option>Kawasaki</option>
-                <option>Ertuga</option>
-                <option>Kawhy</option>
+                {[...new Set(scooters.map((s) => s.brand))].map((scooterBrand) => (
+                  <option key={scooterBrand} value={scooterBrand}>
+                    {scooterBrand}
+                  </option>
+                ))}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
 
+          {/* Price Range */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -216,6 +248,7 @@ export default function ElectricBikesPage() {
             </div>
           </div>
 
+          {/* Top Speed */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -234,11 +267,12 @@ export default function ElectricBikesPage() {
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
 
+          {/* Range */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -257,7 +291,7 @@ export default function ElectricBikesPage() {
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
@@ -270,36 +304,36 @@ export default function ElectricBikesPage() {
           </button>
         </aside>
 
+        {/* Scooters Cards Listing */}
         <section className="w-full">
-          {displayedBikes.length > 0 ? (
+          {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {displayedBikes.map((bike) => (
+              {displayedScooters.map((scooter) => (
                 <Link
-                  key={bike.id}
-                  href={`/${bike.slug}`}
+                  key={scooter.id}
+                  href={`/${scooter.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
                     <img
-                      src={bike.image}
-                      alt={bike.name}
+                      src={scooter.image}
+                      alt={scooter.name}
                       className="block h-full w-full object-contain drop-shadow-[0_13px_9px_rgba(0,0,0,0.55)] transition duration-300 group-hover:scale-[1.04]"
                     />
                   </div>
 
                   <div className="px-[17px] pb-[17px] pt-2">
                     <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
-                      {bike.name}
+                      {scooter.name}
                     </h3>
 
                     <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                      {bike.priceText}
+                      {scooter.priceText}
                     </p>
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
                       <span className="text-[13px] text-[#B9ED42]">★</span>
-
-                      <span>{bike.rating}</span>
+                      <span>{scooter.rating}</span>
                     </div>
                   </div>
                 </Link>
@@ -309,7 +343,7 @@ export default function ElectricBikesPage() {
             <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
               <div className="text-center">
                 <p className="text-lg font-semibold text-[#DCE1E4]">
-                  No bikes found
+                  No scooters found
                 </p>
 
                 <p className="mt-2 text-sm text-[#78858C]">
@@ -319,7 +353,7 @@ export default function ElectricBikesPage() {
             </div>
           )}
 
-          {visibleProducts < filteredBikes.length && (
+          {visibleProducts < filteredScooters.length && (
             <button
               onClick={loadMore}
               className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"

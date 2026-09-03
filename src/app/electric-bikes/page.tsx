@@ -3,17 +3,28 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import bikes from "../../bike-details/bikes.json";
+// اپنی JSON فائل کا پاتھ درست رکھیں
+import vehiclesData from "../../bike-details/bikes-scooter.json";
 
-interface Bike {
-  id: number;
+interface Vehicle {
+  id: string | number;
   name: string;
   brand: string;
+  type: string;
   priceText: string;
   price: number;
   rating: number;
   image: string;
   slug: string;
+  specs?: {
+    range: string;
+    topSpeed: string;
+    battery: string;
+    chargingTime: string;
+    motorPower: string;
+    weight: string;
+    warranty: string;
+  };
 }
 
 const PRICE_MIN = 0;
@@ -30,16 +41,43 @@ export default function ElectricBikesPage() {
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  const bikeData: Bike[] = bikes.bikes;
+  // اگر JSON براہِ راست Array ہے یا `bikes` ابجیکٹ کے اندر ہے
+  const bikeData: Vehicle[] = Array.isArray(vehiclesData)
+    ? vehiclesData
+    : (vehiclesData as { bikes?: Vehicle[] })?.bikes || [];
 
+  // فلٹر لاجک
   let filteredBikes = bikeData.filter((bike) => {
+    // 1. Brand Filter
     const brandMatch = brand === "All Brands" || bike.brand === brand;
 
+    // 2. Price Filter
     const priceMatch = bike.price >= minPrice && bike.price <= maxPrice;
 
-    return brandMatch && priceMatch;
+    // 3. Top Speed Filter
+    let speedMatch = true;
+    if (topSpeed !== "All" && bike.specs) {
+      const speedValue = parseInt(bike.specs.topSpeed);
+      if (topSpeed === "Under 80 km/h") speedMatch = speedValue < 80;
+      else if (topSpeed === "80 - 120 km/h")
+        speedMatch = speedValue >= 80 && speedValue <= 120;
+      else if (topSpeed === "120+ km/h") speedMatch = speedValue > 120;
+    }
+
+    // 4. Range Filter
+    let rangeMatch = true;
+    if (range !== "All" && bike.specs) {
+      const rangeValue = parseInt(bike.specs.range);
+      if (range === "Under 100 km") rangeMatch = rangeValue < 100;
+      else if (range === "100 - 200 km")
+        rangeMatch = rangeValue >= 100 && rangeValue <= 200;
+      else if (range === "200+ km") rangeMatch = rangeValue > 200;
+    }
+
+    return brandMatch && priceMatch && speedMatch && rangeMatch;
   });
 
+  // سارٹنگ (Sorting)
   if (sortBy === "Price: Low to High") {
     filteredBikes.sort((a, b) => a.price - b.price);
   }
@@ -119,7 +157,7 @@ export default function ElectricBikesPage() {
         <div className="flex items-center gap-4 lg:mt-3">
           <span className="text-sm text-[#AEB7BC]">Sort by</span>
 
-          <div className="relative w-[140px]">
+          <div className="relative w-[180px]">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -130,16 +168,18 @@ export default function ElectricBikesPage() {
             </select>
 
             <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-              <ChevronDown />
+              <ChevronDown className="h-4 w-4" />
             </span>
           </div>
         </div>
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
+        {/* Filters Sidebar */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
+          {/* Brand Filter */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -152,22 +192,22 @@ export default function ElectricBikesPage() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
-
                 {[...new Set(bikeData.map((bike) => bike.brand))].map(
                   (bikeBrand) => (
                     <option key={bikeBrand} value={bikeBrand}>
                       {bikeBrand}
                     </option>
-                  ),
+                  )
                 )}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
 
+          {/* Price Range Filter */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -213,6 +253,7 @@ export default function ElectricBikesPage() {
             </div>
           </div>
 
+          {/* Top Speed Filter */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -231,11 +272,12 @@ export default function ElectricBikesPage() {
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
 
+          {/* Range Filter */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -254,7 +296,7 @@ export default function ElectricBikesPage() {
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+                <ChevronDown className="h-4 w-4" />
               </span>
             </div>
           </div>
@@ -267,6 +309,7 @@ export default function ElectricBikesPage() {
           </button>
         </aside>
 
+        {/* Product Cards Listing */}
         <section className="w-full">
           {displayedBikes.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -295,7 +338,6 @@ export default function ElectricBikesPage() {
 
                     <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
                       <span className="text-[13px] text-[#B9ED42]">★</span>
-
                       <span>{bike.rating}</span>
                     </div>
                   </div>
@@ -308,7 +350,6 @@ export default function ElectricBikesPage() {
                 <p className="text-lg font-semibold text-[#DCE1E4]">
                   No bikes found
                 </p>
-
                 <p className="mt-2 text-sm text-[#78858C]">
                   Try changing your filters.
                 </p>
