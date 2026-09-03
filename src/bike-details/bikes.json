@@ -166,7 +166,7 @@
       "priceText": "PKR 480,000",
       "rating": 4.6,
       "image": "/hero2.png",
-      "slug": "tvs-iqube"
+      "slug": "model-detail"
     },
     {
       "id": 16,
@@ -177,7 +177,7 @@
       "priceText": "PKR 500,000",
       "rating": 4.7,
       "image": "/hero2.png",
-      "slug": "bajaj-chetak"
+      "slug": "model-detail"
     },
     {
       "id": 17,
@@ -188,7 +188,7 @@
       "priceText": "PKR 465,000",
       "rating": 4.5,
       "image": "/hero2.png",
-      "slug": "hero-vida-v1"
+      "slug": "model-detail"
     },
     {
       "id": 18,
@@ -199,7 +199,7 @@
       "priceText": "PKR 430,000",
       "rating": 4.4,
       "image": "/hero2.png",
-      "slug": "okla-truvio"
+      "slug": "model-detail"
     },
     {
       "id": 19,
@@ -210,7 +210,7 @@
       "priceText": "PKR 590,000",
       "rating": 4.6,
       "image": "/hero2.png",
-      "slug": "kawasaki-rumpo"
+      "slug": "model-detail"
     },
     {
       "id": 20,

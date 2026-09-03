@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import vehiclesData from "../../bike-details/bikes.json";
@@ -22,16 +23,14 @@ export default function Vehicles() {
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredScooters = scooters.filter((scooter) => {
-    const brandMatch =
-      brand === "All Brands" || scooter.brand === brand;
+    const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
     const typeMatch =
       vehicleType === "All Types" ||
       (vehicleType === "Bike" && scooter.type === "bike") ||
       (vehicleType === "Scooter" && scooter.type === "scooter") ||
       (vehicleType === "Moped" && scooter.type === "moped") ||
-      (vehicleType === "Maxi Scooter" &&
-        scooter.type === "maxi scooter");
+      (vehicleType === "Maxi Scooter" && scooter.type === "maxi scooter");
 
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
@@ -67,12 +66,14 @@ export default function Vehicles() {
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+
     setMinPrice(value);
     setVisibleProducts(9);
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
+
     setMaxPrice(value);
     setVisibleProducts(9);
   };
@@ -85,6 +86,7 @@ export default function Vehicles() {
         .range-thumb {
           pointer-events: none;
         }
+
         .range-thumb::-webkit-slider-thumb {
           pointer-events: all;
           -webkit-appearance: none;
@@ -96,6 +98,7 @@ export default function Vehicles() {
           box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
           cursor: pointer;
         }
+
         .range-thumb::-moz-range-thumb {
           pointer-events: all;
           width: 18px;
@@ -127,14 +130,21 @@ export default function Vehicles() {
           <div className="relative w-[140px]">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="h-12 w-full cursor-pointer rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                setVisibleProducts(9);
+              }}
+              className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
               <option>Popular</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
               <option>Newest</option>
             </select>
+
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+              <ChevronDown size={18} />
+            </span>
           </div>
         </div>
       </header>
@@ -155,7 +165,7 @@ export default function Vehicles() {
                   setVehicleType(e.target.value);
                   setVisibleProducts(9);
                 }}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Types</option>
                 <option>Bike</option>
@@ -163,6 +173,10 @@ export default function Vehicles() {
                 <option>Moped</option>
                 <option>Maxi Scooter</option>
               </select>
+
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
+              </span>
             </div>
           </div>
 
@@ -178,7 +192,7 @@ export default function Vehicles() {
                   setBrand(e.target.value);
                   setVisibleProducts(9);
                 }}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
                 <option>Revolt</option>
@@ -196,6 +210,10 @@ export default function Vehicles() {
                 <option>Bajaj</option>
                 <option>Hero</option>
               </select>
+
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
+              </span>
             </div>
           </div>
 
@@ -213,7 +231,7 @@ export default function Vehicles() {
               <div className="absolute left-2 right-2 top-[8px] h-[5px] rounded-full bg-[#1c2830]" />
 
               <div
-                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d] shadow-[0_0_8px_rgba(145,220,24,0.3)]"
+                className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d]"
                 style={{
                   left: `${(minPrice / PRICE_MAX) * 100}%`,
                   right: `${100 - (maxPrice / PRICE_MAX) * 100}%`,
@@ -250,7 +268,10 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={topSpeed}
-                onChange={(e) => setTopSpeed(e.target.value)}
+                onChange={(e) => {
+                  setTopSpeed(e.target.value);
+                  setVisibleProducts(9);
+                }}
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All</option>
@@ -259,8 +280,8 @@ export default function Vehicles() {
                 <option>90+ km/h</option>
               </select>
 
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
               </span>
             </div>
           </div>
@@ -273,8 +294,11 @@ export default function Vehicles() {
             <div className="relative">
               <select
                 value={range}
-                onChange={(e) => setRange(e.target.value)}
-                className="h-12 w-full cursor-pointer rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
+                onChange={(e) => {
+                  setRange(e.target.value);
+                  setVisibleProducts(9);
+                }}
+                className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All</option>
                 <option>Under 80 km</option>
@@ -282,8 +306,8 @@ export default function Vehicles() {
                 <option>150+ km</option>
               </select>
 
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">
-                <ChevronDown />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
+                <ChevronDown size={18} />
               </span>
             </div>
           </div>
@@ -300,9 +324,10 @@ export default function Vehicles() {
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {displayedScooters.map((scooter) => (
-                <article
+                <Link
                   key={`${scooter.type}-${scooter.id}`}
-                  className="group min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                  href="/model-detail"
+                  className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
                   <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
                     <img
@@ -326,14 +351,14 @@ export default function Vehicles() {
                       <span>{scooter.rating}</span>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           ) : (
             <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
               <div className="text-center">
                 <p className="text-lg font-semibold text-[#DCE1E4]">
-                  No scooters found
+                  No vehicles found
                 </p>
 
                 <p className="mt-2 text-sm text-[#78858C]">

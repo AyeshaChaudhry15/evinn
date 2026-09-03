@@ -11,16 +11,12 @@ const BRANDS: Brand[] = [
   { name: "Evee", logo: "/evee.png", link: "/brands/evee" },
   { name: "Metro", logo: "/metro.jfif", link: "/brands/metro" },
   { name: "Yadea", logo: "/yadea.png", link: "/brands/yadea" },
-  { name: "Luyuan", logo: "/luyuan.png", link: "/brands/luyuan" },
-  { name: "Revoo", logo: "/revoo.png", link: "/brands/revoo" },
-  { name: "Orevo", logo: "/orevo.jfif", link: "/brands/orevo" },
-  { name: "Jolta", logo: "/jolta.png", link: "/brands/jolta" },
-  { name: "United", logo: "/united.jfif", link: "/brands/united" },
+
 ];
 
 export default function TopBrands() {
   return (
-    <section className="bg-[#06111A] px-5 lg:px-8 pt-12">
+    <section className="bg-[#06111A] px-5 pb-8 lg:px-8 pt-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-4xl font-bold text-white">Top Brands</h2>
@@ -33,7 +29,7 @@ export default function TopBrands() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-9">
+        <div className="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-4">
           {BRANDS.map((brand) => (
             <Link
               key={brand.name}
