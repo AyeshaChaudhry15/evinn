@@ -5,8 +5,7 @@ const shopLinks = [
   { label: "All Vehicles", href: "/vehicles" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
-  { label: "All Brands", href: "/brands" },
-  { label: "All Models", href: "/model-detail" },
+  { label: "All Brands", href: "/" },
   { label: "Compare Vehicles", href: "/compare" },
   { label: "Book a Test Ride", href: "/test-ride" },
 ];
@@ -23,7 +22,7 @@ const serviceLinks = [
 
 const infoLinks = [
   { label: "FAQs", href: "/faq" },
-  { label: "Blog / News", href: "/blog" },
+  { label: "Blog & News", href: "/blog" },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact-us" },
   { label: "Terms & Conditions", href: "/terms" },
