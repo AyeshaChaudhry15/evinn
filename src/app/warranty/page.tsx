@@ -33,7 +33,7 @@ const coveredItems = [
 export default function WarrantyInfo() {
   return (
     <section className="bg-[#0b0f14] text-white py-10 sm:py-14 md:py-20">
-      <div className="px-4 sm:px-6 md:px-10 max-w-5xl mx-auto">
+      <div className="px-4 sm:px-6 md:px-10 max-w-8xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
           Warranty Information
         </h2>
@@ -42,7 +42,7 @@ export default function WarrantyInfo() {
         </p>
       </div>
 
-      <div className="w-full px-4 sm:px-6 md:px-10 max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-6 sm:mb-8">
+      <div className="w-full px-4 sm:px-6 md:px-10 max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-6 sm:mb-8">
         {warrantyCards.map((card, i) => {
           const Icon = card.icon;
           return (
@@ -65,7 +65,7 @@ export default function WarrantyInfo() {
         })}
       </div>
 
-      <div className="w-full px-4 sm:px-6 md:px-10 max-w-5xl mx-auto">
+      <div className="w-full px-4 sm:px-6 md:px-10 max-w-8xl mx-auto">
         <div className="relative rounded-2xl border border-white/10 bg-[#12181f] overflow-hidden w-full">
           <div className="relative w-full h-48 sm:hidden">
             <Image
