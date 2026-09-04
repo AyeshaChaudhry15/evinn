@@ -32,7 +32,7 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function Vehicles() {
-  // Safe Array Merging logic
+
   const scooters: Vehicle[] = [
     ...(vehiclesData?.bikes || []),
     ...(vehiclesData?.scooters || []),
@@ -47,23 +47,17 @@ export default function Vehicles() {
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  // Complete Filtering Logic
   let filteredScooters = scooters.filter((scooter) => {
-    // 1. Brand Filter
+
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
-    // 2. Type Filter
     const typeMatch =
       vehicleType === "All Types" ||
       (vehicleType === "Bike" && scooter.type === "bike") ||
-      (vehicleType === "Scooter" && scooter.type === "scooter") ||
-      (vehicleType === "Moped" && scooter.type === "moped") ||
-      (vehicleType === "Maxi Scooter" && scooter.type === "maxi scooter");
+      (vehicleType === "Scooter" && scooter.type === "scooter");
 
-    // 3. Price Filter
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
-    // 4. Top Speed Filter
     let speedMatch = true;
     if (topSpeed !== "All" && scooter.specs) {
       const speedValue = parseInt(scooter.specs.topSpeed);
@@ -73,7 +67,6 @@ export default function Vehicles() {
       else if (topSpeed === "90+ km/h") speedMatch = speedValue > 90;
     }
 
-    // 5. Range Filter
     let rangeMatch = true;
     if (range !== "All" && scooter.specs) {
       const rangeValue = parseInt(scooter.specs.range);
@@ -86,7 +79,6 @@ export default function Vehicles() {
     return brandMatch && typeMatch && priceMatch && speedMatch && rangeMatch;
   });
 
-  // Sorting Logic
   if (sortBy === "Price: Low to High") {
     filteredScooters.sort((a, b) => a.price - b.price);
   }
@@ -198,11 +190,9 @@ export default function Vehicles() {
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-        {/* Sidebar Filters */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
-          {/* Vehicle Type */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
@@ -220,8 +210,7 @@ export default function Vehicles() {
                 <option>All Types</option>
                 <option>Bike</option>
                 <option>Scooter</option>
-                <option>Moped</option>
-                <option>Maxi Scooter</option>
+             
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -230,7 +219,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Dynamic Brands List */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -259,7 +247,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Price Range Slider */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -303,7 +290,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Top Speed Filter */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -330,7 +316,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Range Filter */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -365,7 +350,6 @@ export default function Vehicles() {
           </button>
         </aside>
 
-        {/* Vehicles Display Section */}
         <section className="w-full">
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
