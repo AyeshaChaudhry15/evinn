@@ -80,7 +80,6 @@ export default function BrandDetailPage() {
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
 
-        {/* Back */}
         <Link
           href={`/brands/${brandSlug}`}
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition hover:text-[#8FDF0D]"
@@ -89,12 +88,10 @@ export default function BrandDetailPage() {
           Back to {info.displayName}
         </Link>
 
-        {/* Brand Header */}
         <section className="mb-10 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8 lg:p-10">
           <div className="flex flex-col gap-7 sm:flex-row sm:items-center">
 
-            {/* Logo */}
-            <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-3">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl p-3">
               <img
                 src={info.logo}
                 alt={`${info.displayName} logo`}
@@ -102,7 +99,6 @@ export default function BrandDetailPage() {
               />
             </div>
 
-            {/* Name */}
             <div>
               <p className="mb-2 text-sm font-medium uppercase tracking-wider text-[#8FDF0D]">
                 Brand Information
@@ -119,10 +115,8 @@ export default function BrandDetailPage() {
           </div>
         </section>
 
-        {/* About + Quick Facts */}
         <section className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
 
-          {/* About */}
           <div className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FDF0D]/10 text-[#8FDF0D]">
@@ -139,7 +133,6 @@ export default function BrandDetailPage() {
             </p>
           </div>
 
-          {/* Quick Facts */}
           <div className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
             <h2 className="mb-6 text-2xl font-bold">
               Quick Facts
@@ -191,7 +184,6 @@ export default function BrandDetailPage() {
           </div>
         </section>
 
-        {/* Models */}
         <section className="mt-6 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
 
           <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
