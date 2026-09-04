@@ -243,36 +243,36 @@
   ],
 
   "scooters": [
-    {
-      "id": "13",
-      "name": "Ola S1 Pro",
-      "brand": "Ola",
-      "type": "scooter",
-      "price": 549000,
-      "priceText": "PKR 549,000",
-      "rating": 4.8,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "181 km",
-        "topSpeed": "90 km/h",
-        "battery": "4.0 kWh",
-        "chargingTime": "6.5 hrs",
-        "motorPower": "8.5 kW",
-        "weight": "125 kg",
-        "warranty": "3 Years"
-      }
-    },
+{
+  "id": "13",
+  "name": "Evee S1 Pro (2024)",
+  "brand": "evee",
+  "type": "scooter",
+  "price": 195000,
+  "priceText": "PKR 195,000.00",
+  "rating": 4.8,
+  "image": "/evee1.jpeg",
+  "slug": "evee-s1-pro",
+  "specs": {
+    "range": "85 km",
+    "topSpeed": "50 km/h",
+    "battery": "4.0 kWh",
+    "chargingTime": "6.5 hrs",
+    "motorPower": "8.5 kW",
+    "weight": "105 kg",
+    "warranty": "3 Years"
+  }
+},
     {
       "id": "14",
-      "name": "Ather 450X",
-      "brand": "Ather",
+      "name": "Evee S1 Air (2024)",
+      "brand": "evee",
       "type": "scooter",
-      "price": 520000,
-      "priceText": "PKR 520,000",
+      "price": 225000,
+      "priceText": "PKR 225,000.00",
       "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "image": "/evee2.jpeg",
+      "slug": "evee-s1-air",
       "specs": {
         "range": "146 km",
         "topSpeed": "90 km/h",

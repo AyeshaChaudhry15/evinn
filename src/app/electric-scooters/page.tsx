@@ -14,7 +14,7 @@ interface Scooter {
   priceText: string;
   rating: number;
   image: string;
-  slug: string;
+  slug: string | number;
   specs?: {
     range: string;
     topSpeed: string;
@@ -32,7 +32,6 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function ElectricScootersPage() {
-  // JSON فائل سے صرف scooters کا ڈیٹا لیں۔ اگر فائل کا فارمیٹ الگ ہو تو یہ سیف رہے گا
   const scooters: Scooter[] = Array.isArray(vehicleData)
     ? vehicleData.filter((v: Scooter) => v.type === "scooter")
     : vehicleData.scooters || [];
@@ -45,15 +44,11 @@ export default function ElectricScootersPage() {
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  // تمام فلٹرز کا مکمل لاجک
   let filteredScooters = scooters.filter((scooter) => {
-    // 1. Brand Filter
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
-    // 2. Price Filter
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
-    // 3. Top Speed Filter
     let speedMatch = true;
     if (topSpeed !== "All" && scooter.specs) {
       const speedValue = parseInt(scooter.specs.topSpeed);
@@ -63,7 +58,6 @@ export default function ElectricScootersPage() {
       else if (topSpeed === "120+ km/h") speedMatch = speedValue > 120;
     }
 
-    // 4. Range Filter
     let rangeMatch = true;
     if (range !== "All" && scooter.specs) {
       const rangeValue = parseInt(scooter.specs.range);
@@ -76,7 +70,6 @@ export default function ElectricScootersPage() {
     return brandMatch && priceMatch && speedMatch && rangeMatch;
   });
 
-  // سارٹنگ لاجک
   if (sortBy === "Price: Low to High") {
     filteredScooters.sort((a, b) => a.price - b.price);
   }
@@ -172,11 +165,9 @@ export default function ElectricScootersPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-        {/* Sidebar Filters */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
-          {/* Dynamic Brand Dropdown */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -202,7 +193,6 @@ export default function ElectricScootersPage() {
             </div>
           </div>
 
-          {/* Price Range */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -248,7 +238,6 @@ export default function ElectricScootersPage() {
             </div>
           </div>
 
-          {/* Top Speed */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -272,7 +261,6 @@ export default function ElectricScootersPage() {
             </div>
           </div>
 
-          {/* Range */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -304,7 +292,6 @@ export default function ElectricScootersPage() {
           </button>
         </aside>
 
-        {/* Scooters Cards Listing */}
         <section className="w-full">
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
