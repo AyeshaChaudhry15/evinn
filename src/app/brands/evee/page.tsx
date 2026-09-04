@@ -33,7 +33,7 @@ export default function ecruze() {
     ? vehiclesData
     : (vehiclesData as { bikes?: Vehicle[] })?.bikes || [];
 
-  const brandName = "ecruze";
+  const brandName = "evee";
   let oklaBikes = bikeData.filter((bike) => bike.brand === brandName);
 
   if (sortBy === "Price: Low to High") {
@@ -53,7 +53,7 @@ export default function ecruze() {
 
           <div className="flex h-14 w-14 ">
             <span>
-              <img src="/ecruze.png" alt="" className="h-14 w-14 bg-white rounded-2xl" />
+              <img src="/evee.png" alt="" className="h-14 w-14 bg-white rounded-2xl" />
             </span>
           </div>
 
