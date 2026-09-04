@@ -2,606 +2,6 @@
   "bikes": [
     {
       "id": "1",
-      "name": "Revolt RV1+",
-      "brand": "Revolt",
-      "type": "bike",
-      "price": 680000,
-      "priceText": "PKR 680,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "160 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.24 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "2",
-      "name": "Ultraviolette F77",
-      "brand": "Ultraviolette",
-      "type": "bike",
-      "price": 1299000,
-      "priceText": "PKR 1,299,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "307 km",
-        "topSpeed": "152 km/h",
-        "battery": "10.3 kWh",
-        "chargingTime": "5.0 hrs",
-        "motorPower": "30.0 kW",
-        "weight": "207 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "3",
-      "name": "Trek Madone R",
-      "brand": "Trek",
-      "type": "bike",
-      "price": 1500000,
-      "priceText": "PKR 1,500,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "180 km",
-        "topSpeed": "110 km/h",
-        "battery": "5.0 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "12.0 kW",
-        "weight": "135 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "4",
-      "name": "Obern Baer",
-      "brand": "Obern",
-      "type": "bike",
-      "price": 840500,
-      "priceText": "PKR 840,500",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "95 km/h",
-        "battery": "4.0 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "6.0 kW",
-        "weight": "120 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "5",
-      "name": "Menor Aura",
-      "brand": "Menor",
-      "type": "bike",
-      "price": 1099500,
-      "priceText": "PKR 1,099,500",
-      "rating": 4.6,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "200 km",
-        "topSpeed": "120 km/h",
-        "battery": "6.5 kWh",
-        "chargingTime": "5.5 hrs",
-        "motorPower": "10.0 kW",
-        "weight": "145 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "6",
-      "name": "Okla Truvio",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 770000,
-      "priceText": "PKR 770,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "130 km",
-        "topSpeed": "90 km/h",
-        "battery": "3.6 kWh",
-        "chargingTime": "3.8 hrs",
-        "motorPower": "5.5 kW",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "7",
-      "name": "Kawasaki Rumpo",
-      "brand": "Kawasaki",
-      "type": "bike",
-      "price": 890000,
-      "priceText": "PKR 890,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "140 km",
-        "topSpeed": "100 km/h",
-        "battery": "4.2 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "7.0 kW",
-        "weight": "128 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "8",
-      "name": "Ertuga One",
-      "brand": "Ertuga",
-      "type": "bike",
-      "price": 2340000,
-      "priceText": "PKR 2,340,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "250 km",
-        "topSpeed": "160 km/h",
-        "battery": "9.0 kWh",
-        "chargingTime": "3.5 hrs",
-        "motorPower": "20.0 kW",
-        "weight": "175 kg",
-        "warranty": "5 Years"
-      }
-    },
-    {
-      "id": "9",
-      "name": "Kawhy HHH0009",
-      "brand": "Kawhy",
-      "type": "bike",
-      "price": 2450000,
-      "priceText": "PKR 2,450,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "260 km",
-        "topSpeed": "165 km/h",
-        "battery": "9.5 kWh",
-        "chargingTime": "3.2 hrs",
-        "motorPower": "22.0 kW",
-        "weight": "180 kg",
-        "warranty": "5 Years"
-      }
-    },
-    {
-      "id": "10",
-      "name": "Revolt RV400",
-      "brand": "Revolt",
-      "type": "bike",
-      "price": 950000,
-      "priceText": "PKR 950,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.24 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "11",
-      "name": "Trek Urban X",
-      "brand": "Trek",
-      "type": "bike",
-      "price": 1200000,
-      "priceText": "PKR 1,200,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "170 km",
-        "topSpeed": "105 km/h",
-        "battery": "4.8 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "8.0 kW",
-        "weight": "130 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "12",
-      "name": "Kawasaki E-One",
-      "brand": "Kawasaki",
-      "type": "bike",
-      "price": 1750000,
-      "priceText": "PKR 1,750,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "220 km",
-        "topSpeed": "130 km/h",
-        "battery": "7.2 kWh",
-        "chargingTime": "3.8 hrs",
-        "motorPower": "14.0 kW",
-        "weight": "150 kg",
-        "warranty": "4 Years"
-      }
-    },
-    {
-      "id": "26",
-      "name": "Okla Model 1",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 270000,
-      "priceText": "PKR 270,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-1",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "27",
-      "name": "Okla Model 2",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-2",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "28",
-      "name": "Okla Model 3",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 310000,
-      "priceText": "PKR 310,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-3",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "29",
-      "name": "Okla Model 4",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 330000,
-      "priceText": "PKR 330,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-4",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "30",
-      "name": "Okla Model 5",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 350000,
-      "priceText": "PKR 350,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-5",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "31",
-      "name": "Okla Model 6",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 370000,
-      "priceText": "PKR 370,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "okla-model-6",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "32",
-      "name": "Metro Model 1",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 270000,
-      "priceText": "PKR 270,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-1",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "33",
-      "name": "Metro Model 2",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-2",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "34",
-      "name": "Metro Model 3",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 310000,
-      "priceText": "PKR 310,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-3",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "35",
-      "name": "Metro Model 4",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 330000,
-      "priceText": "PKR 330,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-4",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "36",
-      "name": "Metro Model 5",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 350000,
-      "priceText": "PKR 350,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-5",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "37",
-      "name": "Metro Model 6",
-      "brand": "Metro",
-      "type": "bike",
-      "price": 370000,
-      "priceText": "PKR 370,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "metro-model-6",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "38",
-      "name": "United Model 1",
-      "brand": "United",
-      "type": "bike",
-      "price": 270000,
-      "priceText": "PKR 270,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-1",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "39",
-      "name": "United Model 2",
-      "brand": "United",
-      "type": "bike",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-2",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "40",
-      "name": "United Model 3",
-      "brand": "United",
-      "type": "bike",
-      "price": 310000,
-      "priceText": "PKR 310,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-3",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "41",
-      "name": "United Model 4",
-      "brand": "United",
-      "type": "bike",
-      "price": 330000,
-      "priceText": "PKR 330,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-4",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "42",
-      "name": "United Model 5",
-      "brand": "United",
-      "type": "bike",
-      "price": 350000,
-      "priceText": "PKR 350,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-5",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "43",
-      "name": "United Model 6",
-      "brand": "United",
-      "type": "bike",
-      "price": 370000,
-      "priceText": "PKR 370,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "united-model-6",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "44",
       "name": "Crown CMC Model 1",
       "brand": "Crown CMC",
       "type": "bike",
@@ -621,7 +21,7 @@
       }
     },
     {
-      "id": "45",
+      "id": "2",
       "name": "Crown CMC Model 2",
       "brand": "Crown CMC",
       "type": "bike",
@@ -641,7 +41,7 @@
       }
     },
     {
-      "id": "46",
+      "id": "3",
       "name": "Crown CMC Model 3",
       "brand": "Crown CMC",
       "type": "bike",
@@ -661,7 +61,7 @@
       }
     },
     {
-      "id": "47",
+      "id": "4",
       "name": "Crown CMC Model 4",
       "brand": "Crown CMC",
       "type": "bike",
@@ -681,7 +81,7 @@
       }
     },
     {
-      "id": "48",
+      "id": "5",
       "name": "Crown CMC Model 5",
       "brand": "Crown CMC",
       "type": "bike",
@@ -701,7 +101,7 @@
       }
     },
     {
-      "id": "49",
+      "id": "6",
       "name": "Crown CMC Model 6",
       "brand": "Crown CMC",
       "type": "bike",
@@ -721,7 +121,7 @@
       }
     },
     {
-      "id": "50",
+      "id": "7",
       "name": "Road king Model 1",
       "brand": "Road king",
       "type": "bike",
@@ -741,7 +141,87 @@
       }
     },
     {
-      "id": "51",
+      "id": "8",
+      "name": "Hi-Speed Infinity 150cc (2025)",
+      "brand": "Hi speed",
+      "type": "bike",
+      "price": 420000,
+      "priceText": "PKR 420,000.00",
+      "rating": 4.5,
+      "image": "/hispeed1.jpeg",
+      "slug": "hi-speed-infinity",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "110 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "11.4 hp",
+        "weight": "120 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "9",
+      "name": "Hi-Speed SR200 200cc (2025)",
+      "brand": "Hi speed",
+      "type": "bike",
+      "price": 500000,
+      "priceText": "PKR 500,000.00",
+      "rating": 4.5,
+      "image": "/hispeed2.jpg",
+      "slug": "hi-speed-sr200",
+      "specs": {
+        "range": "405 km",
+        "topSpeed": "130 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "10.8 hp",
+        "weight": "147 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "10",
+      "name": "Hi-Speed Batllo SR 200 (2025)",
+      "brand": "Hi speed",
+      "type": "bike",
+      "price": 615000,
+      "priceText": "PKR 615,000.00",
+      "rating": 4.5,
+      "image": "/hispeed3.webp",
+      "slug": "hi-speed-batllo-sr",
+      "specs": {
+        "range": "520 km",
+        "topSpeed": "130 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "17.4 hp",
+        "weight": "140 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "11",
+      "name": "Hi-Speed Cyclone RA2 (2025)",
+      "brand": "Hi speed",
+      "type": "bike",
+      "price": 860000,
+      "priceText": "PKR 860,000.00",
+      "rating": 4.5,
+      "image": "/hispeed4.webp",
+      "slug": "hi-speed-cyclone-ra2",
+      "specs": {
+        "range": "390 km",
+        "topSpeed": "140 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "19 hp",
+        "weight": "149 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "12",
       "name": "Road king Model 2",
       "brand": "Road king",
       "type": "bike",
@@ -761,7 +241,7 @@
       }
     },
     {
-      "id": "52",
+      "id": "13",
       "name": "Road king Model 3",
       "brand": "Road king",
       "type": "bike",
@@ -781,7 +261,7 @@
       }
     },
     {
-      "id": "53",
+      "id": "14",
       "name": "Road king Model 4",
       "brand": "Road king",
       "type": "bike",
@@ -801,7 +281,7 @@
       }
     },
     {
-      "id": "54",
+      "id": "15",
       "name": "Road king Model 5",
       "brand": "Road king",
       "type": "bike",
@@ -821,7 +301,7 @@
       }
     },
     {
-      "id": "55",
+      "id": "16",
       "name": "Road king Model 6",
       "brand": "Road king",
       "type": "bike",
@@ -841,629 +321,129 @@
       }
     },
     {
-      "id": "56",
-      "name": "Hi speed Model 1",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 270000,
-      "priceText": "PKR 270,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-1",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "57",
-      "name": "Hi speed Model 2",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-2",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "58",
-      "name": "Hi speed Model 3",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 310000,
-      "priceText": "PKR 310,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-3",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "59",
-      "name": "Hi speed Model 4",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 330000,
-      "priceText": "PKR 330,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-4",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "60",
-      "name": "Hi speed Model 5",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 350000,
-      "priceText": "PKR 350,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-5",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "61",
-      "name": "Hi speed Model 6",
-      "brand": "Hi speed",
-      "type": "bike",
-      "price": 370000,
-      "priceText": "PKR 370,000",
-      "rating": 4.5,
-      "image": "/hero1.png",
-      "slug": "hi-speed-model-6",
-      "specs": {
-        "range": "120 km",
-        "topSpeed": "90 km/h",
-        "battery": "72V 30Ah",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "3000W",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    }
-  ],
-  "scooters": [
-{
-  "id": "13",
-  "name": "Evee S1 Pro (2024)",
-  "brand": "evee",
-  "type": "scooter",
-  "price": 195000,
-  "priceText": "PKR 195,000.00",
-  "rating": 4.8,
-  "image": "/evee1.jpeg",
-  "slug": "evee-s1-pro",
-  "specs": {
-    "range": "85 km",
-    "topSpeed": "50 km/h",
-    "battery": "4.0 kWh",
-    "chargingTime": "6.5 hrs",
-    "motorPower": "8.5 kW",
-    "weight": "105 kg",
-    "warranty": "3 Years"
-  }
-},
-    {
-      "id": "14",
-      "name": "Evee S1 Air (2024)",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 225000,
-      "priceText": "PKR 225,000.00",
-      "rating": 4.7,
-      "image": "/evee2.jpeg",
-      "slug": "evee-s1-air",
-      "specs": {
-        "range": "146 km",
-        "topSpeed": "90 km/h",
-        "battery": "3.7 kWh",
-        "chargingTime": "5.3 hrs",
-        "motorPower": "6.4 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "15",
-      "name": "TVS iQube",
-      "brand": "TVS",
-      "type": "scooter",
-      "price": 480000,
-      "priceText": "PKR 480,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "78 km/h",
-        "battery": "2.2 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "4.4 kW",
-        "weight": "118 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "16",
-      "name": "Bajaj Chetak",
-      "brand": "Bajaj",
-      "type": "scooter",
-      "price": 500000,
-      "priceText": "PKR 500,000",
-      "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "113 km",
-        "topSpeed": "73 km/h",
-        "battery": "2.9 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "4.2 kW",
-        "weight": "120 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
       "id": "17",
-      "name": "Hero Vida V1",
-      "brand": "Hero",
-      "type": "scooter",
-      "price": 465000,
-      "priceText": "PKR 465,000",
+      "name": "Metro LY 70",
+      "brand": "Metro",
+      "type": "bike",
+      "price": 88000,
+      "priceText": "PKR 88,000",
       "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "image": "/metro1.jpeg",
+      "slug": "metro-ly-70",
       "specs": {
-        "range": "110 km",
-        "topSpeed": "80 km/h",
-        "battery": "3.44 kWh",
-        "chargingTime": "5.2 hrs",
-        "motorPower": "6.0 kW",
-        "weight": "124 kg",
-        "warranty": "3 Years"
+        "range": "522 km",
+        "topSpeed": "85 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "4.5 hp",
+        "weight": "88 kg",
+        "warranty": "N/A"
       }
     },
     {
       "id": "18",
-      "name": "Okla Truvio",
-      "brand": "Okla",
-      "type": "scooter",
-      "price": 430000,
-      "priceText": "PKR 430,000",
-      "rating": 4.4,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "name": "Metro Wonder Bike",
+      "brand": "Metro",
+      "type": "bike",
+      "price": 110000,
+      "priceText": "PKR 110,000",
+      "rating": 4.5,
+      "image": "/metro2.webp",
+      "slug": "metro-wonder-bike",
       "specs": {
-        "range": "95 km",
-        "topSpeed": "65 km/h",
-        "battery": "2.0 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "3.0 kW",
-        "weight": "98 kg",
-        "warranty": "2 Years"
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "5.6 hp",
+        "weight": "82 kg",
+        "warranty": "N/A"
       }
     },
     {
       "id": "19",
-      "name": "Kawasaki Rumpo",
-      "brand": "Kawasaki",
-      "type": "scooter",
-      "price": 590000,
-      "priceText": "PKR 590,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "name": "Metro MR 70",
+      "brand": "Metro",
+      "type": "bike",
+      "price": 115000,
+      "priceText": "PKR 115,000",
+      "rating": 4.5,
+      "image": "/metro3.jpeg",
+      "slug": "metro-mr-70",
       "specs": {
-        "range": "130 km",
+        "range": "522 km",
         "topSpeed": "85 km/h",
-        "battery": "3.5 kWh",
-        "chargingTime": "4.8 hrs",
-        "motorPower": "5.5 kW",
-        "weight": "112 kg",
-        "warranty": "3 Years"
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "5.5 hp",
+        "weight": "82 kg",
+        "warranty": "N/A"
       }
     },
     {
       "id": "20",
-      "name": "Ertuga One",
-      "brand": "Ertuga",
-      "type": "scooter",
-      "price": 450000,
-      "priceText": "PKR 450,000",
+      "name": "Metro Dabang 70cc",
+      "brand": "Metro",
+      "type": "bike",
+      "price": 124000,
+      "priceText": "PKR 124,000",
       "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "image": "/metro4.png",
+      "slug": "metro-dabang-70cc",
       "specs": {
-        "range": "105 km",
-        "topSpeed": "70 km/h",
-        "battery": "2.5 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "3.5 kW",
-        "weight": "102 kg",
-        "warranty": "2 Years"
+        "range": "495 km",
+        "topSpeed": "85 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "5.6 hp",
+        "weight": "82 kg",
+        "warranty": "N/A"
       }
     },
     {
       "id": "21",
-      "name": "Kawhy HHH0009",
-      "brand": "Kawhy",
-      "type": "scooter",
-      "price": 510000,
-      "priceText": "PKR 510,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "name": "United US150 (2024)",
+      "brand": "United",
+      "type": "bike",
+      "price": 302000,
+      "priceText": "PKR 302,000",
+      "rating": 4.5,
+      "image": "/united.webp",
+      "slug": "united-us150",
       "specs": {
-        "range": "125 km",
-        "topSpeed": "75 km/h",
-        "battery": "3.0 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "4.0 kW",
-        "weight": "110 kg",
-        "warranty": "3 Years"
+        "range": "520 km",
+        "topSpeed": "110 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "11.8 hp",
+        "weight": "128 kg",
+        "warranty": "N/A"
       }
     },
     {
       "id": "22",
-      "name": "Revolt RV400",
-      "brand": "Revolt",
-      "type": "scooter",
-      "price": 560000,
-      "priceText": "PKR 560,000",
-      "rating": 4.8,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "name": "Yadea Keeness (2025)",
+      "brand": "Yadea",
+      "type": "bike",
+      "price": 1350000,
+      "priceText": "PKR 1,350,000",
+      "rating": 4.5,
+      "image": "/yadea1.webp",
+      "slug": "yadea-keeness",
       "specs": {
         "range": "140 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.6 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "115 kg",
-        "warranty": "3 Years"
+        "topSpeed": "100 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "13.4 hp",
+        "weight": "140 kg",
+        "warranty": "N/A"
       }
-    },
+    }
+  ],
+  "scooters": [
     {
       "id": "23",
-      "name": "Trek Urban X",
-      "brand": "Trek",
-      "type": "scooter",
-      "price": 475000,
-      "priceText": "PKR 475,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "110 km",
-        "topSpeed": "72 km/h",
-        "battery": "2.7 kWh",
-        "chargingTime": "4.1 hrs",
-        "motorPower": "3.8 kW",
-        "weight": "105 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "24",
-      "name": "Kawasaki E-One",
-      "brand": "Kawasaki",
-      "type": "scooter",
-      "price": 620000,
-      "priceText": "PKR 620,000",
-      "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "88 km/h",
-        "battery": "4.1 kWh",
-        "chargingTime": "5.0 hrs",
-        "motorPower": "6.2 kW",
-        "weight": "122 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "25",
-      "name": "Okla Omax",
-      "brand": "Okla",
-      "type": "scooter",
-      "price": 240000,
-      "priceText": "PKR 240,000",
-      "rating": 4.5,
-      "image": "/bikes/okla-omax.png",
-      "slug": "okla-omax",
-      "specs": {
-        "range": "80 km",
-        "topSpeed": "60 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4-5 hrs",
-        "motorPower": "1200W",
-        "weight": "95 kg",
-        "warranty": "2 years"
-      }
-    },
-    {
-      "id": "62",
-      "name": "evee Model 1",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 215000,
-      "priceText": "PKR 215,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-1",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "63",
-      "name": "evee Model 2",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 230000,
-      "priceText": "PKR 230,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-2",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "64",
-      "name": "evee Model 3",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 245000,
-      "priceText": "PKR 245,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-3",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "65",
-      "name": "evee Model 4",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 260000,
-      "priceText": "PKR 260,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-4",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "66",
-      "name": "evee Model 5",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 275000,
-      "priceText": "PKR 275,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-5",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "67",
-      "name": "evee Model 6",
-      "brand": "evee",
-      "type": "scooter",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "evee-model-6",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "68",
-      "name": "Yadea Model 1",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 215000,
-      "priceText": "PKR 215,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-1",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "69",
-      "name": "Yadea Model 2",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 230000,
-      "priceText": "PKR 230,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-2",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "70",
-      "name": "Yadea Model 3",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 245000,
-      "priceText": "PKR 245,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-3",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "71",
-      "name": "Yadea Model 4",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 260000,
-      "priceText": "PKR 260,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-4",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "72",
-      "name": "Yadea Model 5",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 275000,
-      "priceText": "PKR 275,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-5",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "73",
-      "name": "Yadea Model 6",
-      "brand": "Yadea",
-      "type": "scooter",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "yadea-model-6",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "74",
       "name": "Luyuan Model 1",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1483,7 +463,7 @@
       }
     },
     {
-      "id": "75",
+      "id": "24",
       "name": "Luyuan Model 2",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1503,7 +483,7 @@
       }
     },
     {
-      "id": "76",
+      "id": "25",
       "name": "Luyuan Model 3",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1523,7 +503,7 @@
       }
     },
     {
-      "id": "77",
+      "id": "26",
       "name": "Luyuan Model 4",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1543,7 +523,7 @@
       }
     },
     {
-      "id": "78",
+      "id": "27",
       "name": "Luyuan Model 5",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1563,7 +543,7 @@
       }
     },
     {
-      "id": "79",
+      "id": "28",
       "name": "Luyuan Model 6",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1583,7 +563,7 @@
       }
     },
     {
-      "id": "80",
+      "id": "29",
       "name": "Revoo Model 1",
       "brand": "Revoo",
       "type": "scooter",
@@ -1603,7 +583,7 @@
       }
     },
     {
-      "id": "81",
+      "id": "30",
       "name": "Revoo Model 2",
       "brand": "Revoo",
       "type": "scooter",
@@ -1623,7 +603,7 @@
       }
     },
     {
-      "id": "82",
+      "id": "31",
       "name": "Revoo Model 3",
       "brand": "Revoo",
       "type": "scooter",
@@ -1643,7 +623,7 @@
       }
     },
     {
-      "id": "83",
+      "id": "32",
       "name": "Revoo Model 4",
       "brand": "Revoo",
       "type": "scooter",
@@ -1663,7 +643,7 @@
       }
     },
     {
-      "id": "84",
+      "id": "33",
       "name": "Revoo Model 5",
       "brand": "Revoo",
       "type": "scooter",
@@ -1683,7 +663,7 @@
       }
     },
     {
-      "id": "85",
+      "id": "34",
       "name": "Revoo Model 6",
       "brand": "Revoo",
       "type": "scooter",
@@ -1703,7 +683,7 @@
       }
     },
     {
-      "id": "86",
+      "id": "35",
       "name": "Orevo Model 1",
       "brand": "Orevo",
       "type": "scooter",
@@ -1723,7 +703,7 @@
       }
     },
     {
-      "id": "87",
+      "id": "36",
       "name": "Orevo Model 2",
       "brand": "Orevo",
       "type": "scooter",
@@ -1743,7 +723,7 @@
       }
     },
     {
-      "id": "88",
+      "id": "37",
       "name": "Orevo Model 3",
       "brand": "Orevo",
       "type": "scooter",
@@ -1763,7 +743,7 @@
       }
     },
     {
-      "id": "89",
+      "id": "38",
       "name": "Orevo Model 4",
       "brand": "Orevo",
       "type": "scooter",
@@ -1783,7 +763,7 @@
       }
     },
     {
-      "id": "90",
+      "id": "39",
       "name": "Orevo Model 5",
       "brand": "Orevo",
       "type": "scooter",
@@ -1803,7 +783,7 @@
       }
     },
     {
-      "id": "91",
+      "id": "40",
       "name": "Orevo Model 6",
       "brand": "Orevo",
       "type": "scooter",
@@ -1823,7 +803,7 @@
       }
     },
     {
-      "id": "92",
+      "id": "41",
       "name": "Jolta Model 1",
       "brand": "Jolta",
       "type": "scooter",
@@ -1843,7 +823,7 @@
       }
     },
     {
-      "id": "93",
+      "id": "42",
       "name": "Jolta Model 2",
       "brand": "Jolta",
       "type": "scooter",
@@ -1863,7 +843,7 @@
       }
     },
     {
-      "id": "94",
+      "id": "43",
       "name": "Jolta Model 3",
       "brand": "Jolta",
       "type": "scooter",
@@ -1883,7 +863,7 @@
       }
     },
     {
-      "id": "95",
+      "id": "44",
       "name": "Jolta Model 4",
       "brand": "Jolta",
       "type": "scooter",
@@ -1903,7 +883,7 @@
       }
     },
     {
-      "id": "96",
+      "id": "45",
       "name": "Jolta Model 5",
       "brand": "Jolta",
       "type": "scooter",
@@ -1923,7 +903,7 @@
       }
     },
     {
-      "id": "97",
+      "id": "46",
       "name": "Jolta Model 6",
       "brand": "Jolta",
       "type": "scooter",
@@ -1943,7 +923,7 @@
       }
     },
     {
-      "id": "98",
+      "id": "47",
       "name": "EVINN Model 1",
       "brand": "EVINN",
       "type": "scooter",
@@ -1963,7 +943,7 @@
       }
     },
     {
-      "id": "99",
+      "id": "48",
       "name": "EVINN Model 2",
       "brand": "EVINN",
       "type": "scooter",
@@ -1983,7 +963,7 @@
       }
     },
     {
-      "id": "100",
+      "id": "49",
       "name": "EVINN Model 3",
       "brand": "EVINN",
       "type": "scooter",
@@ -2003,7 +983,7 @@
       }
     },
     {
-      "id": "101",
+      "id": "50",
       "name": "EVINN Model 4",
       "brand": "EVINN",
       "type": "scooter",
@@ -2023,7 +1003,7 @@
       }
     },
     {
-      "id": "102",
+      "id": "51",
       "name": "EVINN Model 5",
       "brand": "EVINN",
       "type": "scooter",
@@ -2043,7 +1023,7 @@
       }
     },
     {
-      "id": "103",
+      "id": "52",
       "name": "EVINN Model 6",
       "brand": "EVINN",
       "type": "scooter",
@@ -2063,127 +1043,7 @@
       }
     },
     {
-      "id": "104",
-      "name": "Horwin Model 1",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 215000,
-      "priceText": "PKR 215,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-1",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "105",
-      "name": "Horwin Model 2",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 230000,
-      "priceText": "PKR 230,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-2",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "106",
-      "name": "Horwin Model 3",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 245000,
-      "priceText": "PKR 245,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-3",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "107",
-      "name": "Horwin Model 4",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 260000,
-      "priceText": "PKR 260,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-4",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "108",
-      "name": "Horwin Model 5",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 275000,
-      "priceText": "PKR 275,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-5",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "109",
-      "name": "Horwin Model 6",
-      "brand": "Horwin",
-      "type": "scooter",
-      "price": 290000,
-      "priceText": "PKR 290,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "horwin-model-6",
-      "specs": {
-        "range": "100 km",
-        "topSpeed": "70 km/h",
-        "battery": "60V 20Ah",
-        "chargingTime": "4 hrs",
-        "motorPower": "1200W",
-        "weight": "100 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "110",
+      "id": "53",
       "name": "Velectra Model 1",
       "brand": "Velectra",
       "type": "scooter",
@@ -2203,7 +1063,7 @@
       }
     },
     {
-      "id": "111",
+      "id": "54",
       "name": "Velectra Model 2",
       "brand": "Velectra",
       "type": "scooter",
@@ -2223,7 +1083,7 @@
       }
     },
     {
-      "id": "112",
+      "id": "55",
       "name": "Velectra Model 3",
       "brand": "Velectra",
       "type": "scooter",
@@ -2243,7 +1103,7 @@
       }
     },
     {
-      "id": "113",
+      "id": "56",
       "name": "Velectra Model 4",
       "brand": "Velectra",
       "type": "scooter",
@@ -2263,7 +1123,7 @@
       }
     },
     {
-      "id": "114",
+      "id": "57",
       "name": "Velectra Model 5",
       "brand": "Velectra",
       "type": "scooter",
@@ -2283,7 +1143,7 @@
       }
     },
     {
-      "id": "115",
+      "id": "58",
       "name": "Velectra Model 6",
       "brand": "Velectra",
       "type": "scooter",
@@ -2303,7 +1163,7 @@
       }
     },
     {
-      "id": "116",
+      "id": "59",
       "name": "ECruze Model 1",
       "brand": "ECruze",
       "type": "scooter",
@@ -2323,7 +1183,7 @@
       }
     },
     {
-      "id": "117",
+      "id": "60",
       "name": "ECruze Model 2",
       "brand": "ECruze",
       "type": "scooter",
@@ -2343,7 +1203,7 @@
       }
     },
     {
-      "id": "118",
+      "id": "61",
       "name": "ECruze Model 3",
       "brand": "ECruze",
       "type": "scooter",
@@ -2363,7 +1223,7 @@
       }
     },
     {
-      "id": "119",
+      "id": "62",
       "name": "ECruze Model 4",
       "brand": "ECruze",
       "type": "scooter",
@@ -2383,7 +1243,7 @@
       }
     },
     {
-      "id": "120",
+      "id": "63",
       "name": "ECruze Model 5",
       "brand": "ECruze",
       "type": "scooter",
@@ -2403,7 +1263,7 @@
       }
     },
     {
-      "id": "121",
+      "id": "64",
       "name": "ECruze Model 6",
       "brand": "ECruze",
       "type": "scooter",
@@ -2423,7 +1283,7 @@
       }
     },
     {
-      "id": "122",
+      "id": "65",
       "name": "Eveon Model 1",
       "brand": "Eveon",
       "type": "scooter",
@@ -2443,7 +1303,7 @@
       }
     },
     {
-      "id": "123",
+      "id": "66",
       "name": "Eveon Model 2",
       "brand": "Eveon",
       "type": "scooter",
@@ -2463,7 +1323,7 @@
       }
     },
     {
-      "id": "124",
+      "id": "67",
       "name": "Eveon Model 3",
       "brand": "Eveon",
       "type": "scooter",
@@ -2483,7 +1343,7 @@
       }
     },
     {
-      "id": "125",
+      "id": "68",
       "name": "Eveon Model 4",
       "brand": "Eveon",
       "type": "scooter",
@@ -2503,7 +1363,7 @@
       }
     },
     {
-      "id": "126",
+      "id": "69",
       "name": "Eveon Model 5",
       "brand": "Eveon",
       "type": "scooter",
@@ -2523,7 +1383,7 @@
       }
     },
     {
-      "id": "127",
+      "id": "70",
       "name": "Eveon Model 6",
       "brand": "Eveon",
       "type": "scooter",
@@ -2543,7 +1403,7 @@
       }
     },
     {
-      "id": "128",
+      "id": "71",
       "name": "Jinpeng Model 1",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2563,7 +1423,7 @@
       }
     },
     {
-      "id": "129",
+      "id": "72",
       "name": "Jinpeng Model 2",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2583,7 +1443,7 @@
       }
     },
     {
-      "id": "130",
+      "id": "73",
       "name": "Jinpeng Model 3",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2603,7 +1463,7 @@
       }
     },
     {
-      "id": "131",
+      "id": "74",
       "name": "Jinpeng Model 4",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2623,7 +1483,7 @@
       }
     },
     {
-      "id": "132",
+      "id": "75",
       "name": "Jinpeng Model 5",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2643,7 +1503,7 @@
       }
     },
     {
-      "id": "133",
+      "id": "76",
       "name": "Jinpeng Model 6",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2660,6 +1520,606 @@
         "motorPower": "1200W",
         "weight": "100 kg",
         "warranty": "2 Years"
+      }
+    },
+    {
+      "id": "77",
+      "name": "Evee S1 Pro (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 195000,
+      "priceText": "PKR 195,000",
+      "rating": 4.5,
+      "image": "/evee1.jpeg",
+      "slug": "s1-pro",
+      "specs": {
+        "range": "85 km",
+        "topSpeed": "50 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.6 hp",
+        "weight": "105 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "78",
+      "name": "Evee S1 Air (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 225000,
+      "priceText": "PKR 225,000",
+      "rating": 4.5,
+      "image": "/evee2.jpeg",
+      "slug": "s1-air",
+      "specs": {
+        "range": "120 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.7 hp",
+        "weight": "110 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "79",
+      "name": "Evee S1 (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 225000,
+      "priceText": "PKR 225,000",
+      "rating": 4.5,
+      "image": "/evee3.jpeg",
+      "slug": "s1",
+      "specs": {
+        "range": "65 km",
+        "topSpeed": "50 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.34 hp",
+        "weight": "100 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "80",
+      "name": "Evee Nisa 3W (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 235000,
+      "priceText": "PKR 235,000",
+      "rating": 4.5,
+      "image": "/evee4.jpeg",
+      "slug": "nisa-3w",
+      "specs": {
+        "range": "65 km",
+        "topSpeed": "50 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.61 hp",
+        "weight": "90 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "81",
+      "name": "Evee SQUBE Max (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 235000,
+      "priceText": "PKR 235,000",
+      "rating": 4.5,
+      "image": "/evee5.jpeg",
+      "slug": "sqube-max",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.6 hp",
+        "weight": "95 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "82",
+      "name": "Evee GEN-Z Pro (2026)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 239000,
+      "priceText": "PKR 239,000",
+      "rating": 4.5,
+      "image": "/evee6.jpeg",
+      "slug": "gen-z-pro",
+      "specs": {
+        "range": "85 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.68 hp",
+        "weight": "95 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "83",
+      "name": "Evee GEN-Z (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 269000,
+      "priceText": "PKR 269,000",
+      "rating": 4.5,
+      "image": "/evee7.jpeg",
+      "slug": "gen-z",
+      "specs": {
+        "range": "80 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.68 hp",
+        "weight": "110 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "84",
+      "name": "Evee Nisa (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 340000,
+      "priceText": "PKR 340,000",
+      "rating": 4.5,
+      "image": "/evee8.jpeg",
+      "slug": "nisa",
+      "specs": {
+        "range": "65 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.68 hp",
+        "weight": "105 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "85",
+      "name": "Evee Mito+ (2024)",
+      "brand": "evee",
+      "type": "scooter",
+      "price": 345000,
+      "priceText": "PKR 345,000",
+      "rating": 4.5,
+      "image": "/evee9.jpeg",
+      "slug": "mitoplus",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "70 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.7 hp",
+        "weight": "95 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "86",
+      "name": "Horwin CR1 (2024)",
+      "brand": "Horwin",
+      "type": "scooter",
+      "price": 399000,
+      "priceText": "PKR 399,000",
+      "rating": 4.5,
+      "image": "/horwin1.jpeg",
+      "slug": "horwin-cr1",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "10.7 hp",
+        "weight": "140 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "87",
+      "name": "Horwin QBB5 (2023)",
+      "brand": "Horwin",
+      "type": "scooter",
+      "price": 492000,
+      "priceText": "PKR 492,000",
+      "rating": 4.5,
+      "image": "/horwin2.jpeg",
+      "slug": "horwin-qbb5",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "3.75 hp",
+        "weight": "125 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "88",
+      "name": "Horwin EK1 (2024)",
+      "brand": "Horwin",
+      "type": "scooter",
+      "price": 591600,
+      "priceText": "PKR 591,600",
+      "rating": 4.5,
+      "image": "/horwin3.jpeg",
+      "slug": "horwin-ek1",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "3.75 hp",
+        "weight": "92 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "89",
+      "name": "Horwin SK1 (2024)",
+      "brand": "Horwin",
+      "type": "scooter",
+      "price": 635000,
+      "priceText": "PKR 635,000",
+      "rating": 4.5,
+      "image": "/horwin4.jpeg",
+      "slug": "horwin-sk1",
+      "specs": {
+        "range": "90 km",
+        "topSpeed": "90 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "3.1 hp",
+        "weight": "105 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "90",
+      "name": "Metro X8 Foldable Electric Scooter",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 129000,
+      "priceText": "PKR 129,000",
+      "rating": 4.5,
+      "image": "/metro5.webp",
+      "slug": "metro-x8-foldable-electric-scooter",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "N/A",
+        "weight": "N/A",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "91",
+      "name": "Metro T9 Eco",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 174000,
+      "priceText": "PKR 174,000",
+      "rating": 4.5,
+      "image": "/metro6.webp",
+      "slug": "metro-t9-eco",
+      "specs": {
+        "range": "475 km",
+        "topSpeed": "50 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "7.0 hp",
+        "weight": "90 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "92",
+      "name": "Metro T9 Sport",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 184000,
+      "priceText": "PKR 184,000",
+      "rating": 4.5,
+      "image": "/metro7.jpeg",
+      "slug": "metro-t9-sport",
+      "specs": {
+        "range": "520 km",
+        "topSpeed": "55 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.15 hp",
+        "weight": "85 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "93",
+      "name": "Metro Thrill",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 195000,
+      "priceText": "PKR 195,000",
+      "rating": 4.5,
+      "image": "/metro8.webp",
+      "slug": "metro-thrill",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.61 hp",
+        "weight": "95 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "94",
+      "name": "Metro Thrill Pro",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 199000,
+      "priceText": "PKR 199,000",
+      "rating": 4.5,
+      "image": "/metro9.jpeg",
+      "slug": "metro-thrill-pro",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.68 hp",
+        "weight": "105 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "95",
+      "name": "Metro Thrill Pro 125",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 210000,
+      "priceText": "PKR 210,000",
+      "rating": 4.5,
+      "image": "/metro10.webp",
+      "slug": "metro-thrill-pro-125",
+      "specs": {
+        "range": "456 km",
+        "topSpeed": "95 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "11.5 hp",
+        "weight": "108 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "96",
+      "name": "Metro Metrix",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 250000,
+      "priceText": "PKR 250,000",
+      "rating": 4.5,
+      "image": "/metro11.webp",
+      "slug": "metro-metrix",
+      "specs": {
+        "range": "150 km",
+        "topSpeed": "65 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "5.0 hp",
+        "weight": "82 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "97",
+      "name": "Metro M6 Empower (Nano Carbon Fiber)",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 260000,
+      "priceText": "PKR 260,000",
+      "rating": 4.5,
+      "image": "/metro12.jpeg",
+      "slug": "metro-m6-empower-nano-carbon-fiber",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "12.8 hp",
+        "weight": "128 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "98",
+      "name": "Metro E8S Range Maker",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 265000,
+      "priceText": "PKR 265,000",
+      "rating": 4.5,
+      "image": "/metro13.png",
+      "slug": "metro-e8s-range-maker",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.34 hp",
+        "weight": "137 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "99",
+      "name": "Metro E8S Pro",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 277000,
+      "priceText": "PKR 277,000",
+      "rating": 4.5,
+      "image": "/metro14.webp",
+      "slug": "metro-e8s-pro",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "2.68 hp",
+        "weight": "102 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "100",
+      "name": "Metro T9 Pro",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 279000,
+      "priceText": "PKR 279,000",
+      "rating": 4.5,
+      "image": "/metro15.webp",
+      "slug": "metro-t9-pro",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.61 hp",
+        "weight": "120 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "101",
+      "name": "Metro E8S Mountain Climber",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 284000,
+      "priceText": "PKR 284,000",
+      "rating": 4.5,
+      "image": "/metro16.webp",
+      "slug": "metro-e8s-mountain-climber",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "10.8 hp",
+        "weight": "105 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "102",
+      "name": "Metro M6 Empower (Portable Lithium)",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 288000,
+      "priceText": "PKR 288,000",
+      "rating": 4.5,
+      "image": "/metro17.webp",
+      "slug": "metro-m6-empower-portable-lithium",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.34 hp",
+        "weight": "70 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "103",
+      "name": "Metro Premium",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 295500,
+      "priceText": "PKR 295,500",
+      "rating": 4.5,
+      "image": "/metro18.webp",
+      "slug": "metro-premium",
+      "specs": {
+        "range": "540 km",
+        "topSpeed": "85 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "5.0 hp",
+        "weight": "82 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "104",
+      "name": "Metro Premium Plus",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 318000,
+      "priceText": "PKR 318,000",
+      "rating": 4.5,
+      "image": "/metro19.webp",
+      "slug": "metro-premium-plus",
+      "specs": {
+        "range": "N/A",
+        "topSpeed": "N/A",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "6.5 hp",
+        "weight": "125 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "105",
+      "name": "Metro Miku Super",
+      "brand": "Metro",
+      "type": "scooter",
+      "price": 550000,
+      "priceText": "PKR 550,000",
+      "rating": 4.5,
+      "image": "/metro12.jpeg",
+      "slug": "metro-miku-super",
+      "specs": {
+        "range": "523 km",
+        "topSpeed": "85 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "6.03 hp",
+        "weight": "110 kg",
+        "warranty": "N/A"
+      }
+    },
+    {
+      "id": "106",
+      "name": "Okla Onyx (2024)",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 275000,
+      "priceText": "PKR 275,000",
+      "rating": 4.5,
+      "image": "/okla1.webp",
+      "slug": "okla-onyx",
+      "specs": {
+        "range": "85 km",
+        "topSpeed": "60 km/h",
+        "battery": "N/A",
+        "chargingTime": "N/A",
+        "motorPower": "1.6 hp",
+        "weight": "95 kg",
+        "warranty": "N/A"
       }
     }
   ]

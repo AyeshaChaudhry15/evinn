@@ -14,7 +14,7 @@ interface Vehicle {
   price: number;
   rating: number;
   image: string;
-  slug: string;
+  slug: string | number;
   specs?: {
     range: string;
     topSpeed: string;
