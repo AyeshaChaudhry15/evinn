@@ -6,11 +6,13 @@ import { Search, Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Brands", href: "/brands" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
   { label: "Compare", href: "/compare-vehicles" },
-  { label: "Showrooms", href: "/showrooms" },
+  // { label: "Showrooms", href: "/showrooms" },
+    { label: "Blog", href: "/blog" },
+
+
 ];
 
 const ALL_PRODUCTS = [

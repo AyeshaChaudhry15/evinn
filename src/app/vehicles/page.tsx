@@ -54,9 +54,7 @@ export default function Vehicles() {
     const typeMatch =
       vehicleType === "All Types" ||
       (vehicleType === "Bike" && scooter.type === "bike") ||
-      (vehicleType === "Scooter" && scooter.type === "scooter") ||
-      (vehicleType === "Moped" && scooter.type === "moped") ||
-      (vehicleType === "Maxi Scooter" && scooter.type === "maxi scooter");
+      (vehicleType === "Scooter" && scooter.type === "scooter");
 
     const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
 
@@ -212,8 +210,7 @@ export default function Vehicles() {
                 <option>All Types</option>
                 <option>Bike</option>
                 <option>Scooter</option>
-                <option>Moped</option>
-                <option>Maxi Scooter</option>
+             
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">

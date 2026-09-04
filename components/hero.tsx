@@ -29,9 +29,11 @@ export default function Hero() {
               <Link href={"/vehicles"}>Explore Vehicles</Link>
             </button>
 
+           <Link href={"/compare-vehicles"}>
             <button className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400 lg:px-6 lg:py-4 lg:text-md">
               Compare Vehicles
             </button>
+            </Link>
           </div>
         </div>
 
@@ -47,7 +49,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-8 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-0 lg:py-0 lg:h-25">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-8 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:py-0 lg:h-25">
         {STATS.map(({ icon: Icon, label }) => (
           <div
             key={label}
