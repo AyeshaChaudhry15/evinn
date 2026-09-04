@@ -1,188 +1,159 @@
 "use client";
+
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import vehiclesData from "../../../bike-details/bikes-scooter.json";
 
-interface Stat {
-  value: string;
-  label: string;
-}
-
-interface Model {
-  id: string;
+interface Vehicle {
+  id: string | number;
   name: string;
-  price: string;
-  imgSrc: string;
-  link: string;
+  brand: string;
+  type: string;
+  priceText: string;
+  price: number;
+  rating: number;
+  image: string;
+  slug: string;
+  specs?: {
+    range: string;
+    topSpeed: string;
+    battery: string;
+    chargingTime: string;
+    motorPower: string;
+    weight: string;
+    warranty: string;
+  };
 }
 
-interface Feature {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
+export default function HorwinPage() {
+  const [sortBy, setSortBy] = useState("Price: Low to High");
 
-const stats: Stat[] = [
-  { value: "10+", label: "Models" },
-  { value: "2.5M+", label: "Happy Customers" },
-  { value: "1000+", label: "Service Centers" },
-];
+  const bikeData: Vehicle[] = Array.isArray(vehiclesData)
+    ? vehiclesData
+    : [
+        ...((vehiclesData as { bikes?: Vehicle[] })?.bikes || []),
+        ...((vehiclesData as { scooters?: Vehicle[] })?.scooters || []),
+      ];
 
-const models: Model[] = [
-  {
-    id: "s1-pro",
-    name: "OKla S1 Pro",
-    price: "PKR 849,000",
-    imgSrc: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "s1-air",
-    name: "OKla S1 Air",
-    price: "PKR 649,000",
-    imgSrc: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "s1-x",
-    name: "OKla S1 X",
-    price: "PKR 549,000",
-    imgSrc: "/hero1.png",
-    link: "/model-detail",
-  },
-];
+  const brandName = "Horwin";
+  const brandSlug = "horwin";
 
-const features: Feature[] = [
-  {
-    id: "advanced-tech",
-    label: "Advanced Technology",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 8v4l3 2" />
-      </>
-    ),
-  },
-  {
-    id: "long-range",
-    label: "Long Range",
-    icon: (
-      <>
-        <rect x="3" y="9" width="15" height="8" rx="1.5" />
-        <path d="M18 12h2.5l1.5 2v3h-4" />
-        <circle cx="7.5" cy="19" r="1.5" />
-        <circle cx="17.5" cy="19" r="1.5" />
-      </>
-    ),
-  },
-  {
-    id: "fast-charging",
-    label: "Fast Charging",
-    icon: <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />,
-  },
-  {
-    id: "smart-connectivity",
-    label: "Smart Connectivity",
-    icon: (
-      <>
-        <circle cx="6" cy="12" r="2" />
-        <circle cx="18" cy="6" r="2" />
-        <circle cx="18" cy="18" r="2" />
-        <path d="M7.7 10.9L16.3 7.1M7.7 13.1L16.3 16.9" />
-      </>
-    ),
-  },
-];
+  let brandVehicles = bikeData.filter(
+    (bike) =>
+      bike.brand?.toLowerCase().trim() ===
+      brandName.toLowerCase().trim()
+  );
 
-export default function Okla() {
+  if (sortBy === "Price: Low to High") {
+    brandVehicles = [...brandVehicles].sort(
+      (a, b) => a.price - b.price
+    );
+  } else if (sortBy === "Price: High to Low") {
+    brandVehicles = [...brandVehicles].sort(
+      (a, b) => b.price - a.price
+    );
+  }
+
   return (
-    <div className="h-full w-full bg-[#0b0f14] font-sans text-[#f4f7f5]">
-      <div className="mx-auto w-full max-w-[1200px] px-6 py-10 sm:px-10 lg:px-16 ">
-        <section className="relative flex min-h-[70vh] flex-col justify-center">
-          <div className="max-w-[420px]">
-            <h1 className="text-[42px] font-bold leading-tight tracking-tight sm:text-[56px]">
-              Okla Electric
+    <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
+      <div className="mx-auto max-w-7xl">
+
+        <header className="mb-9 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+
+          <div className="flex flex-wrap items-center gap-4">
+
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white">
+              <img
+                src="/horwin.png"
+                alt=" Horwin"
+                className="h-full w-full object-contain p-1"
+              />
+            </div>
+
+            <h1 className="text-[28px] font-bold tracking-[-1px] sm:text-[34px] lg:text-[38px]">
+              {brandName} Motorcycles
             </h1>
-            <p className="mt-4 text-[16px] leading-relaxed text-[#8b98a3] sm:text-[18px]">
-              Building a better future with smart electric mobility.
+
+            <Link
+              href={`/brand-info/${brandSlug}`}
+              className="rounded-full border border-[#2f5c3a] bg-[#0e1f14] px-4 py-1.5 text-sm font-semibold text-[#8FDF0D] transition hover:bg-[#122a19]"
+            >
+              See Details
+            </Link>
+
+          </div>
+
+          <div className="relative shrink-0">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full appearance-none rounded-xl border border-white/10 bg-[#0A1822] px-5 py-3 pr-11 text-sm font-medium text-white outline-none transition focus:border-[#8FDF0D]/50 sm:w-auto"
+            >
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+            </select>
+
+            <ChevronDown
+              size={18}
+              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+          </div>
+
+        </header>
+
+        {brandVehicles.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
+            <p className="text-gray-500">
+              No Crown CMC motorcycles found.
             </p>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-          <div className="mt-10 flex gap-10 sm:gap-20">
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <div className="text-[28px] font-bold text-[#b6ff3c] sm:text-[32px]">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-[13px] text-[#8b98a3] sm:text-[14px]">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <img
-            src="/hero1.png"
-            alt="Okla Electric Hero"
-            className="ml-auto mt-10 h-auto w-full max-w-[600px] object-cover sm:absolute sm:right-0 sm:top-1/2 sm:mt-0 sm:w-[55%] sm:-translate-y-1/2"
-          />
-        </section>
-
-        <section className="mt-16">
-          <div className="mb-6 flex items-baseline justify-between">
-            <h2 className="text-[22px] font-semibold sm:text-[26px]">
-              Popular Models
-            </h2>
-          <button  className="whitespace-nowrap text-[14px] font-semibold text-[#b6ff3c]">
-              <Link href={"/vehicles"}> View All Models → </Link>
-            </button>
-          </div>
-                       
-
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
-            {models.map((model) => (
+            {brandVehicles.map((bike) => (
               <Link
-                key={model.id}
-                href={model.link}
-                className="block rounded-xl border border-[#212c37] bg-[#131a22] p-5 transition hover:border-[#b6ff3c]/50"
+                key={bike.id}
+                href={`/${bike.slug}`}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
-                <img
-                  src={model.imgSrc}
-                  alt={model.name}
-                  className="h-[200px] w-full object-contain"
-                />
-                <div className="mt-4 text-[20px] font-semibold">
-                  {model.name}
+
+                <div className="flex h-56 items-center justify-center bg-white p-5">
+                  <img
+                    src={bike.image}
+                    alt={bike.name}
+                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+                  />
                 </div>
-                <div className="mt-1 text-[13px] text-[#8b98a3]">
-                  {model.price}
+
+                <div className="p-5">
+
+                  <p className="mb-1 text-sm text-gray-500">
+                    {bike.type}
+                  </p>
+
+                  <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
+                    {bike.name}
+                  </h2>
+
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <p className="font-semibold text-[#8FDF0D]">
+                      {bike.priceText}
+                    </p>
+
+                    <span className="text-sm text-yellow-400">
+                      ★ {bike.rating}
+                    </span>
+                  </div>
+
                 </div>
               </Link>
             ))}
-          </div>
-        </section>
 
-        <section className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-5">
-          {features.map((feature) => (
-            <div
-              key={feature.id}
-              className="rounded-xl border border-[#212c37] bg-[#131a22] px-3 py-6 text-center"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                className="mx-auto mb-3 h-8 w-8 text-[#b6ff3c]"
-              >
-                {feature.icon}
-              </svg>
-              <div className="text-[15px] leading-snug text-[#8b98a3] sm:text-[15px]">
-                {feature.label}
-              </div>
-            </div>
-          ))}
-        </section>
+          </div>
+        )}
+
       </div>
-    </div>
+    </main>
   );
 }
