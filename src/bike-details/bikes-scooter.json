@@ -2,246 +2,6 @@
   "bikes": [
     {
       "id": "1",
-      "name": "Revolt RV1+",
-      "brand": "Revolt",
-      "type": "bike",
-      "price": 680000,
-      "priceText": "PKR 680,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "160 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.24 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "2",
-      "name": "Ultraviolette F77",
-      "brand": "Ultraviolette",
-      "type": "bike",
-      "price": 1299000,
-      "priceText": "PKR 1,299,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "307 km",
-        "topSpeed": "152 km/h",
-        "battery": "10.3 kWh",
-        "chargingTime": "5.0 hrs",
-        "motorPower": "30.0 kW",
-        "weight": "207 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "3",
-      "name": "Trek Madone R",
-      "brand": "Trek",
-      "type": "bike",
-      "price": 1500000,
-      "priceText": "PKR 1,500,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "180 km",
-        "topSpeed": "110 km/h",
-        "battery": "5.0 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "12.0 kW",
-        "weight": "135 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "4",
-      "name": "Obern Baer",
-      "brand": "Obern",
-      "type": "bike",
-      "price": 840500,
-      "priceText": "PKR 840,500",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "95 km/h",
-        "battery": "4.0 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "6.0 kW",
-        "weight": "120 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "5",
-      "name": "Menor Aura",
-      "brand": "Menor",
-      "type": "bike",
-      "price": 1099500,
-      "priceText": "PKR 1,099,500",
-      "rating": 4.6,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "200 km",
-        "topSpeed": "120 km/h",
-        "battery": "6.5 kWh",
-        "chargingTime": "5.5 hrs",
-        "motorPower": "10.0 kW",
-        "weight": "145 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "6",
-      "name": "Okla Truvio",
-      "brand": "Okla",
-      "type": "bike",
-      "price": 770000,
-      "priceText": "PKR 770,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "130 km",
-        "topSpeed": "90 km/h",
-        "battery": "3.6 kWh",
-        "chargingTime": "3.8 hrs",
-        "motorPower": "5.5 kW",
-        "weight": "115 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "7",
-      "name": "Kawasaki Rumpo",
-      "brand": "Kawasaki",
-      "type": "bike",
-      "price": 890000,
-      "priceText": "PKR 890,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "140 km",
-        "topSpeed": "100 km/h",
-        "battery": "4.2 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "7.0 kW",
-        "weight": "128 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "8",
-      "name": "Ertuga One",
-      "brand": "Ertuga",
-      "type": "bike",
-      "price": 2340000,
-      "priceText": "PKR 2,340,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "250 km",
-        "topSpeed": "160 km/h",
-        "battery": "9.0 kWh",
-        "chargingTime": "3.5 hrs",
-        "motorPower": "20.0 kW",
-        "weight": "175 kg",
-        "warranty": "5 Years"
-      }
-    },
-    {
-      "id": "9",
-      "name": "Kawhy HHH0009",
-      "brand": "Kawhy",
-      "type": "bike",
-      "price": 2450000,
-      "priceText": "PKR 2,450,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "260 km",
-        "topSpeed": "165 km/h",
-        "battery": "9.5 kWh",
-        "chargingTime": "3.2 hrs",
-        "motorPower": "22.0 kW",
-        "weight": "180 kg",
-        "warranty": "5 Years"
-      }
-    },
-    {
-      "id": "10",
-      "name": "Revolt RV400",
-      "brand": "Revolt",
-      "type": "bike",
-      "price": 950000,
-      "priceText": "PKR 950,000",
-      "rating": 4.8,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.24 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "11",
-      "name": "Trek Urban X",
-      "brand": "Trek",
-      "type": "bike",
-      "price": 1200000,
-      "priceText": "PKR 1,200,000",
-      "rating": 4.7,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "170 km",
-        "topSpeed": "105 km/h",
-        "battery": "4.8 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "8.0 kW",
-        "weight": "130 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "12",
-      "name": "Kawasaki E-One",
-      "brand": "Kawasaki",
-      "type": "bike",
-      "price": 1750000,
-      "priceText": "PKR 1,750,000",
-      "rating": 4.9,
-      "image": "/hero1.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "220 km",
-        "topSpeed": "130 km/h",
-        "battery": "7.2 kWh",
-        "chargingTime": "3.8 hrs",
-        "motorPower": "14.0 kW",
-        "weight": "150 kg",
-        "warranty": "4 Years"
-      }
-    },
-    {
-      "id": "26",
       "name": "Okla Model 1",
       "brand": "Okla",
       "type": "bike",
@@ -261,7 +21,7 @@
       }
     },
     {
-      "id": "27",
+      "id": "2",
       "name": "Okla Model 2",
       "brand": "Okla",
       "type": "bike",
@@ -281,7 +41,7 @@
       }
     },
     {
-      "id": "28",
+      "id": "3",
       "name": "Okla Model 3",
       "brand": "Okla",
       "type": "bike",
@@ -301,7 +61,7 @@
       }
     },
     {
-      "id": "29",
+      "id": "4",
       "name": "Okla Model 4",
       "brand": "Okla",
       "type": "bike",
@@ -321,7 +81,7 @@
       }
     },
     {
-      "id": "30",
+      "id": "5",
       "name": "Okla Model 5",
       "brand": "Okla",
       "type": "bike",
@@ -341,7 +101,7 @@
       }
     },
     {
-      "id": "31",
+      "id": "6",
       "name": "Okla Model 6",
       "brand": "Okla",
       "type": "bike",
@@ -361,7 +121,7 @@
       }
     },
     {
-      "id": "32",
+      "id": "7",
       "name": "Metro Model 1",
       "brand": "Metro",
       "type": "bike",
@@ -381,7 +141,7 @@
       }
     },
     {
-      "id": "33",
+      "id": "8",
       "name": "Metro Model 2",
       "brand": "Metro",
       "type": "bike",
@@ -401,7 +161,7 @@
       }
     },
     {
-      "id": "34",
+      "id": "9",
       "name": "Metro Model 3",
       "brand": "Metro",
       "type": "bike",
@@ -421,7 +181,7 @@
       }
     },
     {
-      "id": "35",
+      "id": "10",
       "name": "Metro Model 4",
       "brand": "Metro",
       "type": "bike",
@@ -441,7 +201,7 @@
       }
     },
     {
-      "id": "36",
+      "id": "11",
       "name": "Metro Model 5",
       "brand": "Metro",
       "type": "bike",
@@ -461,7 +221,7 @@
       }
     },
     {
-      "id": "37",
+      "id": "12",
       "name": "Metro Model 6",
       "brand": "Metro",
       "type": "bike",
@@ -481,7 +241,7 @@
       }
     },
     {
-      "id": "38",
+      "id": "13",
       "name": "United Model 1",
       "brand": "United",
       "type": "bike",
@@ -501,7 +261,7 @@
       }
     },
     {
-      "id": "39",
+      "id": "14",
       "name": "United Model 2",
       "brand": "United",
       "type": "bike",
@@ -521,7 +281,7 @@
       }
     },
     {
-      "id": "40",
+      "id": "15",
       "name": "United Model 3",
       "brand": "United",
       "type": "bike",
@@ -541,7 +301,7 @@
       }
     },
     {
-      "id": "41",
+      "id": "16",
       "name": "United Model 4",
       "brand": "United",
       "type": "bike",
@@ -561,7 +321,7 @@
       }
     },
     {
-      "id": "42",
+      "id": "17",
       "name": "United Model 5",
       "brand": "United",
       "type": "bike",
@@ -581,7 +341,7 @@
       }
     },
     {
-      "id": "43",
+      "id": "18",
       "name": "United Model 6",
       "brand": "United",
       "type": "bike",
@@ -601,7 +361,7 @@
       }
     },
     {
-      "id": "44",
+      "id": "19",
       "name": "Crown CMC Model 1",
       "brand": "Crown CMC",
       "type": "bike",
@@ -621,7 +381,7 @@
       }
     },
     {
-      "id": "45",
+      "id": "20",
       "name": "Crown CMC Model 2",
       "brand": "Crown CMC",
       "type": "bike",
@@ -641,7 +401,7 @@
       }
     },
     {
-      "id": "46",
+      "id": "21",
       "name": "Crown CMC Model 3",
       "brand": "Crown CMC",
       "type": "bike",
@@ -661,7 +421,7 @@
       }
     },
     {
-      "id": "47",
+      "id": "22",
       "name": "Crown CMC Model 4",
       "brand": "Crown CMC",
       "type": "bike",
@@ -681,7 +441,7 @@
       }
     },
     {
-      "id": "48",
+      "id": "23",
       "name": "Crown CMC Model 5",
       "brand": "Crown CMC",
       "type": "bike",
@@ -701,7 +461,7 @@
       }
     },
     {
-      "id": "49",
+      "id": "24",
       "name": "Crown CMC Model 6",
       "brand": "Crown CMC",
       "type": "bike",
@@ -721,7 +481,7 @@
       }
     },
     {
-      "id": "50",
+      "id": "25",
       "name": "Road king Model 1",
       "brand": "Road king",
       "type": "bike",
@@ -741,7 +501,7 @@
       }
     },
     {
-      "id": "51",
+      "id": "26",
       "name": "Road king Model 2",
       "brand": "Road king",
       "type": "bike",
@@ -761,7 +521,7 @@
       }
     },
     {
-      "id": "52",
+      "id": "27",
       "name": "Road king Model 3",
       "brand": "Road king",
       "type": "bike",
@@ -781,7 +541,7 @@
       }
     },
     {
-      "id": "53",
+      "id": "28",
       "name": "Road king Model 4",
       "brand": "Road king",
       "type": "bike",
@@ -801,7 +561,7 @@
       }
     },
     {
-      "id": "54",
+      "id": "29",
       "name": "Road king Model 5",
       "brand": "Road king",
       "type": "bike",
@@ -821,7 +581,7 @@
       }
     },
     {
-      "id": "55",
+      "id": "30",
       "name": "Road king Model 6",
       "brand": "Road king",
       "type": "bike",
@@ -841,7 +601,7 @@
       }
     },
     {
-      "id": "56",
+      "id": "31",
       "name": "Hi speed Model 1",
       "brand": "Hi speed",
       "type": "bike",
@@ -861,7 +621,7 @@
       }
     },
     {
-      "id": "57",
+      "id": "32",
       "name": "Hi speed Model 2",
       "brand": "Hi speed",
       "type": "bike",
@@ -881,7 +641,7 @@
       }
     },
     {
-      "id": "58",
+      "id": "33",
       "name": "Hi speed Model 3",
       "brand": "Hi speed",
       "type": "bike",
@@ -901,7 +661,7 @@
       }
     },
     {
-      "id": "59",
+      "id": "34",
       "name": "Hi speed Model 4",
       "brand": "Hi speed",
       "type": "bike",
@@ -921,7 +681,7 @@
       }
     },
     {
-      "id": "60",
+      "id": "35",
       "name": "Hi speed Model 5",
       "brand": "Hi speed",
       "type": "bike",
@@ -941,7 +701,7 @@
       }
     },
     {
-      "id": "61",
+      "id": "36",
       "name": "Hi speed Model 6",
       "brand": "Hi speed",
       "type": "bike",
@@ -963,267 +723,127 @@
   ],
   "scooters": [
     {
-      "id": "13",
-      "name": "Ola S1 Pro",
-      "brand": "Ola",
+      "id": "37",
+      "name": "Okla Model 1",
+      "brand": "Okla",
       "type": "scooter",
-      "price": 549000,
-      "priceText": "PKR 549,000",
-      "rating": 4.8,
+      "price": 215000,
+      "priceText": "PKR 215,000",
+      "rating": 4.5,
       "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "181 km",
-        "topSpeed": "90 km/h",
-        "battery": "4.0 kWh",
-        "chargingTime": "6.5 hrs",
-        "motorPower": "8.5 kW",
-        "weight": "125 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "14",
-      "name": "Ather 450X",
-      "brand": "Ather",
-      "type": "scooter",
-      "price": 520000,
-      "priceText": "PKR 520,000",
-      "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "146 km",
-        "topSpeed": "90 km/h",
-        "battery": "3.7 kWh",
-        "chargingTime": "5.3 hrs",
-        "motorPower": "6.4 kW",
-        "weight": "108 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "15",
-      "name": "TVS iQube",
-      "brand": "TVS",
-      "type": "scooter",
-      "price": 480000,
-      "priceText": "PKR 480,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
+      "slug": "okla-model-1",
       "specs": {
         "range": "100 km",
-        "topSpeed": "78 km/h",
-        "battery": "2.2 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "4.4 kW",
-        "weight": "118 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "16",
-      "name": "Bajaj Chetak",
-      "brand": "Bajaj",
-      "type": "scooter",
-      "price": 500000,
-      "priceText": "PKR 500,000",
-      "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "113 km",
-        "topSpeed": "73 km/h",
-        "battery": "2.9 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "4.2 kW",
-        "weight": "120 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "17",
-      "name": "Hero Vida V1",
-      "brand": "Hero",
-      "type": "scooter",
-      "price": 465000,
-      "priceText": "PKR 465,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "110 km",
-        "topSpeed": "80 km/h",
-        "battery": "3.44 kWh",
-        "chargingTime": "5.2 hrs",
-        "motorPower": "6.0 kW",
-        "weight": "124 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "18",
-      "name": "Okla Truvio",
-      "brand": "Okla",
-      "type": "scooter",
-      "price": 430000,
-      "priceText": "PKR 430,000",
-      "rating": 4.4,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "95 km",
-        "topSpeed": "65 km/h",
-        "battery": "2.0 kWh",
-        "chargingTime": "4.0 hrs",
-        "motorPower": "3.0 kW",
-        "weight": "98 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "19",
-      "name": "Kawasaki Rumpo",
-      "brand": "Kawasaki",
-      "type": "scooter",
-      "price": 590000,
-      "priceText": "PKR 590,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "130 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.5 kWh",
-        "chargingTime": "4.8 hrs",
-        "motorPower": "5.5 kW",
-        "weight": "112 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "20",
-      "name": "Ertuga One",
-      "brand": "Ertuga",
-      "type": "scooter",
-      "price": 450000,
-      "priceText": "PKR 450,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "105 km",
         "topSpeed": "70 km/h",
-        "battery": "2.5 kWh",
-        "chargingTime": "4.2 hrs",
-        "motorPower": "3.5 kW",
-        "weight": "102 kg",
+        "battery": "60V 20Ah",
+        "chargingTime": "4 hrs",
+        "motorPower": "1200W",
+        "weight": "100 kg",
         "warranty": "2 Years"
       }
     },
     {
-      "id": "21",
-      "name": "Kawhy HHH0009",
-      "brand": "Kawhy",
-      "type": "scooter",
-      "price": 510000,
-      "priceText": "PKR 510,000",
-      "rating": 4.6,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "125 km",
-        "topSpeed": "75 km/h",
-        "battery": "3.0 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "4.0 kW",
-        "weight": "110 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "22",
-      "name": "Revolt RV400",
-      "brand": "Revolt",
-      "type": "scooter",
-      "price": 560000,
-      "priceText": "PKR 560,000",
-      "rating": 4.8,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "140 km",
-        "topSpeed": "85 km/h",
-        "battery": "3.6 kWh",
-        "chargingTime": "4.5 hrs",
-        "motorPower": "5.0 kW",
-        "weight": "115 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "23",
-      "name": "Trek Urban X",
-      "brand": "Trek",
-      "type": "scooter",
-      "price": 475000,
-      "priceText": "PKR 475,000",
-      "rating": 4.5,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "110 km",
-        "topSpeed": "72 km/h",
-        "battery": "2.7 kWh",
-        "chargingTime": "4.1 hrs",
-        "motorPower": "3.8 kW",
-        "weight": "105 kg",
-        "warranty": "2 Years"
-      }
-    },
-    {
-      "id": "24",
-      "name": "Kawasaki E-One",
-      "brand": "Kawasaki",
-      "type": "scooter",
-      "price": 620000,
-      "priceText": "PKR 620,000",
-      "rating": 4.7,
-      "image": "/hero2.png",
-      "slug": "model-detail",
-      "specs": {
-        "range": "150 km",
-        "topSpeed": "88 km/h",
-        "battery": "4.1 kWh",
-        "chargingTime": "5.0 hrs",
-        "motorPower": "6.2 kW",
-        "weight": "122 kg",
-        "warranty": "3 Years"
-      }
-    },
-    {
-      "id": "25",
-      "name": "Okla Omax",
+      "id": "38",
+      "name": "Okla Model 2",
       "brand": "Okla",
       "type": "scooter",
-      "price": 240000,
-      "priceText": "PKR 240,000",
+      "price": 230000,
+      "priceText": "PKR 230,000",
       "rating": 4.5,
-      "image": "/bikes/okla-omax.png",
-      "slug": "okla-omax",
+      "image": "/hero2.png",
+      "slug": "okla-model-2",
       "specs": {
-        "range": "80 km",
-        "topSpeed": "60 km/h",
+        "range": "100 km",
+        "topSpeed": "70 km/h",
         "battery": "60V 20Ah",
-        "chargingTime": "4-5 hrs",
+        "chargingTime": "4 hrs",
         "motorPower": "1200W",
-        "weight": "95 kg",
-        "warranty": "2 years"
+        "weight": "100 kg",
+        "warranty": "2 Years"
       }
     },
     {
-      "id": "62",
+      "id": "39",
+      "name": "Okla Model 3",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 245000,
+      "priceText": "PKR 245,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "okla-model-3",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "70 km/h",
+        "battery": "60V 20Ah",
+        "chargingTime": "4 hrs",
+        "motorPower": "1200W",
+        "weight": "100 kg",
+        "warranty": "2 Years"
+      }
+    },
+    {
+      "id": "40",
+      "name": "Okla Model 4",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 260000,
+      "priceText": "PKR 260,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "okla-model-4",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "70 km/h",
+        "battery": "60V 20Ah",
+        "chargingTime": "4 hrs",
+        "motorPower": "1200W",
+        "weight": "100 kg",
+        "warranty": "2 Years"
+      }
+    },
+    {
+      "id": "41",
+      "name": "Okla Model 5",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 275000,
+      "priceText": "PKR 275,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "okla-model-5",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "70 km/h",
+        "battery": "60V 20Ah",
+        "chargingTime": "4 hrs",
+        "motorPower": "1200W",
+        "weight": "100 kg",
+        "warranty": "2 Years"
+      }
+    },
+    {
+      "id": "42",
+      "name": "Okla Model 6",
+      "brand": "Okla",
+      "type": "scooter",
+      "price": 290000,
+      "priceText": "PKR 290,000",
+      "rating": 4.5,
+      "image": "/hero2.png",
+      "slug": "okla-model-6",
+      "specs": {
+        "range": "100 km",
+        "topSpeed": "70 km/h",
+        "battery": "60V 20Ah",
+        "chargingTime": "4 hrs",
+        "motorPower": "1200W",
+        "weight": "100 kg",
+        "warranty": "2 Years"
+      }
+    },
+    {
+      "id": "43",
       "name": "evee Model 1",
       "brand": "evee",
       "type": "scooter",
@@ -1243,7 +863,7 @@
       }
     },
     {
-      "id": "63",
+      "id": "44",
       "name": "evee Model 2",
       "brand": "evee",
       "type": "scooter",
@@ -1263,7 +883,7 @@
       }
     },
     {
-      "id": "64",
+      "id": "45",
       "name": "evee Model 3",
       "brand": "evee",
       "type": "scooter",
@@ -1283,7 +903,7 @@
       }
     },
     {
-      "id": "65",
+      "id": "46",
       "name": "evee Model 4",
       "brand": "evee",
       "type": "scooter",
@@ -1303,7 +923,7 @@
       }
     },
     {
-      "id": "66",
+      "id": "47",
       "name": "evee Model 5",
       "brand": "evee",
       "type": "scooter",
@@ -1323,7 +943,7 @@
       }
     },
     {
-      "id": "67",
+      "id": "48",
       "name": "evee Model 6",
       "brand": "evee",
       "type": "scooter",
@@ -1343,7 +963,7 @@
       }
     },
     {
-      "id": "68",
+      "id": "49",
       "name": "Yadea Model 1",
       "brand": "Yadea",
       "type": "scooter",
@@ -1363,7 +983,7 @@
       }
     },
     {
-      "id": "69",
+      "id": "50",
       "name": "Yadea Model 2",
       "brand": "Yadea",
       "type": "scooter",
@@ -1383,7 +1003,7 @@
       }
     },
     {
-      "id": "70",
+      "id": "51",
       "name": "Yadea Model 3",
       "brand": "Yadea",
       "type": "scooter",
@@ -1403,7 +1023,7 @@
       }
     },
     {
-      "id": "71",
+      "id": "52",
       "name": "Yadea Model 4",
       "brand": "Yadea",
       "type": "scooter",
@@ -1423,7 +1043,7 @@
       }
     },
     {
-      "id": "72",
+      "id": "53",
       "name": "Yadea Model 5",
       "brand": "Yadea",
       "type": "scooter",
@@ -1443,7 +1063,7 @@
       }
     },
     {
-      "id": "73",
+      "id": "54",
       "name": "Yadea Model 6",
       "brand": "Yadea",
       "type": "scooter",
@@ -1463,7 +1083,7 @@
       }
     },
     {
-      "id": "74",
+      "id": "55",
       "name": "Luyuan Model 1",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1483,7 +1103,7 @@
       }
     },
     {
-      "id": "75",
+      "id": "56",
       "name": "Luyuan Model 2",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1503,7 +1123,7 @@
       }
     },
     {
-      "id": "76",
+      "id": "57",
       "name": "Luyuan Model 3",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1523,7 +1143,7 @@
       }
     },
     {
-      "id": "77",
+      "id": "58",
       "name": "Luyuan Model 4",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1543,7 +1163,7 @@
       }
     },
     {
-      "id": "78",
+      "id": "59",
       "name": "Luyuan Model 5",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1563,7 +1183,7 @@
       }
     },
     {
-      "id": "79",
+      "id": "60",
       "name": "Luyuan Model 6",
       "brand": "Luyuan",
       "type": "scooter",
@@ -1583,7 +1203,7 @@
       }
     },
     {
-      "id": "80",
+      "id": "61",
       "name": "Revoo Model 1",
       "brand": "Revoo",
       "type": "scooter",
@@ -1603,7 +1223,7 @@
       }
     },
     {
-      "id": "81",
+      "id": "62",
       "name": "Revoo Model 2",
       "brand": "Revoo",
       "type": "scooter",
@@ -1623,7 +1243,7 @@
       }
     },
     {
-      "id": "82",
+      "id": "63",
       "name": "Revoo Model 3",
       "brand": "Revoo",
       "type": "scooter",
@@ -1643,7 +1263,7 @@
       }
     },
     {
-      "id": "83",
+      "id": "64",
       "name": "Revoo Model 4",
       "brand": "Revoo",
       "type": "scooter",
@@ -1663,7 +1283,7 @@
       }
     },
     {
-      "id": "84",
+      "id": "65",
       "name": "Revoo Model 5",
       "brand": "Revoo",
       "type": "scooter",
@@ -1683,7 +1303,7 @@
       }
     },
     {
-      "id": "85",
+      "id": "66",
       "name": "Revoo Model 6",
       "brand": "Revoo",
       "type": "scooter",
@@ -1703,7 +1323,7 @@
       }
     },
     {
-      "id": "86",
+      "id": "67",
       "name": "Orevo Model 1",
       "brand": "Orevo",
       "type": "scooter",
@@ -1723,7 +1343,7 @@
       }
     },
     {
-      "id": "87",
+      "id": "68",
       "name": "Orevo Model 2",
       "brand": "Orevo",
       "type": "scooter",
@@ -1743,7 +1363,7 @@
       }
     },
     {
-      "id": "88",
+      "id": "69",
       "name": "Orevo Model 3",
       "brand": "Orevo",
       "type": "scooter",
@@ -1763,7 +1383,7 @@
       }
     },
     {
-      "id": "89",
+      "id": "70",
       "name": "Orevo Model 4",
       "brand": "Orevo",
       "type": "scooter",
@@ -1783,7 +1403,7 @@
       }
     },
     {
-      "id": "90",
+      "id": "71",
       "name": "Orevo Model 5",
       "brand": "Orevo",
       "type": "scooter",
@@ -1803,7 +1423,7 @@
       }
     },
     {
-      "id": "91",
+      "id": "72",
       "name": "Orevo Model 6",
       "brand": "Orevo",
       "type": "scooter",
@@ -1823,7 +1443,7 @@
       }
     },
     {
-      "id": "92",
+      "id": "73",
       "name": "Jolta Model 1",
       "brand": "Jolta",
       "type": "scooter",
@@ -1843,7 +1463,7 @@
       }
     },
     {
-      "id": "93",
+      "id": "74",
       "name": "Jolta Model 2",
       "brand": "Jolta",
       "type": "scooter",
@@ -1863,7 +1483,7 @@
       }
     },
     {
-      "id": "94",
+      "id": "75",
       "name": "Jolta Model 3",
       "brand": "Jolta",
       "type": "scooter",
@@ -1883,7 +1503,7 @@
       }
     },
     {
-      "id": "95",
+      "id": "76",
       "name": "Jolta Model 4",
       "brand": "Jolta",
       "type": "scooter",
@@ -1903,7 +1523,7 @@
       }
     },
     {
-      "id": "96",
+      "id": "77",
       "name": "Jolta Model 5",
       "brand": "Jolta",
       "type": "scooter",
@@ -1923,7 +1543,7 @@
       }
     },
     {
-      "id": "97",
+      "id": "78",
       "name": "Jolta Model 6",
       "brand": "Jolta",
       "type": "scooter",
@@ -1943,7 +1563,7 @@
       }
     },
     {
-      "id": "98",
+      "id": "79",
       "name": "EVINN Model 1",
       "brand": "EVINN",
       "type": "scooter",
@@ -1963,7 +1583,7 @@
       }
     },
     {
-      "id": "99",
+      "id": "80",
       "name": "EVINN Model 2",
       "brand": "EVINN",
       "type": "scooter",
@@ -1983,7 +1603,7 @@
       }
     },
     {
-      "id": "100",
+      "id": "81",
       "name": "EVINN Model 3",
       "brand": "EVINN",
       "type": "scooter",
@@ -2003,7 +1623,7 @@
       }
     },
     {
-      "id": "101",
+      "id": "82",
       "name": "EVINN Model 4",
       "brand": "EVINN",
       "type": "scooter",
@@ -2023,7 +1643,7 @@
       }
     },
     {
-      "id": "102",
+      "id": "83",
       "name": "EVINN Model 5",
       "brand": "EVINN",
       "type": "scooter",
@@ -2043,7 +1663,7 @@
       }
     },
     {
-      "id": "103",
+      "id": "84",
       "name": "EVINN Model 6",
       "brand": "EVINN",
       "type": "scooter",
@@ -2063,7 +1683,7 @@
       }
     },
     {
-      "id": "104",
+      "id": "85",
       "name": "Horwin Model 1",
       "brand": "Horwin",
       "type": "scooter",
@@ -2083,7 +1703,7 @@
       }
     },
     {
-      "id": "105",
+      "id": "86",
       "name": "Horwin Model 2",
       "brand": "Horwin",
       "type": "scooter",
@@ -2103,7 +1723,7 @@
       }
     },
     {
-      "id": "106",
+      "id": "87",
       "name": "Horwin Model 3",
       "brand": "Horwin",
       "type": "scooter",
@@ -2123,7 +1743,7 @@
       }
     },
     {
-      "id": "107",
+      "id": "88",
       "name": "Horwin Model 4",
       "brand": "Horwin",
       "type": "scooter",
@@ -2143,7 +1763,7 @@
       }
     },
     {
-      "id": "108",
+      "id": "89",
       "name": "Horwin Model 5",
       "brand": "Horwin",
       "type": "scooter",
@@ -2163,7 +1783,7 @@
       }
     },
     {
-      "id": "109",
+      "id": "90",
       "name": "Horwin Model 6",
       "brand": "Horwin",
       "type": "scooter",
@@ -2183,7 +1803,7 @@
       }
     },
     {
-      "id": "110",
+      "id": "91",
       "name": "Velectra Model 1",
       "brand": "Velectra",
       "type": "scooter",
@@ -2203,7 +1823,7 @@
       }
     },
     {
-      "id": "111",
+      "id": "92",
       "name": "Velectra Model 2",
       "brand": "Velectra",
       "type": "scooter",
@@ -2223,7 +1843,7 @@
       }
     },
     {
-      "id": "112",
+      "id": "93",
       "name": "Velectra Model 3",
       "brand": "Velectra",
       "type": "scooter",
@@ -2243,7 +1863,7 @@
       }
     },
     {
-      "id": "113",
+      "id": "94",
       "name": "Velectra Model 4",
       "brand": "Velectra",
       "type": "scooter",
@@ -2263,7 +1883,7 @@
       }
     },
     {
-      "id": "114",
+      "id": "95",
       "name": "Velectra Model 5",
       "brand": "Velectra",
       "type": "scooter",
@@ -2283,7 +1903,7 @@
       }
     },
     {
-      "id": "115",
+      "id": "96",
       "name": "Velectra Model 6",
       "brand": "Velectra",
       "type": "scooter",
@@ -2303,7 +1923,7 @@
       }
     },
     {
-      "id": "116",
+      "id": "97",
       "name": "ECruze Model 1",
       "brand": "ECruze",
       "type": "scooter",
@@ -2323,7 +1943,7 @@
       }
     },
     {
-      "id": "117",
+      "id": "98",
       "name": "ECruze Model 2",
       "brand": "ECruze",
       "type": "scooter",
@@ -2343,7 +1963,7 @@
       }
     },
     {
-      "id": "118",
+      "id": "99",
       "name": "ECruze Model 3",
       "brand": "ECruze",
       "type": "scooter",
@@ -2363,7 +1983,7 @@
       }
     },
     {
-      "id": "119",
+      "id": "100",
       "name": "ECruze Model 4",
       "brand": "ECruze",
       "type": "scooter",
@@ -2383,7 +2003,7 @@
       }
     },
     {
-      "id": "120",
+      "id": "101",
       "name": "ECruze Model 5",
       "brand": "ECruze",
       "type": "scooter",
@@ -2403,7 +2023,7 @@
       }
     },
     {
-      "id": "121",
+      "id": "102",
       "name": "ECruze Model 6",
       "brand": "ECruze",
       "type": "scooter",
@@ -2423,7 +2043,7 @@
       }
     },
     {
-      "id": "122",
+      "id": "103",
       "name": "Eveon Model 1",
       "brand": "Eveon",
       "type": "scooter",
@@ -2443,7 +2063,7 @@
       }
     },
     {
-      "id": "123",
+      "id": "104",
       "name": "Eveon Model 2",
       "brand": "Eveon",
       "type": "scooter",
@@ -2463,7 +2083,7 @@
       }
     },
     {
-      "id": "124",
+      "id": "105",
       "name": "Eveon Model 3",
       "brand": "Eveon",
       "type": "scooter",
@@ -2483,7 +2103,7 @@
       }
     },
     {
-      "id": "125",
+      "id": "106",
       "name": "Eveon Model 4",
       "brand": "Eveon",
       "type": "scooter",
@@ -2503,7 +2123,7 @@
       }
     },
     {
-      "id": "126",
+      "id": "107",
       "name": "Eveon Model 5",
       "brand": "Eveon",
       "type": "scooter",
@@ -2523,7 +2143,7 @@
       }
     },
     {
-      "id": "127",
+      "id": "108",
       "name": "Eveon Model 6",
       "brand": "Eveon",
       "type": "scooter",
@@ -2543,7 +2163,7 @@
       }
     },
     {
-      "id": "128",
+      "id": "109",
       "name": "Jinpeng Model 1",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2563,7 +2183,7 @@
       }
     },
     {
-      "id": "129",
+      "id": "110",
       "name": "Jinpeng Model 2",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2583,7 +2203,7 @@
       }
     },
     {
-      "id": "130",
+      "id": "111",
       "name": "Jinpeng Model 3",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2603,7 +2223,7 @@
       }
     },
     {
-      "id": "131",
+      "id": "112",
       "name": "Jinpeng Model 4",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2623,7 +2243,7 @@
       }
     },
     {
-      "id": "132",
+      "id": "113",
       "name": "Jinpeng Model 5",
       "brand": "Jinpeng",
       "type": "scooter",
@@ -2643,7 +2263,7 @@
       }
     },
     {
-      "id": "133",
+      "id": "114",
       "name": "Jinpeng Model 6",
       "brand": "Jinpeng",
       "type": "scooter",
