@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 
 interface Brand {
@@ -122,7 +121,7 @@ export default function Brands() {
               href={brand.link}
               className="
                 flex
-                h-[105px]
+                h-[100px]
                 items-center
                 justify-center
                 rounded-lg
