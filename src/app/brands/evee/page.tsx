@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import vehiclesData from "../../../bike-details/bikes-scooter.json"; // apni folder depth k hisaab se path adjust karo
+import vehiclesData from "../../../bike-details/bikes-scooter.json"; 
 
 interface Vehicle {
   id: string | number;
@@ -26,14 +26,14 @@ interface Vehicle {
   };
 }
 
-export default function evee() {
+export default function ecruze() {
   const [sortBy, setSortBy] = useState("Price: Low to High");
 
   const bikeData: Vehicle[] = Array.isArray(vehiclesData)
     ? vehiclesData
     : (vehiclesData as { bikes?: Vehicle[] })?.bikes || [];
 
-  const brandName = "Okla";
+  const brandName = "ecruze";
   let oklaBikes = bikeData.filter((bike) => bike.brand === brandName);
 
   if (sortBy === "Price: Low to High") {
@@ -53,7 +53,7 @@ export default function evee() {
 
           <div className="flex h-14 w-14 ">
             <span>
-              <img src="/okla.png" alt="" className="h-14 w-14 bg-white rounded-2xl" />
+              <img src="/ecruze.png" alt="" className="h-14 w-14 bg-white rounded-2xl" />
             </span>
           </div>
 
@@ -95,7 +95,7 @@ export default function evee() {
               value={brandName}
               onChange={(e) => {
                 const slug = e.target.value.toLowerCase().replace(/\s+/g, "-");
-                window.location.href = `/electric-bikes/${slug}`;
+                window.location.href = `/electric-bikes/${slug}`; 
               }}
               className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
             >
