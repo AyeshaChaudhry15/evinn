@@ -12,49 +12,49 @@
       "name": "Windshield",
       "price": 4500,
       "priceText": "PKR 4,500",
-      "image": "/accessory.png"
+      "image": "/accessory1.png"
     },
     {
       "id": 3,
       "name": "Phone Holder",
       "price": 1300,
       "priceText": "PKR 1,300",
-      "image": "/accessory.png"
+      "image": "/accessory2.png"
     },
     {
       "id": 4,
       "name": "Seat Cover",
       "price": 2700,
       "priceText": "PKR 2,700",
-      "image": "/accessory.png"
+      "image": "/accessory3.png"
     },
     {
       "id": 5,
       "name": "Helmet",
       "price": 6500,
       "priceText": "PKR 6,500",
-      "image": "/accessory.png"
+      "image": "/accessory4.png"
     },
     {
       "id": 6,
       "name": "Riding Jacket",
       "price": 8500,
       "priceText": "PKR 8,500",
-      "image": "/accessory.png"
+      "image": "/accessory5.png"
     },
     {
       "id": 7,
       "name": "Gloves",
       "price": 2000,
       "priceText": "PKR 2,000",
-      "image": "/accessory.png"
+      "image": "/accessory6.png"
     },
     {
       "id": 8,
       "name": "Charging Cable",
       "price": 1400,
       "priceText": "PKR 1,400",
-      "image": "/accessory.png"
+      "image": "/accessory7.png"
     }
   ]
 }

@@ -19,13 +19,7 @@ export default function Accessories() {
           </p>
         </div>
 
-        <Link
-          href="/all-accessories"
-          className="mt-4 flex items-center gap-2 text-sm font-medium text-[#c8e51b] transition hover:text-[#d9f43b]"
-        >
-          View All
-          <span className="text-lg">→</span>
-        </Link>
+        
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

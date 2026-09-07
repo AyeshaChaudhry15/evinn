@@ -76,7 +76,7 @@ export default function AfterSalesService() {
 
           <div className="absolute inset-0">
             <Image
-              src="/service-img.jpg"
+              src="/service.jpeg"
               alt="EVINN service center"
               fill
               className="object-cover object-right"

@@ -5,56 +5,56 @@
       "name": "Charger",
       "price": 1200,
       "priceText": "PKR 12,00",
-      "image": "/sparepart.jpeg"
+      "image": "/spare1.png"
     },
     {
       "id": 2,
       "name": "tyre",
       "price": 2500,
       "priceText": "PKR 2,500",
-      "image": "/sparepart.jpeg"
+      "image": "/spare2.png"
     },
     {
       "id": 3,
       "name": "Battery",
       "price": 40000,
       "priceText": "PKR 40000",
-      "image": "/sparepart.jpeg"
+      "image": "/sparepart.png"
     },
     {
       "id": 4,
       "name": "motor",
       "price": 27000,
       "priceText": "PKR 2,7000",
-      "image": "/sparepart.jpeg"
+      "image": "/spare4.png"
     },
     {
       "id": 5,
       "name": "Brake pads",
       "price": 1500,
       "priceText": "PKR 1,500",
-      "image": "/sparepart.jpeg"
+      "image": "/spare5.png"
     },
     {
       "id": 6,
       "name": "Controller",
       "price": 8500,
       "priceText": "PKR 8,500",
-      "image": "/sparepart.jpeg"
+      "image": "/spare6.png"
     },
     {
       "id": 7,
       "name": "Display",
       "price": 4200,
       "priceText": "PKR 4,200",
-      "image": "/sparepart.jpeg"
+      "image": "/spare7.png"
     },
     {
       "id": 8,
       "name": "Headlight",
       "price": 3100,
       "priceText": "PKR 3,100",
-      "image": "/sparepart.jpeg"
+      "image": "/spare8.png"
     }
   ]
 }
