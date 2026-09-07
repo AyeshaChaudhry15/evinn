@@ -1,13 +1,11 @@
 "use client";
+
 import { useState } from "react";
 import Image from "next/image";
-import {
-  Network,
-  UserCog,
-  Timer,
-  Cog,
-  ChevronDown,
-} from "lucide-react";
+import Link from "next/link";
+import { Network, UserCog, Timer, Cog, ChevronDown } from "lucide-react";
+
+import vehiclesData from "../../bike-details/bikes-scooter.json";
 
 const features = [
   {
@@ -32,20 +30,22 @@ const features = [
   },
 ];
 
-const vehicles = ["Ola S1 Pro", "Ola S1 pro max", "Ola S1 ultra"];
+const allVehicles = [...vehiclesData.bikes, ...vehiclesData.scooters];
+
 const cities = ["Lahore", "Karachi", "Islamabad", "Faisalabad"];
 
 export default function AfterSalesService() {
-  const [vehicle, setVehicle] = useState(vehicles[0]);
+  const [vehicle, setVehicle] = useState(allVehicles[0]?.name || "");
+
   const [city, setCity] = useState(cities[0]);
 
   return (
     <section className="bg-[#0b0f14] text-white py-14 px-4 sm:px-10">
       <div className="max-w-7xl mx-auto">
-
         <h2 className="text-3xl sm:text-4xl font-bold">
           After Sales &amp; Service
         </h2>
+
         <p className="text-gray-400 mt-2 mb-10 text-lg">
           We are always here to keep you moving.
         </p>
@@ -53,6 +53,7 @@ export default function AfterSalesService() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {features.map((f, i) => {
             const Icon = f.icon;
+
             return (
               <div
                 key={i}
@@ -62,6 +63,7 @@ export default function AfterSalesService() {
                   className="w-13 h-13 text-lime-400 mb-4"
                   strokeWidth={1.5}
                 />
+
                 <p className="text-white text-lg">
                   {f.title}
                   <br />
@@ -73,7 +75,6 @@ export default function AfterSalesService() {
         </div>
 
         <div className="relative rounded-2xl border border-white/10 bg-[#12181f] overflow-hidden">
-
           <div className="absolute inset-0">
             <Image
               src="/service.jpeg"
@@ -81,6 +82,7 @@ export default function AfterSalesService() {
               fill
               className="object-cover object-right"
             />
+
             <div className="absolute inset-0 bg-gradient-to-r from-[#12181f] via-[#12181f]/90 sm:via-[#12181f]/70 to-transparent sm:to-[#12181f]/0" />
           </div>
 
@@ -94,26 +96,27 @@ export default function AfterSalesService() {
                 <label className="block text-gray-400 text-lg mb-2">
                   Select Vehicle
                 </label>
-                <div className="relative">
+
+                <div className="relative ">
                   <select
                     value={vehicle}
                     onChange={(e) => setVehicle(e.target.value)}
-                    className="w-full appearance-none  border border-white/15 bg-[#0b0f14] px-5 py-3 pr-10 text-white text-base focus:outline-none focus:border-lime-400/60"
+                    className="w-full appearance-none border border-white/15 bg-[#0b0f14] px-5 py-3 pr-10 text-white  focus:outline-none focus:border-lime-400/60"
                   >
-                    {vehicles.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
+                    {allVehicles.map((v) => (
+                      <option key={v.id} value={v.name}>
+                        {v.name}
                       </option>
                     ))}
                   </select>
+
                   <ChevronDown className="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-gray-400 text-lg mb-2">
-                  City
-                </label>
+                <label className="block text-gray-400 text-lg mb-2">City</label>
+
                 <div className="relative">
                   <select
                     value={city}
@@ -126,13 +129,19 @@ export default function AfterSalesService() {
                       </option>
                     ))}
                   </select>
+
                   <ChevronDown className="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
-              <button className="w-full rounded-2xl bg-lime-400 text-[#0b0f14] font-semibold px-6 py-3.5 text-base hover:bg-lime-300 transition-colors">
+              <Link
+                href={`/service-booking?vehicle=${encodeURIComponent(
+                  vehicle,
+                )}&city=${encodeURIComponent(city)}`}
+                className="block w-full rounded-2xl bg-lime-400 text-[#0b0f14] font-semibold px-6 py-3.5 text-base text-center hover:bg-lime-300 transition-colors"
+              >
                 Book a Service
-              </button>
+              </Link>
             </div>
           </div>
 

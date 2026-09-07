@@ -49,7 +49,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-8 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:py-0 lg:h-25">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-8 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:py-0 lg:h-25 mt-6">
         {STATS.map(({ icon: Icon, label }) => (
           <div
             key={label}
