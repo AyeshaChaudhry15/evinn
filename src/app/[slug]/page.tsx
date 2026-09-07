@@ -46,11 +46,9 @@ export default function ModelDetailPage() {
     "overview" | "features" | "reviews"
   >("overview");
 
-  // Get slug from URL
   const slug =
     typeof params.slug === "string" ? params.slug : "";
 
-  // Combine bikes + scooters
   const bikeData: Vehicle[] = Array.isArray(vehiclesData)
     ? vehiclesData
     : [
@@ -58,12 +56,10 @@ export default function ModelDetailPage() {
         ...(vehiclesData.scooters || []),
       ];
 
-  // Find exact product according to slug
   const vehicle = bikeData.find(
     (bike) => bike.slug === slug
   );
 
-  // Product not found
   if (!vehicle) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#06111A] px-4 text-white">
@@ -90,13 +86,10 @@ export default function ModelDetailPage() {
   return (
     <main className="min-h-screen bg-[#06111A] text-white">
 
-      {/* =========================
-          HERO / PRODUCT SECTION
-      ========================== */}
+  
       <section className="border-b border-[#23333D] bg-[#06111A]">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
 
-          {/* Back Button */}
           <Link
             href="/"
             className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-[#AEB7BC] transition hover:text-[#8FDF0D]"
@@ -107,7 +100,6 @@ export default function ModelDetailPage() {
 
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
 
-            {/* Product Image */}
             <div className="flex min-h-[400px] items-center justify-center overflow-hidden rounded-2xl bg-white p-8 sm:min-h-[500px]">
               <img
                 src={vehicle.image}
@@ -116,25 +108,20 @@ export default function ModelDetailPage() {
               />
             </div>
 
-            {/* Product Info */}
             <div>
 
-              {/* Brand */}
               <p className="text-sm font-bold uppercase tracking-[2px] text-[#8FDF0D]">
                 {vehicle.brand}
               </p>
 
-              {/* Name */}
               <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">
                 {vehicle.name}
               </h1>
 
-              {/* Type */}
               <p className="mt-3 text-sm capitalize text-[#8B969C]">
                 {vehicle.type}
               </p>
 
-              {/* Rating */}
               <div className="mt-5 flex items-center gap-2">
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-[#8FDF0D] text-[#8FDF0D]" />
@@ -148,7 +135,6 @@ export default function ModelDetailPage() {
                 </span>
               </div>
 
-              {/* Price */}
               <div className="mt-7">
                 <p className="text-sm text-[#8B969C]">
                   Starting Price
@@ -159,7 +145,6 @@ export default function ModelDetailPage() {
                 </p>
               </div>
 
-              {/* Quick Specs */}
               <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
@@ -208,16 +193,13 @@ export default function ModelDetailPage() {
         </div>
       </section>
 
-      {/* =========================
-          TABS
-      ========================== */}
+   
       <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-10">
 
         <div className="border-b border-[#23333D]">
 
           <div className="flex gap-8 overflow-x-auto">
 
-            {/* Overview */}
             <button
               type="button"
               onClick={() => setActiveTab("overview")}
@@ -230,7 +212,6 @@ export default function ModelDetailPage() {
               Overview
             </button>
 
-            {/* Features */}
             <button
               type="button"
               onClick={() => setActiveTab("features")}
@@ -243,7 +224,6 @@ export default function ModelDetailPage() {
               Features
             </button>
 
-            {/* Reviews */}
             <button
               type="button"
               onClick={() => setActiveTab("reviews")}
@@ -259,18 +239,13 @@ export default function ModelDetailPage() {
           </div>
         </div>
 
-        {/* =========================
-            TAB CONTENT
-        ========================== */}
+      
         <div className="py-10">
 
-          {/* =================================
-              OVERVIEW
-          ================================= */}
+       
           {activeTab === "overview" && (
             <div className="space-y-8">
 
-              {/* Overview Text */}
               <div>
                 <h2 className="text-2xl font-bold">
                   {vehicle.name} Overview
@@ -283,7 +258,6 @@ export default function ModelDetailPage() {
                 </p>
               </div>
 
-              {/* Specifications */}
               <div>
                 <h2 className="mb-5 text-2xl font-bold">
                   Specifications
@@ -291,7 +265,6 @@ export default function ModelDetailPage() {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-                  {/* Range */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Gauge className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -304,7 +277,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Top Speed */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Gauge className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -317,7 +289,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Battery */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Battery className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -330,7 +301,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Charging */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Clock className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -343,7 +313,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Motor */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Zap className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -356,7 +325,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Weight */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Weight className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -369,7 +337,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Warranty */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <ShieldCheck className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -382,7 +349,6 @@ export default function ModelDetailPage() {
                     </p>
                   </div>
 
-                  {/* Type */}
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <CheckCircle2 className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -400,9 +366,7 @@ export default function ModelDetailPage() {
             </div>
           )}
 
-          {/* =================================
-              FEATURES
-          ================================= */}
+         
           {activeTab === "features" && (
             <div>
 
@@ -486,9 +450,7 @@ export default function ModelDetailPage() {
             </div>
           )}
 
-          {/* =================================
-              REVIEWS
-          ================================= */}
+         
           {activeTab === "reviews" && (
             <div>
 
@@ -498,7 +460,6 @@ export default function ModelDetailPage() {
 
               <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-                {/* Rating */}
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6 text-center">
 
                   <p className="text-5xl font-extrabold text-[#8FDF0D]">
@@ -519,7 +480,6 @@ export default function ModelDetailPage() {
                   </p>
                 </div>
 
-                {/* Review */}
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6 lg:col-span-2">
 
                   <div className="flex items-center gap-1">
