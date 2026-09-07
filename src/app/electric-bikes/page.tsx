@@ -305,15 +305,15 @@ export default function ElectricBikesPage() {
                   href={`/${bike.slug}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
-                  <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
+                  <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
                     <img
                       src={bike.image}
                       alt={bike.name}
-                      className="block h-full w-full object-contain drop-shadow-[0_13px_9px_rgba(0,0,0,0.55)] transition duration-300 group-hover:scale-[1.04]"
+                      className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
                     />
                   </div>
 
-                  <div className="px-[17px] pb-[17px] pt-2">
+                  <div className="px-[17px] pb-[17px] pt-3">
                     <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
                       {bike.name}
                     </h3>
