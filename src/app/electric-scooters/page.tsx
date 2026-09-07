@@ -180,11 +180,13 @@ export default function ElectricScootersPage() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
-                {[...new Set(scooters.map((s) => s.brand))].map((scooterBrand) => (
-                  <option key={scooterBrand} value={scooterBrand}>
-                    {scooterBrand}
-                  </option>
-                ))}
+                {[...new Set(scooters.map((s) => s.brand))].map(
+                  (scooterBrand) => (
+                    <option key={scooterBrand} value={scooterBrand}>
+                      {scooterBrand}
+                    </option>
+                  ),
+                )}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-[#89949A]">

@@ -24,7 +24,7 @@ const infoLinks = [
   { label: "Blog / News", href: "/blog" },
   { label: "About Us", href: "/about-us" },
   { label: "Contact Us", href: "/contact-us" },
-  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Shipping & Delivery", href: "/shipping-delivery" },
 ];

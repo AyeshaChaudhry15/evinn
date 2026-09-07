@@ -34,8 +34,7 @@ interface BrandInfo {
 export default function BrandDetailPage() {
   const params = useParams();
 
-  const brandSlug =
-    typeof params.brand === "string" ? params.brand : "";
+  const brandSlug = typeof params.brand === "string" ? params.brand : "";
 
   const info = (brandInfo as Record<string, BrandInfo>)[brandSlug];
 
@@ -50,9 +49,7 @@ export default function BrandDetailPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#06111A] px-4 text-white">
         <div className="text-center">
-          <h1 className="mb-3 text-3xl font-bold">
-            Brand Not Found
-          </h1>
+          <h1 className="mb-3 text-3xl font-bold">Brand Not Found</h1>
 
           <p className="mb-6 text-gray-400">
             The requested brand information could not be found.
@@ -73,13 +70,12 @@ export default function BrandDetailPage() {
   const models = bikeData.filter(
     (vehicle) =>
       vehicle.brand?.toLowerCase().trim() ===
-      info.displayName?.toLowerCase().trim()
+      info.displayName?.toLowerCase().trim(),
   );
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
-
         <Link
           href={`/brands/${brandSlug}`}
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition hover:text-[#8FDF0D]"
@@ -90,7 +86,6 @@ export default function BrandDetailPage() {
 
         <section className="mb-10 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8 lg:p-10">
           <div className="flex flex-col gap-7 sm:flex-row sm:items-center">
-
             <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl p-3">
               <img
                 src={info.logo}
@@ -116,76 +111,52 @@ export default function BrandDetailPage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-
           <div className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FDF0D]/10 text-[#8FDF0D]">
                 <Info size={21} />
               </div>
 
-              <h2 className="text-2xl font-bold">
-                About {info.displayName}
-              </h2>
+              <h2 className="text-2xl font-bold">About {info.displayName}</h2>
             </div>
 
-            <p className="leading-8 text-gray-400">
-              {info.about}
-            </p>
+            <p className="leading-8 text-gray-400">{info.about}</p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
-            <h2 className="mb-6 text-2xl font-bold">
-              Quick Facts
-            </h2>
+            <h2 className="mb-6 text-2xl font-bold">Quick Facts</h2>
 
             <div className="space-y-5">
-
               <div>
-                <p className="text-sm text-gray-500">
-                  Origin
-                </p>
+                <p className="text-sm text-gray-500">Origin</p>
 
-                <p className="mt-1 font-semibold">
-                  {info.origin || "—"}
-                </p>
+                <p className="mt-1 font-semibold">{info.origin || "—"}</p>
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
-                  Established
-                </p>
+                <p className="text-sm text-gray-500">Established</p>
 
-                <p className="mt-1 font-semibold">
-                  {info.established || "—"}
-                </p>
+                <p className="mt-1 font-semibold">{info.established || "—"}</p>
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
-                  Headquarters
-                </p>
+                <p className="text-sm text-gray-500">Headquarters</p>
 
-                <p className="mt-1 font-semibold">
-                  {info.headquarters || "—"}
-                </p>
+                <p className="mt-1 font-semibold">{info.headquarters || "—"}</p>
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
-                  Models Listed
-                </p>
+                <p className="text-sm text-gray-500">Models Listed</p>
 
                 <p className="mt-1 font-semibold text-[#8FDF0D]">
                   {models.length}
                 </p>
               </div>
-
             </div>
           </div>
         </section>
 
         <section className="mt-6 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8">
-
           <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <div className="flex items-center gap-3">
@@ -234,9 +205,7 @@ export default function BrandDetailPage() {
                   </div>
 
                   <div className="p-5">
-                    <p className="mb-1 text-sm text-gray-500">
-                      {vehicle.type}
-                    </p>
+                    <p className="mb-1 text-sm text-gray-500">{vehicle.type}</p>
 
                     <h3 className="text-lg font-bold transition group-hover:text-[#8FDF0D]">
                       {vehicle.name}
@@ -250,9 +219,7 @@ export default function BrandDetailPage() {
               ))}
             </div>
           )}
-
         </section>
-
       </div>
     </main>
   );

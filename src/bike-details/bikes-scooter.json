@@ -288,7 +288,7 @@
         "price": 1350000,
         "priceText": "PKR 1,350,000",
         "rating": 4.5,
-        "image": "/yadea1.webp",
+        "image": "/yadea1.png",
         "slug": "yadea-keeness",
         "specs": {
           "range": "140 km",
@@ -471,7 +471,7 @@
         "price": 200000,
         "priceText": "PKR 200,000",
         "rating": 4.5,
-        "image": "/evinn1.jpeg",
+        "image": "/evinn1.png",
         "slug": "evinn-max-7",
         "specs": {
           "range": "100 km",
@@ -674,7 +674,7 @@
         "price": 195000,
         "priceText": "PKR 195,000",
         "rating": 4.5,
-        "image": "/evee1.jpeg",
+        "image": "/evee1.png",
         "slug": "s1-pro",
         "specs": {
           "range": "85 km",
@@ -694,7 +694,7 @@
         "price": 225000,
         "priceText": "PKR 225,000",
         "rating": 4.5,
-        "image": "/evee2.jpeg",
+        "image": "/evee2.png",
         "slug": "s1-air",
         "specs": {
           "range": "120 km",
@@ -714,7 +714,7 @@
         "price": 225000,
         "priceText": "PKR 225,000",
         "rating": 4.5,
-        "image": "/evee3.jpeg",
+        "image": "/evee3.png",
         "slug": "s1",
         "specs": {
           "range": "65 km",
@@ -734,7 +734,7 @@
         "price": 235000,
         "priceText": "PKR 235,000",
         "rating": 4.5,
-        "image": "/evee4.jpeg",
+        "image": "/evee4.png",
         "slug": "nisa-3w",
         "specs": {
           "range": "65 km",
@@ -754,7 +754,7 @@
         "price": 235000,
         "priceText": "PKR 235,000",
         "rating": 4.5,
-        "image": "/evee5.jpeg",
+        "image": "/evee5.png",
         "slug": "sqube-max",
         "specs": {
           "range": "100 km",
@@ -774,7 +774,7 @@
         "price": 239000,
         "priceText": "PKR 239,000",
         "rating": 4.5,
-        "image": "/evee6.jpeg",
+        "image": "/evee6.png",
         "slug": "gen-z-pro",
         "specs": {
           "range": "85 km",
@@ -794,7 +794,7 @@
         "price": 269000,
         "priceText": "PKR 269,000",
         "rating": 4.5,
-        "image": "/evee7.jpeg",
+        "image": "/evee7.png",
         "slug": "gen-z",
         "specs": {
           "range": "80 km",
@@ -814,7 +814,7 @@
         "price": 340000,
         "priceText": "PKR 340,000",
         "rating": 4.5,
-        "image": "/evee5.jpeg",
+        "image": "/evee5.png",
         "slug": "nisa",
         "specs": {
           "range": "65 km",
@@ -834,7 +834,7 @@
         "price": 345000,
         "priceText": "PKR 345,000",
         "rating": 4.5,
-        "image": "/evee3.jpeg",
+        "image": "/evee3.png",
         "slug": "mitoplus",
         "specs": {
           "range": "100 km",
@@ -1374,7 +1374,7 @@
         "price": 599000,
         "priceText": "PKR 599,000",
         "rating": 4.5,
-        "image": "/okla7.jpeg",
+        "image": "/okla7.png",
         "slug": "okla-omax",
         "specs": {
           "range": "80 km",
