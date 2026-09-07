@@ -210,7 +210,7 @@ export default function Vehicles() {
                 <option>All Types</option>
                 <option>Bike</option>
                 <option>Scooter</option>
-             
+              
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -359,11 +359,11 @@ export default function Vehicles() {
                   href={`/${scooter.slug || "model-detail"}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
-                  <div className="flex h-[205px] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(43,58,66,0.30),transparent_67%)] p-3.5">
+                  <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
                     <img
                       src={scooter.image}
                       alt={scooter.name}
-                      className="block h-full w-full object-contain drop-shadow-[0_13px_9px_rgba(0,0,0,0.55)] transition duration-300 group-hover:scale-[1.04]"
+                      className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
                     />
                   </div>
 
