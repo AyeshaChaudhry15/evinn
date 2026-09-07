@@ -66,7 +66,7 @@ export const posts: BlogPost[] = [
     tag: "Industry News",
     title: "EV Charging Infrastructure Growth",
     date: "10 Aug 2024",
-    image: "/blog5.avif",
+    image: "/blog5",
     excerpt: "Charging networks are expanding fast — here's what it means for EV owners.",
     content: [
       "Charging infrastructure is expanding rapidly across major highways and urban centers.",
@@ -79,7 +79,7 @@ export const posts: BlogPost[] = [
     tag: "Buying Guide",
     title: "Battery Life: What You Need to Know",
     date: "8 Aug 2024",
-    image: "/blog6.webp",
+    image: "/blog6",
     excerpt: "Everything you should know about EV battery lifespan and care.",
     content: [
       "Battery life is one of the most common concerns for new EV buyers, and rightly so.",
@@ -92,7 +92,7 @@ export const posts: BlogPost[] = [
     tag: "Technology",
     title: "Smart Features in Modern EVs",
     date: "5 Aug 2024",
-    image: "/blog7.avif",
+    image: "/blog7",
     excerpt: "From app connectivity to GPS tracking, EVs are getting smarter every year.",
     content: [
       "Modern electric vehicles now come equipped with smart features like app-based connectivity and real-time diagnostics.",
@@ -105,7 +105,7 @@ export const posts: BlogPost[] = [
     tag: "Sustainability",
     title: "Reducing Carbon Footprint with EVs",
     date: "2 Aug 2024",
-    image: "/blog8.avif",
+    image: "/blog8",
     excerpt: "How switching to electric can meaningfully cut your personal carbon footprint.",
     content: [
       "Switching to an electric vehicle is one of the most impactful personal choices for reducing your carbon footprint.",
