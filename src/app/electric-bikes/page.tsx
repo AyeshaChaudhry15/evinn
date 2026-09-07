@@ -45,7 +45,6 @@ export default function ElectricBikesPage() {
     : (vehiclesData as { bikes?: Vehicle[] })?.bikes || [];
 
   let filteredBikes = bikeData.filter((bike) => {
-
     const brandMatch = brand === "All Brands" || bike.brand === brand;
 
     const priceMatch = bike.price >= minPrice && bike.price <= maxPrice;
@@ -168,7 +167,6 @@ export default function ElectricBikesPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
 
@@ -189,7 +187,7 @@ export default function ElectricBikesPage() {
                     <option key={bikeBrand} value={bikeBrand}>
                       {bikeBrand}
                     </option>
-                  )
+                  ),
                 )}
               </select>
 

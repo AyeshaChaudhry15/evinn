@@ -26,7 +26,7 @@ interface Vehicle {
   };
 }
 
-export default function LuyuaynPage() {
+export default function LuyuanPage() {
   const [sortBy, setSortBy] = useState("Price: Low to High");
 
   const bikeData: Vehicle[] = Array.isArray(vehiclesData)
@@ -65,7 +65,7 @@ export default function LuyuaynPage() {
 
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white">
               <img
-                src="/luyuyan.png"
+                src="/luyuan.png"
                 alt=" Luyuan"
                 className="h-full w-full object-contain p-1"
               />
