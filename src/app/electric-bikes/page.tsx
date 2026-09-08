@@ -102,6 +102,12 @@ export default function ElectricBikesPage() {
     setMaxPrice(value);
   };
 
+  const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
+    e.preventDefault(); // Prevents navigating to the bike detail page
+    // Yahan aap apna cart ka logic likh sakte hain
+    console.log("Added to cart:", bike);
+  };
+
   const displayedBikes = filteredBikes.slice(0, visibleProducts);
 
   return (
@@ -322,10 +328,17 @@ export default function ElectricBikesPage() {
                       {bike.priceText}
                     </p>
 
-                    <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
+                    <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
                       <span className="text-[13px] text-[#B9ED42]">★</span>
                       <span>{bike.rating}</span>
                     </div>
+
+                    <button
+                      onClick={(e) => handleAddToCart(e, bike)}
+                      className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
                 </Link>
               ))}

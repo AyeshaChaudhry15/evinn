@@ -102,7 +102,7 @@ const brands: Brand[] = [
 
 export default function Brands() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#081019] py-5 sm:px-2  lg:h-screen lg:overflow-hidden">
+    <main id="brands" className="min-h-screen overflow-x-hidden bg-[#081019] py-5 sm:px-2  lg:h-screen lg:overflow-hidden">
       <div className="mx-auto max-w-[1300px] pt-10">
         <div className="mb-5">
           <h1 className="text-4xl font-bold text-[#E8EBF2] sm:text-5xl ">

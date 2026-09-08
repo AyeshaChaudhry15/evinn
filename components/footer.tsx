@@ -5,7 +5,7 @@ const shopLinks = [
   { label: "All Vehicles", href: "/vehicles" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
-  { label: "All Brands", href: "/" },
+  { label: "All Brands", href: "/#brands" },
   { label: "Compare Vehicles", href: "/compare-vehicles" },
   { label: "Book a Test Ride", href: "/book-test-ride" },
 ];
