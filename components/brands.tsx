@@ -102,10 +102,10 @@ const brands: Brand[] = [
 
 export default function Brands() {
   return (
-    <main className="min-h-screen  bg-[#081019] py-5 sm:px-2  lg:h-screen ">
+    <main id="brands" className="min-h-screen bg-[#081019] py-5 sm:px-2">
       <div className="mx-auto max-w-[1250px] pt-10">
         <div className="mb-5">
-          <h1 className="text-4xl font-bold text-[#E8EBF2] sm:text-5xl ">
+          <h1 className="text-4xl font-bold text-[#E8EBF2] sm:text-5xl">
             All Brands
           </h1>
 
@@ -142,18 +142,6 @@ export default function Brands() {
                     className="h-full w-full object-contain"
                   />
                 </div>
-
-                {/* <span
-                  className="
-                    text-[11px]
-                    font-medium
-                    leading-tight
-                    text-[#E8EBF2]
-                    sm:text-xs
-                  "
-                >
-                  {brand.name}
-                </span> */}
               </div>
             </Link>
           ))}

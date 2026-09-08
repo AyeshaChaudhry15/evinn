@@ -1,15 +1,13 @@
-
 "use client";
 
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { useDispatch } from "react-redux";
 import vehiclesData from "../../bike-details/bikes-scooter.json";
-import { addToCart } from "@/app/redux/cart-slice";
+import AddToCartButton from "../../../components/add-to-cart";
 
 interface Vehicle {
-  id: number;
+  id: string | number;
   name: string;
   brand: string;
   type: string;
@@ -35,8 +33,6 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function Vehicles() {
-  const dispatch = useDispatch();
-
   const scooters: Vehicle[] = [
     ...(vehiclesData?.bikes || []),
     ...(vehiclesData?.scooters || []),
@@ -151,24 +147,6 @@ export default function Vehicles() {
 
     setMaxPrice(value);
     setVisibleProducts(9);
-  };
-
-  const handleAddToCart = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    scooter: Vehicle
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    dispatch(
-      addToCart({
-        id: scooter.id,
-        name: scooter.name,
-        price: scooter.price,
-        image: scooter.image,
-      })
-    );
-
   };
 
   const displayedScooters = filteredScooters.slice(
@@ -455,15 +433,17 @@ export default function Vehicles() {
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={(e) =>
-                        handleAddToCart(e, scooter)
-                      }
+                    <AddToCartButton
+                      product={{
+                        id: scooter.id,
+                        name: scooter.name,
+                        price: scooter.price,
+                        image: scooter.image,
+                      }}
                       className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
                     >
                       Add to Cart
-                    </button>
+                    </AddToCartButton>
                   </div>
                 </Link>
               ))}

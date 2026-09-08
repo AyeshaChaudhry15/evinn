@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import AddToCartButton from "../../../components/add-to-cart";
+
 import {
   ArrowLeft,
   Battery,
@@ -46,27 +48,19 @@ export default function ModelDetailPage() {
     "overview" | "features" | "reviews"
   >("overview");
 
-  const slug =
-    typeof params.slug === "string" ? params.slug : "";
+  const slug = typeof params.slug === "string" ? params.slug : "";
 
   const bikeData: Vehicle[] = Array.isArray(vehiclesData)
     ? vehiclesData
-    : [
-        ...(vehiclesData.bikes || []),
-        ...(vehiclesData.scooters || []),
-      ];
+    : [...(vehiclesData.bikes || []), ...(vehiclesData.scooters || [])];
 
-  const vehicle = bikeData.find(
-    (bike) => bike.slug === slug
-  );
+  const vehicle = bikeData.find((bike) => bike.slug === slug);
 
   if (!vehicle) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#06111A] px-4 text-white">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">
-            Model Not Found
-          </h1>
+          <h1 className="text-3xl font-bold">Model Not Found</h1>
 
           <p className="mt-3 text-[#AEB7BC]">
             The model you are looking for does not exist.
@@ -120,20 +114,14 @@ export default function ModelDetailPage() {
               <div className="mt-5 flex items-center gap-2">
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-[#8FDF0D] text-[#8FDF0D]" />
-                  <span className="font-bold">
-                    {vehicle.rating}
-                  </span>
+                  <span className="font-bold">{vehicle.rating}</span>
                 </div>
 
-                <span className="text-sm text-[#8B969C]">
-                  Rating
-                </span>
+                <span className="text-sm text-[#8B969C]">Rating</span>
               </div>
 
               <div className="mt-7">
-                <p className="text-sm text-[#8B969C]">
-                  Starting Price
-                </p>
+                <p className="text-sm text-[#8B969C]">Starting Price</p>
 
                 <p className="mt-1 text-3xl font-extrabold text-[#8FDF0D]">
                   {vehicle.priceText}
@@ -141,21 +129,32 @@ export default function ModelDetailPage() {
               </div>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <button className="flex-1 rounded-xl bg-[#8FDF0D] px-8 py-4 text-center text-sm font-bold text-[#06111A] transition-transform hover:scale-105 active:scale-95">
-                  Add to Cart
-                </button>
-                <button className="flex-1 rounded-xl border border-[#23333D] bg-[#0A151E] px-8 py-4 text-center text-sm font-bold text-[#8FDF0D] transition-colors hover:border-[#8FDF0D] hover:text-[#8FDF0D]">
-                  Buy Now
-                </button>
+                <div className="mt-8 flex w-full flex-col gap-4 sm:flex-row">
+                  <AddToCartButton
+                    product={{
+                      id: vehicle.id,
+                      name: vehicle.name,
+                      price: vehicle.price,
+                      image: vehicle.image,
+                    }}
+                    className="flex-1 rounded-xl bg-[#8FDF0D] px-8 py-4 text-center text-sm font-bold text-[#06111A] transition-transform hover:scale-105 active:scale-95"
+                  >
+                    Add to Cart
+                  </AddToCartButton>
 
+                  <Link
+                    href="/checkout"
+                    className="flex-1 rounded-xl border border-[#23333D] bg-[#0A151E] px-8 py-4 text-center text-sm font-bold text-[#8FDF0D] transition-colors hover:border-[#8FDF0D] hover:text-[#8FDF0D]"
+                  >
+                    Buy Now
+                  </Link>
+                </div>
               </div>
 
               <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
                   <Gauge className="h-5 w-5 text-[#8FDF0D]" />
-                  <p className="mt-2 text-xs text-[#8B969C]">
-                    Top Speed
-                  </p>
+                  <p className="mt-2 text-xs text-[#8B969C]">Top Speed</p>
                   <p className="mt-1 text-sm font-bold">
                     {vehicle.specs?.topSpeed || "—"}
                   </p>
@@ -163,9 +162,7 @@ export default function ModelDetailPage() {
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
                   <Battery className="h-5 w-5 text-[#8FDF0D]" />
-                  <p className="mt-2 text-xs text-[#8B969C]">
-                    Battery
-                  </p>
+                  <p className="mt-2 text-xs text-[#8B969C]">Battery</p>
                   <p className="mt-1 text-sm font-bold">
                     {vehicle.specs?.battery || "—"}
                   </p>
@@ -173,9 +170,7 @@ export default function ModelDetailPage() {
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
                   <Zap className="h-5 w-5 text-[#8FDF0D]" />
-                  <p className="mt-2 text-xs text-[#8B969C]">
-                    Motor
-                  </p>
+                  <p className="mt-2 text-xs text-[#8B969C]">Motor</p>
                   <p className="mt-1 text-sm font-bold">
                     {vehicle.specs?.motorPower || "—"}
                   </p>
@@ -183,9 +178,7 @@ export default function ModelDetailPage() {
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
                   <Gauge className="h-5 w-5 text-[#8FDF0D]" />
-                  <p className="mt-2 text-xs text-[#8B969C]">
-                    Range
-                  </p>
+                  <p className="mt-2 text-xs text-[#8B969C]">Range</p>
                   <p className="mt-1 text-sm font-bold">
                     {vehicle.specs?.range || "—"}
                   </p>
@@ -241,29 +234,22 @@ export default function ModelDetailPage() {
           {activeTab === "overview" && (
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold">
-                  {vehicle.name} Overview
-                </h2>
+                <h2 className="text-2xl font-bold">{vehicle.name} Overview</h2>
 
                 <p className="mt-4 max-w-4xl text-sm leading-7 text-[#AEB7BC]">
-                  The {vehicle.name} is a {vehicle.type} from{" "}
-                  {vehicle.brand}. Explore its performance,
-                  specifications and key details below.
+                  The {vehicle.name} is a {vehicle.type} from {vehicle.brand}.
+                  Explore its performance, specifications and key details below.
                 </p>
               </div>
 
               <div>
-                <h2 className="mb-5 text-2xl font-bold">
-                  Specifications
-                </h2>
+                <h2 className="mb-5 text-2xl font-bold">Specifications</h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Gauge className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Range
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Range</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.range || "—"}
@@ -273,9 +259,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Gauge className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Top Speed
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Top Speed</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.topSpeed || "—"}
@@ -285,9 +269,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Battery className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Battery
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Battery</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.battery || "—"}
@@ -297,9 +279,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Clock className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Charging Time
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Charging Time</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.chargingTime || "—"}
@@ -309,9 +289,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Zap className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Motor Power
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Motor Power</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.motorPower || "—"}
@@ -321,9 +299,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Weight className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Weight
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Weight</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.weight || "—"}
@@ -333,9 +309,7 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <ShieldCheck className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Warranty
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Warranty</p>
 
                     <p className="mt-1 font-bold">
                       {vehicle.specs?.warranty || "—"}
@@ -345,13 +319,9 @@ export default function ModelDetailPage() {
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <CheckCircle2 className="h-5 w-5 text-[#8FDF0D]" />
 
-                    <p className="mt-4 text-sm text-[#8B969C]">
-                      Vehicle Type
-                    </p>
+                    <p className="mt-4 text-sm text-[#8B969C]">Vehicle Type</p>
 
-                    <p className="mt-1 font-bold capitalize">
-                      {vehicle.type}
-                    </p>
+                    <p className="mt-1 font-bold capitalize">{vehicle.type}</p>
                   </div>
                 </div>
               </div>
@@ -360,9 +330,7 @@ export default function ModelDetailPage() {
 
           {activeTab === "features" && (
             <div>
-              <h2 className="text-2xl font-bold">
-                {vehicle.name} Features
-              </h2>
+              <h2 className="text-2xl font-bold">{vehicle.name} Features</h2>
 
               <p className="mt-3 text-sm text-[#AEB7BC]">
                 Explore the key features of the {vehicle.name}.
@@ -371,67 +339,50 @@ export default function ModelDetailPage() {
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <CheckCircle2 className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Electric Performance
-                  </h3>
+                  <h3 className="mt-4 font-bold">Electric Performance</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Efficient electric performance designed for
-                    everyday riding.
+                    Efficient electric performance designed for everyday riding.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <Battery className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Powerful Battery
-                  </h3>
+                  <h3 className="mt-4 font-bold">Powerful Battery</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Reliable battery performance for comfortable
-                    daily commuting.
+                    Reliable battery performance for comfortable daily
+                    commuting.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <Zap className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Fast Acceleration
-                  </h3>
+                  <h3 className="mt-4 font-bold">Fast Acceleration</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Smooth and responsive acceleration for city
-                    riding.
+                    Smooth and responsive acceleration for city riding.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <ShieldCheck className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Safety
-                  </h3>
+                  <h3 className="mt-4 font-bold">Safety</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Designed with everyday rider safety and
-                    reliability in mind.
+                    Designed with everyday rider safety and reliability in mind.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <Gauge className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Smart Performance
-                  </h3>
+                  <h3 className="mt-4 font-bold">Smart Performance</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Balanced performance for practical urban
-                    mobility.
+                    Balanced performance for practical urban mobility.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <Clock className="h-6 w-6 text-[#8FDF0D]" />
-                  <h3 className="mt-4 font-bold">
-                    Convenient Charging
-                  </h3>
+                  <h3 className="mt-4 font-bold">Convenient Charging</h3>
                   <p className="mt-2 text-sm leading-6 text-[#8B969C]">
-                    Convenient charging designed for regular
-                    everyday use.
+                    Convenient charging designed for regular everyday use.
                   </p>
                 </div>
               </div>
@@ -440,9 +391,7 @@ export default function ModelDetailPage() {
 
           {activeTab === "reviews" && (
             <div>
-              <h2 className="text-2xl font-bold">
-                {vehicle.name} Reviews
-              </h2>
+              <h2 className="text-2xl font-bold">{vehicle.name} Reviews</h2>
 
               <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6 text-center">
@@ -474,14 +423,11 @@ export default function ModelDetailPage() {
                     ))}
                   </div>
 
-                  <h3 className="mt-4 font-bold">
-                    Great everyday ride
-                  </h3>
+                  <h3 className="mt-4 font-bold">Great everyday ride</h3>
 
                   <p className="mt-3 text-sm leading-7 text-[#AEB7BC]">
-                    The {vehicle.name} offers a practical riding
-                    experience with good performance and useful
-                    features for everyday commuting.
+                    The {vehicle.name} offers a practical riding experience with
+                    good performance and useful features for everyday commuting.
                   </p>
 
                   <p className="mt-4 text-xs font-semibold text-[#8B969C]">

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useParams } from "next/navigation";
@@ -5,6 +6,7 @@ import Link from "next/link";
 import { Info, ClipboardList, ArrowLeft } from "lucide-react";
 import vehiclesData from "../../../bike-details/bikes-scooter.json";
 import brandInfo from "../brand-info.json";
+import AddToCartButton from "../../../../components/add-to-cart";
 
 interface Vehicle {
   id: string | number;
@@ -117,7 +119,9 @@ export default function BrandDetailPage() {
                 <Info size={21} />
               </div>
 
-              <h2 className="text-2xl font-bold">About {info.displayName}</h2>
+              <h2 className="text-2xl font-bold">
+                About {info.displayName}
+              </h2>
             </div>
 
             <p className="leading-8 text-gray-400">{info.about}</p>
@@ -130,19 +134,25 @@ export default function BrandDetailPage() {
               <div>
                 <p className="text-sm text-gray-500">Origin</p>
 
-                <p className="mt-1 font-semibold">{info.origin || "—"}</p>
+                <p className="mt-1 font-semibold">
+                  {info.origin || "—"}
+                </p>
               </div>
 
               <div>
                 <p className="text-sm text-gray-500">Established</p>
 
-                <p className="mt-1 font-semibold">{info.established || "—"}</p>
+                <p className="mt-1 font-semibold">
+                  {info.established || "—"}
+                </p>
               </div>
 
               <div>
                 <p className="text-sm text-gray-500">Headquarters</p>
 
-                <p className="mt-1 font-semibold">{info.headquarters || "—"}</p>
+                <p className="mt-1 font-semibold">
+                  {info.headquarters || "—"}
+                </p>
               </div>
 
               <div>
@@ -205,7 +215,9 @@ export default function BrandDetailPage() {
                   </div>
 
                   <div className="p-5">
-                    <p className="mb-1 text-sm text-gray-500">{vehicle.type}</p>
+                    <p className="mb-1 text-sm text-gray-500">
+                      {vehicle.type}
+                    </p>
 
                     <h3 className="text-lg font-bold transition group-hover:text-[#8FDF0D]">
                       {vehicle.name}
@@ -214,6 +226,18 @@ export default function BrandDetailPage() {
                     <p className="mt-3 font-semibold text-[#8FDF0D]">
                       {vehicle.priceText}
                     </p>
+
+                    <AddToCartButton
+                      product={{
+                        id: vehicle.id,
+                        name: vehicle.name,
+                        price: vehicle.price,
+                        image: vehicle.image,
+                      }}
+                      className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                    >
+                      Add to Cart
+                    </AddToCartButton>
                   </div>
                 </Link>
               ))}
@@ -224,3 +248,4 @@ export default function BrandDetailPage() {
     </main>
   );
 }
+

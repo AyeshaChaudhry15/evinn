@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import vehiclesData from "../../../bike-details/bikes-scooter.json";
+import AddToCartButton from "../../../../components/add-to-cart";
 
 interface Vehicle {
   id: string | number;
@@ -41,28 +42,24 @@ export default function EveonPage() {
 
   let brandVehicles = bikeData.filter(
     (bike) =>
-      bike.brand?.toLowerCase().trim() ===
-      brandName.toLowerCase().trim()
+      bike.brand?.toLowerCase().trim() === brandName.toLowerCase().trim(),
   );
 
   if (sortBy === "Price: Low to High") {
-    brandVehicles = [...brandVehicles].sort(
-      (a, b) => a.price - b.price
-    );
+    brandVehicles = [...brandVehicles].sort((a, b) => a.price - b.price);
   } else if (sortBy === "Price: High to Low") {
-    brandVehicles = [...brandVehicles].sort(
-      (a, b) => b.price - a.price
-    );
+    brandVehicles = [...brandVehicles].sort((a, b) => b.price - a.price);
   }
+  const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
+    e.preventDefault();
 
+    console.log("Added to cart:", bike);
+  };
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
-
         <header className="mb-9 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
-
           <div className="flex flex-wrap items-center gap-4">
-
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white">
               <img
                 src="/eveon.png"
@@ -81,7 +78,6 @@ export default function EveonPage() {
             >
               See Details
             </Link>
-
           </div>
 
           <div className="relative shrink-0">
@@ -99,25 +95,20 @@ export default function EveonPage() {
               className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             />
           </div>
-
         </header>
 
         {brandVehicles.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
-            <p className="text-gray-500">
-              No Crown CMC motorcycles found.
-            </p>
+            <p className="text-gray-500">No Crown CMC motorcycles found.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
             {brandVehicles.map((bike) => (
               <Link
                 key={bike.id}
                 href={`/${bike.slug}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
-
                 <div className="flex h-56 items-center justify-center bg-white p-5">
                   <img
                     src={bike.image}
@@ -127,10 +118,7 @@ export default function EveonPage() {
                 </div>
 
                 <div className="p-5">
-
-                  <p className="mb-1 text-sm text-gray-500">
-                    {bike.type}
-                  </p>
+                  <p className="mb-1 text-sm text-gray-500">{bike.type}</p>
 
                   <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
                     {bike.name}
@@ -145,14 +133,22 @@ export default function EveonPage() {
                       ★ {bike.rating}
                     </span>
                   </div>
-
+                  <AddToCartButton
+                    product={{
+                      id: bike.id,
+                      name: bike.name,
+                      price: bike.price,
+                      image: bike.image,
+                    }}
+                    className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                  >
+                    Add to Cart
+                  </AddToCartButton>
                 </div>
               </Link>
             ))}
-
           </div>
         )}
-
       </div>
     </main>
   );
