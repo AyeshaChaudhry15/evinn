@@ -9,7 +9,7 @@ import vehiclesData from "../../bike-details/bikes-scooter.json";
 import { addToCart } from "@/app/redux/cart-slice";
 
 interface Vehicle {
-  id: string | number;
+  id: number;
   name: string;
   brand: string;
   type: string;
@@ -169,7 +169,6 @@ export default function Vehicles() {
       })
     );
 
-    alert(`${scooter.name} added to cart!`);
   };
 
   const displayedScooters = filteredScooters.slice(
