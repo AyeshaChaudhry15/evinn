@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState,  } from "react";
 import vehiclesData from "../../bike-details/bikes-scooter.json";
 
 interface Vehicle {
@@ -44,13 +44,16 @@ export default function CompareVehicles() {
     allVehicles.slice(0, 3),
   );
 
-  const handleSelectChange = (index: number, vehicleId: string) => {
-    const found = allVehicles.find((v) => String(v.id) === String(vehicleId));
-    if (!found) return;
+ 
+  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSelectChange = (index: number, vehicle: Vehicle) => {
     const updated = [...selectedVehicles];
-    updated[index] = found;
+    updated[index] = vehicle;
     setSelectedVehicles(updated);
+    setOpenDropdownIndex(null); 
+    setSearchQuery("");
   };
 
   const handleAddVehicle = () => {
@@ -73,7 +76,7 @@ export default function CompareVehicles() {
   };
 
   return (
-    <section className="w-full  bg-[#07151d] p-6 md:p-8">
+    <section className="w-full bg-[#07151d] p-6 md:p-8">
       <div className="mb-6">
         <h2 className="text-3xl font-bold text-white md:text-4xl">
           Compare Vehicles
@@ -101,63 +104,93 @@ export default function CompareVehicles() {
             ))}
           </div>
 
-          {selectedVehicles.map((item, index) => (
-            <div
-              key={`${item.id}-${index}`}
-              className="relative flex flex-col gap-2"
-            >
-              <div className="relative flex h-[170px] flex-col items-center justify-between rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 text-center">
-                {selectedVehicles.length > 1 && (
-                  <button
-                    onClick={() => handleRemoveVehicle(item.id)}
-                    className="absolute right-2 top-1 z-10 text-xs text-gray-400 hover:text-red-400"
-                    title="Remove"
-                  >
-                    ✕
-                  </button>
-                )}
+          {selectedVehicles.map((item, index) => {
+            const isOpen = openDropdownIndex === index;
+            const filteredVehicles = allVehicles.filter((v) =>
+              v.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
 
-                <div className="relative w-full pr-6">
-                  <select
-                    value={item.id}
-                    onChange={(e) => handleSelectChange(index, e.target.value)}
-                    className="w-full truncate border-none bg-transparent pr-4 text-center text-xs font-semibold text-white outline-none cursor-pointer"
-                  >
-                    {allVehicles.map((v) => (
-                      <option
-                        key={v.id}
-                        value={v.id}
-                        className="bg-[#0b1b24] text-white"
-                      >
-                        {v.name} ({v.type})
-                      </option>
-                    ))}
-                  </select>
+            return (
+              <div
+                key={`${item.id}-${index}`}
+                className="relative flex flex-col gap-2"
+              >
+                <div className="relative flex h-[170px] flex-col items-center justify-between rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 text-center">
+                  {selectedVehicles.length > 1 && (
+                    <button
+                      onClick={() => handleRemoveVehicle(item.id)}
+                      className="absolute right-2 top-1 z-10 text-xs text-gray-400 hover:text-red-400"
+                      title="Remove"
+                    >
+                      ✕
+                    </button>
+                  )}
+
+                  
+                  <div className="relative w-full pr-4">
+                    <div
+                      onClick={() => {
+                        setOpenDropdownIndex(isOpen ? null : index);
+                        setSearchQuery("");
+                      }}
+                      className="w-full truncate rounded border border-[#1c3039] bg-[#06111a] px-2 py-1.5 text-center text-xs font-semibold text-white cursor-pointer hover:border-[#8fdf0d]"
+                    >
+                      {item.name} ({item.type}) ▾
+                    </div>
+
+                    {isOpen && (
+                      <div className="absolute left-0 right-0 top-full mt-1 z-50 max-h-48 overflow-y-auto rounded border border-[#1c3039] bg-[#06111a] p-1 text-left shadow-lg">
+                        <input
+                          type="text"
+                          placeholder="Search..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          autoFocus
+                          className="w-full mb-1 rounded border border-[#1c3039] bg-[#0b1b24] px-2 py-1 text-xs text-white outline-none focus:border-[#8fdf0d]"
+                        />
+                        {filteredVehicles.length > 0 ? (
+                          filteredVehicles.map((v) => (
+                            <div
+                              key={v.id}
+                              onClick={() => handleSelectChange(index, v)}
+                              className="cursor-pointer rounded px-2 py-1.5 text-xs text-white hover:bg-[#8fdf0d] hover:text-[#06111a]"
+                            >
+                              {v.name} ({v.type})
+                            </div>
+                          ))
+                        ) : (
+                          <div className="px-2 py-1 text-xs text-gray-400">
+                            No match found
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="relative h-16 w-full">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+
+                  <p className="text-xs font-semibold text-[#8fdf0d]">
+                    {item.priceText}
+                  </p>
                 </div>
 
-                <div className="relative h-16 w-full">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-
-                <p className="text-xs font-semibold text-[#8fdf0d]">
-                  {item.priceText}
-                </p>
+                {specsList.map((spec) => (
+                  <div
+                    key={spec.key}
+                    className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
+                  >
+                    {item.specs ? item.specs[spec.key] : "N/A"}
+                  </div>
+                ))}
               </div>
-
-              {specsList.map((spec) => (
-                <div
-                  key={spec.key}
-                  className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
-                >
-                  {item.specs ? item.specs[spec.key] : "N/A"}
-                </div>
-              ))}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
