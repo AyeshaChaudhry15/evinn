@@ -54,7 +54,11 @@ export default function VelectraPage() {
       (a, b) => b.price - a.price
     );
   }
-
+   const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
+    e.preventDefault();
+   
+    console.log("Added to cart:", bike);
+  };
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
@@ -145,7 +149,12 @@ export default function VelectraPage() {
                       ★ {bike.rating}
                     </span>
                   </div>
-
+  <button
+                    onClick={(e) => handleAddToCart(e, bike)}
+                    className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </Link>
             ))}

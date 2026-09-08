@@ -55,14 +55,17 @@ export default function CrownCmcPage() {
     );
   }
 
+  const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
+    e.preventDefault();
+   
+    console.log("Added to cart:", bike);
+  };
+
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
-
         <header className="mb-9 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
-
           <div className="flex flex-wrap items-center gap-4">
-
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white">
               <img
                 src="/crown-cmc.png"
@@ -81,7 +84,6 @@ export default function CrownCmcPage() {
             >
               See Details
             </Link>
-
           </div>
 
           <div className="relative shrink-0">
@@ -99,7 +101,6 @@ export default function CrownCmcPage() {
               className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             />
           </div>
-
         </header>
 
         {brandVehicles.length === 0 ? (
@@ -110,14 +111,12 @@ export default function CrownCmcPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
             {brandVehicles.map((bike) => (
               <Link
                 key={bike.id}
                 href={`/${bike.slug}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
-
                 <div className="flex h-56 items-center justify-center bg-white p-5">
                   <img
                     src={bike.image}
@@ -127,7 +126,6 @@ export default function CrownCmcPage() {
                 </div>
 
                 <div className="p-5">
-
                   <p className="mb-1 text-sm text-gray-500">
                     {bike.type}
                   </p>
@@ -146,13 +144,17 @@ export default function CrownCmcPage() {
                     </span>
                   </div>
 
+                  <button
+                    onClick={(e) => handleAddToCart(e, bike)}
+                    className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </Link>
             ))}
-
           </div>
         )}
-
       </div>
     </main>
   );

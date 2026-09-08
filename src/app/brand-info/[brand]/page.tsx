@@ -73,6 +73,12 @@ export default function BrandDetailPage() {
       info.displayName?.toLowerCase().trim(),
   );
 
+  const handleAddToCart = (e: React.MouseEvent, vehicle: Vehicle) => {
+    e.preventDefault(); 
+  
+    console.log("Added to cart:", vehicle);
+  };
+
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
@@ -214,6 +220,13 @@ export default function BrandDetailPage() {
                     <p className="mt-3 font-semibold text-[#8FDF0D]">
                       {vehicle.priceText}
                     </p>
+
+                    <button
+                      onClick={(e) => handleAddToCart(e, vehicle)}
+                      className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
                 </Link>
               ))}
