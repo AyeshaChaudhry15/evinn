@@ -11,17 +11,16 @@ export default function Accessories() {
         <div>
           <h2 className="text-4xl font-semibold text-white">Accessories</h2>
 
-          <p className="mt-1 max-w-[230px] text-md  text-gray-300">
+          <p className="mt-1 max-w-[230px] text-md text-gray-300">
             Enhance your ride with premium accessories
           </p>
         </div>
-
-        
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {accessoriesData.accessories.map((item) => (
-          <div
+          <Link
+            href={`/accessories/${item.name.toLowerCase().replace(/\s+/g, '-')}`}
             key={item.id}
             className="group rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 transition duration-300 hover:border-[#31444c] hover:bg-[#10232d]"
           >
@@ -29,7 +28,7 @@ export default function Accessories() {
               <img
                 src={item.image}
                 alt={item.name}
-                className="h-[95px] w-auto object-contain"
+                className="h-[95px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </div>
 
@@ -38,7 +37,7 @@ export default function Accessories() {
 
               <p className="mt-0.5 text-xs text-gray-300">{item.priceText}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
