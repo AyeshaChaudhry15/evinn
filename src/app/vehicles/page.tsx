@@ -32,7 +32,6 @@ const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function Vehicles() {
-
   const scooters: Vehicle[] = [
     ...(vehiclesData?.bikes || []),
     ...(vehiclesData?.scooters || []),
@@ -48,7 +47,6 @@ export default function Vehicles() {
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   let filteredScooters = scooters.filter((scooter) => {
-
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
     const typeMatch =
@@ -116,6 +114,13 @@ export default function Vehicles() {
     const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
     setMaxPrice(value);
     setVisibleProducts(9);
+  };
+
+ 
+  const handleAddToCart = (e: React.MouseEvent, scooter: Vehicle) => {
+    e.preventDefault();
+   
+    console.log("Added to cart:", scooter);
   };
 
   const displayedScooters = filteredScooters.slice(0, visibleProducts);
@@ -210,7 +215,6 @@ export default function Vehicles() {
                 <option>All Types</option>
                 <option>Bike</option>
                 <option>Scooter</option>
-              
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -376,10 +380,19 @@ export default function Vehicles() {
                       {scooter.priceText}
                     </p>
 
-                    <div className="flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">★</span>
-                      <span>{scooter.rating}</span>
+                    <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[13px] text-[#B9ED42]">★</span>
+                        <span>{scooter.rating}</span>
+                      </div>
                     </div>
+
+                    <button
+                      onClick={(e) => handleAddToCart(e, scooter)}
+                      className="w-full h-[40px] rounded-lg bg-[#B9ED42] text-[#06111A] text-sm font-semibold transition hover:bg-[#a6d835] active:scale-[0.98]"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
                 </Link>
               ))}
