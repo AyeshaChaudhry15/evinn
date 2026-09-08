@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
 
 import vehiclesData from "../src/bike-details/bikes-scooter.json";
 import accessoriesData from "../src/accessories-data/accessories.json";
@@ -86,9 +87,17 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+
   const searchRef = useRef<HTMLDivElement>(null);
 
   const ALL_PRODUCTS = useMemo(() => buildSearchIndex(), []);
+
+  const cartItems = useSelector((state: any) => state.cart.items);
+
+  const cartCount = cartItems.reduce(
+    (total: number, item: any) => total + item.quantity,
+    0,
+  );
 
   const filteredProducts =
     query.trim().length > 0
@@ -112,7 +121,10 @@ export default function Navbar() {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -148,7 +160,16 @@ export default function Navbar() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search"
-                className="h-9 w-[150px] sm:w-[180px] rounded-md border border-white/10 bg-[#171B18] px-3 text-sm text-white outline-none placeholder:text-gray-500 focus:border-[#8fdf0d]"
+                className="
+                  h-9 w-[150px] rounded-md
+                  border border-white/10
+                  bg-[#171B18]
+                  px-3 text-sm text-white
+                  outline-none
+                  placeholder:text-gray-500
+                  focus:border-[#8fdf0d]
+                  sm:w-[180px]
+                "
               />
             )}
 
@@ -163,14 +184,14 @@ export default function Navbar() {
             {searchOpen && query.trim().length > 0 && (
               <div
                 className="
-          absolute z-50
-           top-full mt-2
-          w-[350px] sm:w-[240px] max-w-[780vw]
-          rounded-2xl border border-white/10
-          shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-          bg-[#171B18]
-          p-2
-        "
+                    absolute right-0 top-full z-50 mt-2
+                    w-[280px]
+                    rounded-2xl
+                    border border-white/10
+                    bg-[#171B18]
+                    p-2
+                    shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+                  "
               >
                 <div className="max-h-[280px] overflow-y-auto">
                   {filteredProducts.length > 0 ? (
@@ -183,21 +204,32 @@ export default function Navbar() {
                               setSearchOpen(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5"
+                            className="
+                                  flex items-center gap-2
+                                  rounded-lg px-2 py-1.5
+                                  transition-colors
+                                  hover:bg-white/5
+                                "
                           >
                             <img
                               src={product.image}
                               alt={product.name}
-                              className="h-8 w-8 flex-shrink-0 rounded-md object-contain"
+                              className="
+                                    h-8 w-8 flex-shrink-0
+                                    rounded-md object-contain
+                                  "
                             />
+
                             <div className="min-w-0">
                               <p className="truncate text-xs font-medium text-white">
                                 {product.name}
                               </p>
+
                               <div className="flex items-center gap-1.5">
                                 <span className="text-[10px] text-[#8fdf0d]">
                                   {product.priceText}
                                 </span>
+
                                 <span className="text-[9px] text-gray-500">
                                   · {product.category}
                                 </span>
@@ -218,8 +250,46 @@ export default function Navbar() {
           </div>
 
           <Link
+            href="/cart"
+            aria-label="Shopping cart"
+            className="
+              relative flex items-center
+              transition-colors
+              hover:text-[#8fdf0d]
+            "
+          >
+            <ShoppingCart size={21} />
+
+            {cartCount > 0 && (
+              <span
+                className="
+                  absolute -right-2 -top-2
+                  flex h-[17px] min-w-[17px]
+                  items-center justify-center
+                  rounded-full
+                  bg-[#8fdf0d]
+                  px-1
+                  text-[9px] font-bold
+                  text-[#0B0F0C]
+                "
+              >
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
+
+          <Link
             href="/contact-us"
-            className="hidden rounded-lg bg-[#8fdf0d] px-5 py-2.5 text-sm font-semibold text-[#0B0F0C] transition-colors hover:bg-[#a3f722] lg:block"
+            className="
+              hidden rounded-lg
+              bg-[#8fdf0d]
+              px-5 py-2.5
+              text-sm font-semibold
+              text-[#0B0F0C]
+              transition-colors
+              hover:bg-[#a3f722]
+              lg:block
+            "
           >
             Contact Us
           </Link>
@@ -249,11 +319,42 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+          <Link
+            href="/cart"
+            aria-label="Shopping cart"
+            className="relative flex items-center transition-colors hover:text-[#8fdf0d]"
+          >
+            <ShoppingCart size={21} />
+
+            {cartCount > 0 && (
+              <span
+                className="
+        absolute -right-2 -top-2
+        flex h-[17px] min-w-[17px]
+        items-center justify-center
+        rounded-full
+        bg-[#8fdf0d]
+        px-1
+        text-[9px] font-bold
+        text-[#0B0F0C]
+      "
+              >
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
 
           <Link
             href="/contact-us"
             onClick={() => setMobileOpen(false)}
-            className="mt-4 block rounded-lg bg-[#8fdf0d] px-5 py-2.5 text-center text-sm font-semibold text-[#0B0F0C] transition-colors hover:bg-[#a3f722]"
+            className="
+              mt-3 block rounded-lg
+              bg-[#8fdf0d]
+              px-5 py-2.5
+              text-center text-sm
+              font-semibold
+              text-[#0B0F0C]
+            "
           >
             Contact Us
           </Link>
