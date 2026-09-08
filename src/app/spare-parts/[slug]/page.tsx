@@ -11,7 +11,9 @@ export default async function SparePartDetail({
   const currentSlug = resolvedParams.slug;
 
   const part = sparepartsdata["spare-parts"].find(
-    (item) => String(item.id) === String(currentSlug)
+    (item) => 
+      String(item.id) === String(currentSlug) ||
+      item.name.toLowerCase().replace(/\s+/g, '-') === currentSlug.toLowerCase()
   );
 
   if (!part) {

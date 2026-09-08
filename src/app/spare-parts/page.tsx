@@ -20,11 +20,11 @@ export default function SpareParts() {
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {sparepartsdata["spare-parts"]?.map((item) => (
-          <Link
-            href={`/spare-parts/${item.id}`}
-            key={item.id}
-            className="group rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 transition duration-300 hover:border-[#31444c] hover:bg-[#10232d]"
-          >
+        <Link
+  href={`/spare-parts/${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+  key={item.id}
+  className="group rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 transition duration-300 hover:border-[#31444c] hover:bg-[#10232d]"
+>
             <div className="flex h-[105px] items-center justify-center">
               <img
                 src={item.image}

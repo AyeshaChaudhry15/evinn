@@ -11,7 +11,9 @@ export default async function AccessoryDetail({
   const currentSlug = resolvedParams.slug;
 
   const accessory = accessoriesData.accessories.find(
-    (item) => String(item.id) === String(currentSlug)
+    (item) => 
+      String(item.id) === String(currentSlug) ||
+      item.name.toLowerCase().replace(/\s+/g, '-') === currentSlug.toLowerCase()
   );
 
   if (!accessory) {

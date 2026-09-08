@@ -2,6 +2,7 @@
   "accessories": [
     {
       "id": 1,
+      "slug": "top-box",
       "name": "Top Box",
       "price": 12000,
       "priceText": "PKR 12,000",
@@ -12,6 +13,7 @@
     },
     {
       "id": 2,
+      "slug": "windshield",
       "name": "Windshield",
       "price": 4500,
       "priceText": "PKR 4,500",
@@ -22,6 +24,7 @@
     },
     {
       "id": 3,
+      "slug": "phone-holder",
       "name": "Phone Holder",
       "price": 1300,
       "priceText": "PKR 1,300",
@@ -32,6 +35,7 @@
     },
     {
       "id": 4,
+      "slug": "seat-cover",
       "name": "Seat Cover",
       "price": 2700,
       "priceText": "PKR 2,700",
@@ -42,6 +46,7 @@
     },
     {
       "id": 5,
+      "slug": "helmet",
       "name": "Helmet",
       "price": 6500,
       "priceText": "PKR 6,500",
@@ -52,6 +57,7 @@
     },
     {
       "id": 6,
+      "slug": "riding-jacket",
       "name": "Riding Jacket",
       "price": 8500,
       "priceText": "PKR 8,500",
@@ -62,6 +68,7 @@
     },
     {
       "id": 7,
+      "slug": "gloves",
       "name": "Gloves",
       "price": 2000,
       "priceText": "PKR 2,000",
@@ -72,6 +79,7 @@
     },
     {
       "id": 8,
+      "slug": "charging-cable",
       "name": "Charging Cable",
       "price": 1400,
       "priceText": "PKR 1,400",
