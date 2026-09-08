@@ -4,57 +4,81 @@
       "id": 1,
       "name": "Charger",
       "price": 1200,
-      "priceText": "PKR 12,00",
-      "image": "/spare1.png"
+      "priceText": "PKR 1,200",
+      "image": "/spare1.png",
+      "description": "High-speed authentic charger designed for optimal battery health and fast charging cycles. Built with overcharge protection.",
+      "features": ["Fast charging support", "Overcharge protection", "Durable cable"],
+      "inStock": true
     },
     {
       "id": 2,
-      "name": "tyre",
+      "name": "Tyre",
       "price": 2500,
       "priceText": "PKR 2,500",
-      "image": "/spare2.png"
+      "image": "/spare2.png",
+      "description": "Premium tubeless tyre offering excellent grip on both wet and dry roads, ensuring a safe and smooth ride.",
+      "features": ["Anti-puncture layer", "High grip tread pattern", "Long-lasting rubber compound"],
+      "inStock": true
     },
     {
       "id": 3,
       "name": "Battery",
       "price": 40000,
-      "priceText": "PKR 40000",
-      "image": "/sparepart.png"
+      "priceText": "PKR 40,000",
+      "image": "/sparepart.png",
+      "description": "Long-lasting lithium-ion battery replacement for extended range. Engineered for high performance and durability.",
+      "features": ["High capacity", "Weather sealed", "2-year warranty"],
+      "inStock": true
     },
     {
       "id": 4,
-      "name": "motor",
+      "name": "Motor",
       "price": 27000,
-      "priceText": "PKR 2,7000",
-      "image": "/spare4.png"
+      "priceText": "PKR 27,000",
+      "image": "/spare4.png",
+      "description": "High-torque electric motor for powerful acceleration and hill-climbing ability. Factory original replacement part.",
+      "features": ["Brushless hub motor", "Waterproof casing", "Energy efficient"],
+      "inStock": false
     },
     {
       "id": 5,
       "name": "Brake pads",
       "price": 1500,
       "priceText": "PKR 1,500",
-      "image": "/spare5.png"
+      "image": "/spare5.png",
+      "description": "Ceramic composite brake pads for instant stopping power and reduced brake fade during long rides.",
+      "features": ["Low noise", "Heat resistant", "Extended lifespan"],
+      "inStock": true
     },
     {
       "id": 6,
       "name": "Controller",
       "price": 8500,
       "priceText": "PKR 8,500",
-      "image": "/spare6.png"
+      "image": "/spare6.png",
+      "description": "Smart motor controller unit for smooth power delivery and improved battery efficiency.",
+      "features": ["Overheating protection", "Plug-and-play installation", "Smooth throttle response"],
+      "inStock": true
     },
     {
       "id": 7,
       "name": "Display",
       "price": 4200,
       "priceText": "PKR 4,200",
-      "image": "/spare7.png"
+      "image": "/spare7.png",
+      "description": "Bright LCD dashboard display showing speed, battery life, and odometer readings clearly even in direct sunlight.",
+      "features": ["Anti-glare screen", "Water-resistant", "Real-time diagnostics"],
+      "inStock": true
     },
     {
       "id": 8,
       "name": "Headlight",
       "price": 3100,
       "priceText": "PKR 3,100",
-      "image": "/spare8.png"
+      "image": "/spare8.png",
+      "description": "Ultra-bright LED headlight assembly for maximum nighttime visibility and safety.",
+      "features": ["Low power consumption", "Wide beam angle", "Impact-resistant lens"],
+      "inStock": true
     }
   ]
 }

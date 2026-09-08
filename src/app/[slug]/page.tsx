@@ -85,11 +85,8 @@ export default function ModelDetailPage() {
 
   return (
     <main className="min-h-screen bg-[#06111A] text-white">
-
-  
       <section className="border-b border-[#23333D] bg-[#06111A]">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
-
           <Link
             href="/"
             className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-[#AEB7BC] transition hover:text-[#8FDF0D]"
@@ -99,7 +96,6 @@ export default function ModelDetailPage() {
           </Link>
 
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-
             <div className="flex min-h-[400px] items-center justify-center overflow-hidden rounded-2xl bg-white p-8 sm:min-h-[500px]">
               <img
                 src={vehicle.image}
@@ -109,7 +105,6 @@ export default function ModelDetailPage() {
             </div>
 
             <div>
-
               <p className="text-sm font-bold uppercase tracking-[2px] text-[#8FDF0D]">
                 {vehicle.brand}
               </p>
@@ -145,8 +140,17 @@ export default function ModelDetailPage() {
                 </p>
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <button className="flex-1 rounded-xl bg-[#8FDF0D] px-8 py-4 text-center text-sm font-bold text-[#06111A] transition-transform hover:scale-105 active:scale-95">
+                  Add to Cart
+                </button>
+                <button className="flex-1 rounded-xl border border-[#23333D] bg-[#0A151E] px-8 py-4 text-center text-sm font-bold text-[#8FDF0D] transition-colors hover:border-[#8FDF0D] hover:text-[#8FDF0D]">
+                  Buy Now
+                </button>
 
+              </div>
+
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-4">
                   <Gauge className="h-5 w-5 text-[#8FDF0D]" />
                   <p className="mt-2 text-xs text-[#8B969C]">
@@ -186,20 +190,15 @@ export default function ModelDetailPage() {
                     {vehicle.specs?.range || "—"}
                   </p>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </section>
 
-   
       <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-10">
-
         <div className="border-b border-[#23333D]">
-
           <div className="flex gap-8 overflow-x-auto">
-
             <button
               type="button"
               onClick={() => setActiveTab("overview")}
@@ -235,17 +234,12 @@ export default function ModelDetailPage() {
             >
               Reviews
             </button>
-
           </div>
         </div>
 
-      
         <div className="py-10">
-
-       
           {activeTab === "overview" && (
             <div className="space-y-8">
-
               <div>
                 <h2 className="text-2xl font-bold">
                   {vehicle.name} Overview
@@ -264,7 +258,6 @@ export default function ModelDetailPage() {
                 </h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-
                   <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-5">
                     <Gauge className="h-5 w-5 text-[#8FDF0D]" />
 
@@ -360,16 +353,13 @@ export default function ModelDetailPage() {
                       {vehicle.type}
                     </p>
                   </div>
-
                 </div>
               </div>
             </div>
           )}
 
-         
           {activeTab === "features" && (
             <div>
-
               <h2 className="text-2xl font-bold">
                 {vehicle.name} Features
               </h2>
@@ -379,7 +369,6 @@ export default function ModelDetailPage() {
               </p>
 
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6">
                   <CheckCircle2 className="h-6 w-6 text-[#8FDF0D]" />
                   <h3 className="mt-4 font-bold">
@@ -445,23 +434,18 @@ export default function ModelDetailPage() {
                     everyday use.
                   </p>
                 </div>
-
               </div>
             </div>
           )}
 
-         
           {activeTab === "reviews" && (
             <div>
-
               <h2 className="text-2xl font-bold">
                 {vehicle.name} Reviews
               </h2>
 
               <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6 text-center">
-
                   <p className="text-5xl font-extrabold text-[#8FDF0D]">
                     {vehicle.rating}
                   </p>
@@ -481,7 +465,6 @@ export default function ModelDetailPage() {
                 </div>
 
                 <div className="rounded-xl border border-[#23333D] bg-[#0A151E] p-6 lg:col-span-2">
-
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
@@ -504,16 +487,12 @@ export default function ModelDetailPage() {
                   <p className="mt-4 text-xs font-semibold text-[#8B969C]">
                     Verified Customer
                   </p>
-
                 </div>
-
               </div>
             </div>
           )}
-
         </div>
       </section>
-
     </main>
   );
 }

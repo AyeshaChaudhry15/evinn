@@ -57,8 +57,7 @@ export default function CheckWarrantyPage() {
           </h1>
         </div>
         <p className="text-gray-400 text-base sm:text-lg mb-8">
-          Apna bike ya scooter list mein se choose karen, ya naam type kar
-          k search karen.
+         Select your model to check its warranty coverage and details.
         </p>
 
         <div ref={wrapperRef} className="relative">
