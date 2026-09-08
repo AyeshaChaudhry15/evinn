@@ -56,7 +56,7 @@ export default function CartPage() {
           </h1>
 
           <Link
-            href="/electric-bikes"
+            href="/vehicles"
             className="
               flex items-center gap-2
               text-sm text-gray-300
@@ -105,7 +105,7 @@ export default function CartPage() {
             </p>
 
             <Link
-              href="/electric-bikes"
+              href="/vehicles"
               className="
                 mt-6 rounded-lg
                 bg-[#8fdf0d]

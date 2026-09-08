@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import vehiclesData from "../../bike-details/bikes-scooter.json";
+import AddToCartButton from "../../../components/add-to-cart";
 
 interface Vehicle {
   id: string | number;
@@ -103,8 +104,7 @@ export default function ElectricBikesPage() {
   };
 
   const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
-    e.preventDefault(); // Prevents navigating to the bike detail page
-    // Yahan aap apna cart ka logic likh sakte hain
+    e.preventDefault();
     console.log("Added to cart:", bike);
   };
 
@@ -333,12 +333,18 @@ export default function ElectricBikesPage() {
                       <span>{bike.rating}</span>
                     </div>
 
-                    <button
-                      onClick={(e) => handleAddToCart(e, bike)}
+                    <AddToCartButton
+                      product={{
+                        id: bike.id,
+                        name: bike.name,
+                        price: Number(bike.price),
+                        image: bike.image,
+                      }}
                       className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
                     >
                       Add to Cart
-                    </button>
+                    </AddToCartButton>
+                    
                   </div>
                 </Link>
               ))}

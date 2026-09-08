@@ -153,14 +153,10 @@ export default function Vehicles() {
     setVisibleProducts(9);
   };
 
-  // ============================
-  // ADD TO CART
-  // ============================
   const handleAddToCart = (
     e: React.MouseEvent<HTMLButtonElement>,
     scooter: Vehicle
   ) => {
-    // Prevent Link from opening product details
     e.preventDefault();
     e.stopPropagation();
 
@@ -212,7 +208,6 @@ export default function Vehicles() {
         }
       `}</style>
 
-      {/* ================= HEADER ================= */}
       <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
         <div>
           <h1 className="text-[32px] font-bold sm:text-[38px] lg:text-[42px]">
@@ -253,16 +248,12 @@ export default function Vehicles() {
         </div>
       </header>
 
-      {/* ================= MAIN GRID ================= */}
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-
-        {/* ================= FILTERS ================= */}
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
           <h2 className="mb-7 text-[19px] font-semibold">
             Filters
           </h2>
 
-          {/* Vehicle Type */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
@@ -288,7 +279,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Brand */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
@@ -320,7 +310,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Price Range */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
@@ -371,7 +360,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Top Speed */}
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
@@ -398,7 +386,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Range */}
           <div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
@@ -425,7 +412,6 @@ export default function Vehicles() {
             </div>
           </div>
 
-          {/* Clear Filters */}
           <button
             onClick={clearFilters}
             className="h-[50px] w-full rounded-lg border border-[#293943] bg-[#0A151E] text-sm font-medium text-[#D3D9DC] transition duration-200 hover:border-[#40515B] hover:bg-[#101E27] active:scale-[0.98]"
@@ -434,7 +420,6 @@ export default function Vehicles() {
           </button>
         </aside>
 
-        {/* ================= PRODUCTS ================= */}
         <section className="w-full">
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -444,7 +429,6 @@ export default function Vehicles() {
                   href={`/${scooter.slug || "model-detail"}`}
                   className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                 >
-                  {/* Image */}
                   <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
                     <img
                       src={scooter.image}
@@ -453,7 +437,6 @@ export default function Vehicles() {
                     />
                   </div>
 
-                  {/* Product Info */}
                   <div className="px-[17px] pb-[17px] pt-2">
                     <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
                       {scooter.name}
@@ -473,7 +456,6 @@ export default function Vehicles() {
                       </div>
                     </div>
 
-                    {/* ADD TO CART */}
                     <button
                       type="button"
                       onClick={(e) =>
@@ -501,7 +483,6 @@ export default function Vehicles() {
             </div>
           )}
 
-          {/* Load More */}
           {visibleProducts < filteredScooters.length && (
             <button
               onClick={loadMore}
@@ -515,4 +496,3 @@ export default function Vehicles() {
     </main>
   );
 }
-

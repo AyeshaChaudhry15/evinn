@@ -1,43 +1,44 @@
 
 "use client";
 
+import { ReactNode } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../src/app/redux/cart-slice";
+import { addToCart } from "@/app/redux/cart-slice";
+import type { AppDispatch } from "@/app/redux/store";
 
-interface Product {
-  id: number | string;
-  name: string;
-  price: number;
-  image: string;
+interface AddToCartButtonProps {
+  product: {
+    id: string | number;
+    name: string;
+    price: number;
+    image: string;
+  };
+  children?: ReactNode;
+  className?: string;
 }
 
-interface Props {
-  product: Product;
-}
+export default function AddToCartButton({
+  product,
+  children = "Add to Cart",
+  className = "",
+}: AddToCartButtonProps) {
+  const dispatch = useDispatch<AppDispatch>();
 
-export default function AddToCartButton({ product }: Props) {
-  const dispatch = useDispatch();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-      })
-    );
-
-    alert(`${product.name} added to cart`);
+    dispatch(addToCart(product));
   };
 
   return (
     <button
       type="button"
-      onClick={handleAddToCart}
-      className="rounded-lg bg-[#8FDF0D] px-5 py-3 font-semibold text-black transition hover:opacity-90"
+      onClick={handleClick}
+      className={className}
     >
-      Add to Cart
+      {children}
     </button>
   );
-};
+}
+

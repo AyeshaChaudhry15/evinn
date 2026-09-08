@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import vehicleData from "../../bike-details/bikes-scooter.json";
+import AddToCartButton from "../../../components/add-to-cart";
 
 interface Scooter {
   id: string | number;
@@ -47,24 +48,35 @@ export default function ElectricScootersPage() {
   let filteredScooters = scooters.filter((scooter) => {
     const brandMatch = brand === "All Brands" || scooter.brand === brand;
 
-    const priceMatch = scooter.price >= minPrice && scooter.price <= maxPrice;
+    const priceMatch =
+      scooter.price >= minPrice && scooter.price <= maxPrice;
 
     let speedMatch = true;
+
     if (topSpeed !== "All" && scooter.specs) {
       const speedValue = parseInt(scooter.specs.topSpeed);
-      if (topSpeed === "Under 80 km/h") speedMatch = speedValue < 80;
-      else if (topSpeed === "80 - 120 km/h")
+
+      if (topSpeed === "Under 80 km/h") {
+        speedMatch = speedValue < 80;
+      } else if (topSpeed === "80 - 120 km/h") {
         speedMatch = speedValue >= 80 && speedValue <= 120;
-      else if (topSpeed === "120+ km/h") speedMatch = speedValue > 120;
+      } else if (topSpeed === "120+ km/h") {
+        speedMatch = speedValue > 120;
+      }
     }
 
     let rangeMatch = true;
+
     if (range !== "All" && scooter.specs) {
       const rangeValue = parseInt(scooter.specs.range);
-      if (range === "Under 100 km") rangeMatch = rangeValue < 100;
-      else if (range === "100 - 200 km")
+
+      if (range === "Under 100 km") {
+        rangeMatch = rangeValue < 100;
+      } else if (range === "100 - 200 km") {
         rangeMatch = rangeValue >= 100 && rangeValue <= 200;
-      else if (range === "200+ km") rangeMatch = rangeValue > 200;
+      } else if (range === "200+ km") {
+        rangeMatch = rangeValue > 200;
+      }
     }
 
     return brandMatch && priceMatch && speedMatch && rangeMatch;
@@ -93,19 +105,21 @@ export default function ElectricScootersPage() {
   };
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(Number(e.target.value), maxPrice - MIN_GAP);
+    const value = Math.min(
+      Number(e.target.value),
+      maxPrice - MIN_GAP
+    );
+
     setMinPrice(value);
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(Number(e.target.value), minPrice + MIN_GAP);
-    setMaxPrice(value);
-  };
+    const value = Math.max(
+      Number(e.target.value),
+      minPrice + MIN_GAP
+    );
 
-  const handleAddToCart = (e: React.MouseEvent, scooter: Scooter) => {
-    e.preventDefault(); // Prevents navigating to the scooter detail page
-    // Yahan aap apna cart ka logic likh sakte hain
-    console.log("Added to cart:", scooter);
+    setMaxPrice(value);
   };
 
   const displayedScooters = filteredScooters.slice(0, visibleProducts);
@@ -116,6 +130,7 @@ export default function ElectricScootersPage() {
         .range-thumb {
           pointer-events: none;
         }
+
         .range-thumb::-webkit-slider-thumb {
           pointer-events: all;
           -webkit-appearance: none;
@@ -127,6 +142,7 @@ export default function ElectricScootersPage() {
           box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
           cursor: pointer;
         }
+
         .range-thumb::-moz-range-thumb {
           pointer-events: all;
           width: 18px;
@@ -172,7 +188,9 @@ export default function ElectricScootersPage() {
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
         <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
-          <h2 className="mb-7 text-[19px] font-semibold">Filters</h2>
+          <h2 className="mb-7 text-[19px] font-semibold">
+            Filters
+          </h2>
 
           <div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -186,6 +204,7 @@ export default function ElectricScootersPage() {
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
               >
                 <option>All Brands</option>
+
                 {[...new Set(scooters.map((s) => s.brand))].map(
                   (scooterBrand) => (
                     <option key={scooterBrand} value={scooterBrand}>
@@ -230,7 +249,10 @@ export default function ElectricScootersPage() {
                 value={minPrice}
                 onChange={handleMinChange}
                 className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
-                style={{ zIndex: minPrice > PRICE_MAX - 500000 ? 5 : 3 }}
+                style={{
+                  zIndex:
+                    minPrice > PRICE_MAX - 500000 ? 5 : 3,
+                }}
               />
 
               <input
@@ -327,16 +349,24 @@ export default function ElectricScootersPage() {
                     </p>
 
                     <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                      <span className="text-[13px] text-[#B9ED42]">★</span>
+                      <span className="text-[13px] text-[#B9ED42]">
+                        ★
+                      </span>
+
                       <span>{scooter.rating}</span>
                     </div>
 
-                    <button
-                      onClick={(e) => handleAddToCart(e, scooter)}
+                    <AddToCartButton
+                      product={{
+                        id: scooter.id,
+                        name: scooter.name,
+                        price: scooter.price,
+                        image: scooter.image,
+                      }}
                       className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
                     >
                       Add to Cart
-                    </button>
+                    </AddToCartButton>
                   </div>
                 </Link>
               ))}
