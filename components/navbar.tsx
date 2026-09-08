@@ -1,214 +1,86 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Search, Menu, X } from "lucide-react";
+
+import vehiclesData from "../src/bike-details/bikes-scooter.json";
+import accessoriesData from "../src/accessories-data/accessories.json";
+import sparePartsData from "../src/spare-parts-data/spare-parts.json";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
   { label: "Compare", href: "/compare-vehicles" },
-  // { label: "Showrooms", href: "/showrooms" },
-    { label: "Blog", href: "/blog" },
-
-
+  { label: "Blog", href: "/blog" },
 ];
 
-const ALL_PRODUCTS = [
-  {
-    id: "bike-1",
-    name: "Revolt RV1+",
-    brand: "Revolt",
-    priceText: "PKR 680,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-2",
-    name: "Ultraviolette F77",
-    brand: "Ultraviolette",
-    priceText: "PKR 1,299,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-3",
-    name: "Trek Madone R",
-    brand: "Trek",
-    priceText: "PKR 1,500,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-4",
-    name: "Obern Baer",
-    brand: "Obern",
-    priceText: "PKR 840,500",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-5",
-    name: "Menor Aura",
-    brand: "Menor",
-    priceText: "PKR 1,099,500",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-6",
-    name: "Okla Truvio",
-    brand: "Okla",
-    priceText: "PKR 770,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-7",
-    name: "Kawasaki Rumpo",
-    brand: "Kawasaki",
-    priceText: "PKR 890,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-8",
-    name: "Ertuga One",
-    brand: "Ertuga",
-    priceText: "PKR 2,340,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-9",
-    name: "Kawhy HHH0009",
-    brand: "Kawhy",
-    priceText: "PKR 2,450,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-10",
-    name: "Revolt RV400",
-    brand: "Revolt",
-    priceText: "PKR 950,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-11",
-    name: "Trek Urban X",
-    brand: "Trek",
-    priceText: "PKR 1,200,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "bike-12",
-    name: "Kawasaki E-One",
-    brand: "Kawasaki",
-    priceText: "PKR 1,750,000",
-    image: "/hero1.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-1",
-    name: "Ola S1 Pro",
-    brand: "Ola",
-    priceText: "PKR 549,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-2",
-    name: "Ather 450X",
-    brand: "Ather",
-    priceText: "PKR 630,500",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-3",
-    name: "TVS iQube",
-    brand: "TVS",
-    priceText: "PKR 799,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-4",
-    name: "Bajaj Chetak",
-    brand: "Bajaj",
-    priceText: "PKR 549,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-5",
-    name: "Hero Vida V1",
-    brand: "Hero",
-    priceText: "PKR 898,350",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-6",
-    name: "Okla Truvio",
-    brand: "Okla",
-    priceText: "PKR 770,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-7",
-    name: "Kawasaki Rumpo",
-    brand: "Kawasaki",
-    priceText: "PKR 890,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-8",
-    name: "Ertuga One",
-    brand: "Ertuga",
-    priceText: "PKR 2,340,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-9",
-    name: "Kawhy HHH0009",
-    brand: "Kawhy",
-    priceText: "PKR 2,450,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-10",
-    name: "Revolt RV400",
-    brand: "Revolt",
-    priceText: "PKR 950,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-11",
-    name: "Trek Urban X",
-    brand: "Trek",
-    priceText: "PKR 1,200,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-  {
-    id: "scooter-12",
-    name: "Kawasaki E-One",
-    brand: "Kawasaki",
-    priceText: "PKR 1,750,000",
-    image: "/hero2.png",
-    link: "/model-detail",
-  },
-];
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+type SearchProduct = {
+  id: string;
+  name: string;
+  brand?: string;
+  priceText: string;
+  image: string;
+  category: "Bike" | "Scooter" | "Accessory" | "Spare Part";
+  link: string;
+};
+
+function buildSearchIndex(): SearchProduct[] {
+  const bikes: SearchProduct[] = (vehiclesData.bikes ?? []).map((b: any) => ({
+    id: `bike-${b.id}`,
+    name: b.name,
+    brand: b.brand,
+    priceText: b.priceText,
+    image: b.image,
+    category: "Bike",
+    link: `/${b.slug}`,
+  }));
+
+  const scooters: SearchProduct[] = (vehiclesData.scooters ?? []).map(
+    (s: any) => ({
+      id: `scooter-${s.id}`,
+      name: s.name,
+      brand: s.brand,
+      priceText: s.priceText,
+      image: s.image,
+      category: "Scooter",
+      link: `/${s.slug}`,
+    }),
+  );
+
+  const accessories: SearchProduct[] = (accessoriesData.accessories ?? []).map(
+    (a: any) => ({
+      id: `accessory-${a.id}`,
+      name: a.name,
+      priceText: a.priceText,
+      image: a.image,
+      category: "Accessory",
+      link: `/${slugify(a.name)}`,
+    }),
+  );
+
+  const spareParts: SearchProduct[] = (
+    (sparePartsData as any)["spare-parts"] ?? []
+  ).map((p: any) => ({
+    id: `spare-${p.id}`,
+    name: p.name,
+    priceText: p.priceText,
+    image: p.image,
+    category: "Spare Part",
+    link: `/${slugify(p.name)}`,
+  }));
+
+  return [...bikes, ...scooters, ...accessories, ...spareParts];
+}
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -216,13 +88,16 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
 
+  const ALL_PRODUCTS = useMemo(() => buildSearchIndex(), []);
+
   const filteredProducts =
     query.trim().length > 0
       ? ALL_PRODUCTS.filter(
           (p) =>
             p.name.toLowerCase().includes(query.toLowerCase()) ||
-            p.brand.toLowerCase().includes(query.toLowerCase()),
-        )
+            p.brand?.toLowerCase().includes(query.toLowerCase()) ||
+            p.category.toLowerCase().includes(query.toLowerCase()),
+        ).slice(0, 15)
       : [];
 
   useEffect(() => {
@@ -265,7 +140,18 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-5 text-gray-300">
-          <div className="relative" ref={searchRef}>
+          <div className="relative flex items-center gap-2" ref={searchRef}>
+            {searchOpen && (
+              <input
+                autoFocus
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search"
+                className="h-9 w-[150px] sm:w-[180px] rounded-md border border-white/10 bg-[#171B18] px-3 text-sm text-white outline-none placeholder:text-gray-500 focus:border-[#8fdf0d]"
+              />
+            )}
+
             <button
               aria-label="Search"
               onClick={() => setSearchOpen((v) => !v)}
@@ -274,69 +160,63 @@ export default function Navbar() {
               <Search size={20} />
             </button>
 
-            {searchOpen && (
+            {searchOpen && query.trim().length > 0 && (
               <div
                 className="
-        absolute z-50
-        right-0 top-1/2 mr-8 -translate-y-1/2
-        w-[200px] max-w-[60vw]
-        lg:right-0 lg:left-auto lg:top-full lg:mt-3 lg:mr-0
-        lg:translate-y-0
-        lg:w-[340px] lg:max-w-none
-        rounded-xl border border-white/10 bg-[#0B0F0C] p-3
-        shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-      "
+          absolute z-50
+           top-full mt-2
+          w-[350px] sm:w-[240px] max-w-[780vw]
+          rounded-2xl border border-white/10
+          shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+          bg-[#171B18]
+          p-2
+        "
               >
-                <input
-                  autoFocus
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search..."
-                  className="h-10 w-full rounded-lg border border-white/10 bg-[#131A22] px-3 text-xs text-white outline-none placeholder:text-gray-500 focus:border-[#8fdf0d]"
-                />
-
-                {query.trim().length > 0 && (
-                  <div className="mt-2 max-h-[260px] overflow-y-auto">
-                    {filteredProducts.length > 0 ? (
-                      <ul className="flex flex-col gap-1">
-                        {filteredProducts.map((product) => (
-                          <li key={product.id}>
-                            <Link
-                              href={product.link}
-                              onClick={() => {
-                                setSearchOpen(false);
-                                setQuery("");
-                              }}
-                              className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5"
-                            >
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                className="h-8 w-8 flex-shrink-0 rounded-md object-contain"
-                              />
-                              <div className="min-w-0">
-                                <p className="truncate text-xs font-medium text-white">
-                                  {product.name}
-                                </p>
-                                <p className="text-[10px] text-[#8fdf0d]">
+                <div className="max-h-[280px] overflow-y-auto">
+                  {filteredProducts.length > 0 ? (
+                    <ul className="flex flex-col gap-1">
+                      {filteredProducts.map((product) => (
+                        <li key={product.id}>
+                          <Link
+                            href={product.link}
+                            onClick={() => {
+                              setSearchOpen(false);
+                              setQuery("");
+                            }}
+                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5"
+                          >
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="h-8 w-8 flex-shrink-0 rounded-md object-contain"
+                            />
+                            <div className="min-w-0">
+                              <p className="truncate text-xs font-medium text-white">
+                                {product.name}
+                              </p>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[10px] text-[#8fdf0d]">
                                   {product.priceText}
-                                </p>
+                                </span>
+                                <span className="text-[9px] text-gray-500">
+                                  · {product.category}
+                                </span>
                               </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="px-2 py-2 text-xs text-gray-500">
-                        No results found.
-                      </p>
-                    )}
-                  </div>
-                )}
+                            </div>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="px-2 py-2 text-xs text-gray-500">
+                      No results found.
+                    </p>
+                  )}
+                </div>
               </div>
             )}
           </div>
+
           <Link
             href="/contact-us"
             className="hidden rounded-lg bg-[#8fdf0d] px-5 py-2.5 text-sm font-semibold text-[#0B0F0C] transition-colors hover:bg-[#a3f722] lg:block"
