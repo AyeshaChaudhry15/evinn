@@ -25,6 +25,15 @@ export default function ShippingForm() {
     paymentMethod: "",
   });
 
+  const [errors, setErrors] = useState({
+    fullName: "",
+    phoneNumber: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    paymentMethod: "",
+  });
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -34,6 +43,11 @@ export default function ShippingForm() {
       ...prev,
       [name]: value,
     }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   const handlePaymentSelect = (method: string) => {
@@ -41,10 +55,81 @@ export default function ShippingForm() {
       ...prev,
       paymentMethod: method,
     }));
+
+    setErrors((prev) => ({
+      ...prev,
+      paymentMethod: "",
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      fullName: "",
+      phoneNumber: "",
+      address: "",
+      city: "",
+      postalCode: "",
+      paymentMethod: "",
+    };
+
+    let isValid = true;
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+      isValid = false;
+    } else if (formData.fullName.trim().length < 3) {
+      newErrors.fullName = "Full name must be at least 3 characters";
+      isValid = false;
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "Phone number is required";
+      isValid = false;
+    } else if (!/^(03\d{9}|\+92\d{10})$/.test(formData.phoneNumber.trim())) {
+      newErrors.phoneNumber = "Enter a valid Pakistani phone number";
+      isValid = false;
+    }
+
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+      isValid = false;
+    } else if (formData.address.trim().length < 5) {
+      newErrors.address = "Address must be at least 5 characters";
+      isValid = false;
+    }
+
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required";
+      isValid = false;
+    } else if (formData.city.trim().length < 2) {
+      newErrors.city = "Enter a valid city";
+      isValid = false;
+    }
+
+    if (!formData.postalCode.trim()) {
+      newErrors.postalCode = "Postal code is required";
+      isValid = false;
+    } else if (!/^\d{5}$/.test(formData.postalCode.trim())) {
+      newErrors.postalCode = "Postal code must be 5 digits";
+      isValid = false;
+    }
+
+    if (!formData.paymentMethod) {
+      newErrors.paymentMethod = "Please select a payment method";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    return isValid;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     let finalItems: any[] = [];
 
@@ -58,15 +143,19 @@ export default function ShippingForm() {
       }));
     } else {
       const directItem = localStorage.getItem("directCheckoutItem");
+
       if (directItem) {
         const parsed = JSON.parse(directItem);
-        finalItems = [{
-          id: parsed.id,
-          name: parsed.name,
-          price: Number(parsed.price),
-          image: parsed.image,
-          quantity: parsed.quantity || 1,
-        }];
+
+        finalItems = [
+          {
+            id: parsed.id,
+            name: parsed.name,
+            price: Number(parsed.price),
+            image: parsed.image,
+            quantity: parsed.quantity || 1,
+          },
+        ];
       }
     }
 
@@ -128,9 +217,17 @@ export default function ShippingForm() {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full bg-[#121824] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition"
+                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                  errors.fullName ? "border-red-500" : "border-gray-800"
+                }`}
                 required
               />
+
+              {errors.fullName && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.fullName}
+                </p>
+              )}
             </div>
 
             <div>
@@ -144,9 +241,19 @@ export default function ShippingForm() {
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className="w-full bg-[#121824] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition"
+                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                  errors.phoneNumber
+                    ? "border-red-500"
+                    : "border-gray-800"
+                }`}
                 required
               />
+
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.phoneNumber}
+                </p>
+              )}
             </div>
 
           </div>
@@ -162,9 +269,17 @@ export default function ShippingForm() {
               placeholder="Enter your address"
               value={formData.address}
               onChange={handleChange}
-              className="w-full bg-[#121824] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition"
+              className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                errors.address ? "border-red-500" : "border-gray-800"
+              }`}
               required
             />
+
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.address}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -180,9 +295,17 @@ export default function ShippingForm() {
                 value={formData.city}
                 onChange={handleChange}
                 placeholder="Enter your city"
-                className="w-full bg-[#121824] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition"
+                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                  errors.city ? "border-red-500" : "border-gray-800"
+                }`}
                 required
               />
+
+              {errors.city && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.city}
+                </p>
+              )}
             </div>
 
             <div>
@@ -196,9 +319,19 @@ export default function ShippingForm() {
                 placeholder="Enter your postal code"
                 value={formData.postalCode}
                 onChange={handleChange}
-                className="w-full bg-[#121824] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition"
+                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                  errors.postalCode
+                    ? "border-red-500"
+                    : "border-gray-800"
+                }`}
                 required
               />
+
+              {errors.postalCode && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.postalCode}
+                </p>
+              )}
             </div>
 
           </div>
@@ -323,6 +456,13 @@ export default function ShippingForm() {
               </div>
 
             </div>
+
+            {errors.paymentMethod && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors.paymentMethod}
+              </p>
+            )}
+
           </div>
 
           <div className="pt-4">

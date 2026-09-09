@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Home as HomeIcon, ThumbsUp, Wallet } from "lucide-react";
+import { motion } from "framer-motion";
 
 const STATS = [
   { icon: HomeIcon, label: "10+ Trusted Brands" },
@@ -14,30 +17,49 @@ export default function Hero() {
   return (
     <section className="bg-[#06111A] px-5 lg:px-8 w-full pt-10">
       <div className="mx-auto grid max-w-7xl items-center gap-2 lg:grid-cols-2">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
             The Future <br />
             Moves <span className="text-lime-400">Electric</span>
           </h1>
 
-          <p className="mt-6 max-w-md text-gray-400 text-base sm:text-xl">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-6 max-w-md text-gray-400 text-base sm:text-xl"
+          >
             Explore 10+ Trusted Brands, 50+ Models. One Destination.
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap gap-3 lg:gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="mt-8 flex flex-wrap gap-3 lg:gap-4"
+          >
             <button className="rounded-md bg-lime-400 px-4 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-lime-300 lg:px-6 lg:py-4 lg:text-md">
               <Link href={"/vehicles"}>Explore Vehicles</Link>
             </button>
 
-           <Link href={"/compare-vehicles"}>
-            <button className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400 lg:px-6 lg:py-4 lg:text-md">
-              Compare Vehicles
-            </button>
+            <Link href={"/compare-vehicles"}>
+              <button className="rounded-md border border-white/20 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-lime-400 hover:text-lime-400 lg:px-6 lg:py-4 lg:text-md">
+                Compare Vehicles
+              </button>
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="relative mt-8 h-[250px] sm:h-[320px] md:h-[350px] lg:mt-0 lg:h-[400px] lg:-ml-10">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.2 }}
+          className="relative mt-8 h-[250px] sm:h-[320px] md:h-[350px] lg:mt-0 lg:h-[400px] lg:-ml-10"
+        >
           <Image
             src="/hero1.png"
             alt="Electric motorbike"
@@ -46,18 +68,21 @@ export default function Hero() {
             className="object-contain object-center lg:object-right"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
-        </div>
+        </motion.div>
       </div>
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-8 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:py-0 lg:h-25 mt-6">
-        {STATS.map(({ icon: Icon, label }) => (
-          <div
+        {STATS.map(({ icon: Icon, label }, index) => (
+          <motion.div
             key={label}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
             className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-4 py-4"
           >
             <Icon className="text-lime-400" size={30} />
             <span className="text-lg font-medium text-gray-200">{label}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

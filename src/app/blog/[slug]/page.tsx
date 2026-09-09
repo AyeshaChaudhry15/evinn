@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -45,95 +44,78 @@ export default async function BlogDetailPage({ params }: Props) {
     .slice(0, 3);
 
   return (
-    <main className="bg-[#0b0f14] text-white min-h-screen">
+    <main className="min-h-screen bg-[#0b0f14] text-white">
+      <section className="mx-auto max-w-5xl px-6 py-14">
+        <div>
+          <Link
+            href="/blog"
+            className="text-sm text-lime-300 hover:underline"
+          >
+            ← Back to all articles
+          </Link>
+        </div>
 
-      <section className="max-w-5xl mx-auto px-6 py-14">
-
-        <Link
-          href="/blog"
-          className="text-lime-300 text-sm hover:underline"
-        >
-          ← Back to all articles
-        </Link>
-
-
-        <h1 className="text-3xl sm:text-4xl font-bold mt-4">
+        <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
           {post.title}
         </h1>
 
-        <p className="text-gray-400 mt-2">
+        <p className="mt-2 text-gray-400">
           {post.date}
         </p>
 
-        <div className="relative h-72 sm:h-96 w-full mt-6 rounded-2xl overflow-hidden">
-
+        <div className="relative mt-6 h-72 w-full overflow-hidden rounded-2xl sm:h-96">
           <Image
             src={post.image}
             alt={post.title}
             fill
             className="object-cover"
           />
-
         </div>
 
-        <div className="mt-8 space-y-4 text-gray-300 leading-relaxed">
+        <div className="mt-8 space-y-4 leading-relaxed text-gray-300">
           {post.content.map((para, i) => (
-            <p key={i}>
-              {para}
-            </p>
+            <p key={i}>{para}</p>
           ))}
         </div>
-
       </section>
 
       {related.length > 0 && (
-        <section className="max-w-5xl mx-auto px-6 pb-14">
-
-          <h2 className="text-2xl font-bold mb-6">
+        <section className="mx-auto max-w-5xl px-6 pb-14">
+          <h2 className="mb-6 text-2xl font-bold">
             Related Articles
           </h2>
 
-          <div className="grid sm:grid-cols-3 gap-6">
-
+          <div className="grid gap-6 sm:grid-cols-3">
             {related.map((r) => (
-              <Link
-                key={r.slug}
-                href={`/blog/${r.slug}`}
-                className="block bg-[#12181f] rounded-xl overflow-hidden border border-white/5 hover:border-lime-400/40 transition"
-              >
+              <div key={r.slug}>
+                <Link
+                  href={`/blog/${r.slug}`}
+                  className="block overflow-hidden rounded-xl border border-white/5 bg-[#12181f] transition hover:border-lime-400/40"
+                >
+                  <div className="relative h-32 w-full">
+                    <Image
+                      src={r.image}
+                      alt={r.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
 
-                <div className="relative h-32 w-full">
+                  <div className="p-3">
+                    <p className="text-sm font-medium">
+                      {r.title}
+                    </p>
 
-                  <Image
-                    src={r.image}
-                    alt={r.title}
-                    fill
-                    className="object-cover"
-                  />
-
-                </div>
-
-                <div className="p-3">
-
-                  <p className="text-sm font-medium">
-                    {r.title}
-                  </p>
-
-                  <p className="text-xs text-gray-400 mt-1">
-                    {r.date}
-                  </p>
-
-                </div>
-
-              </Link>
+                    <p className="mt-1 text-xs text-gray-400">
+                      {r.date}
+                    </p>
+                  </div>
+                </Link>
+              </div>
             ))}
-
           </div>
-
         </section>
       )}
-
     </main>
   );
 }
-

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus, ChevronUp, ShieldCheck, MapPin } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
@@ -46,7 +47,12 @@ export default function FAQ() {
   return (
     <section className="min-h-screen bg-[#07101A] px-4 py-10 text-white sm:px-6 sm:py-14 md:py-16">
       <div className="mx-auto w-full max-w-[1100px]">
-        <div className="relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="relative z-10"
+        >
           <h2 className="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
             Frequently Asked Questions
           </h2>
@@ -54,10 +60,13 @@ export default function FAQ() {
           <p className="mt-3 text-base text-gray-400 sm:mt-4 sm:text-lg md:mt-6 md:text-xl">
             Find answers to common questions.
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative mt-8 sm:mt-10">
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
             className="
               pointer-events-none
               absolute
@@ -84,7 +93,7 @@ export default function FAQ() {
             >
               ?
             </div>
-          </div>
+          </motion.div>
 
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-[60%_40%] md:items-center">
             <div className="relative z-10 w-full max-w-[700px]">
@@ -93,8 +102,16 @@ export default function FAQ() {
                   const isOpen = openIndex === index;
 
                   return (
-                    <div
+                    <motion.div
                       key={index}
+                      initial={{ opacity: 0, y: 25 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.45,
+                        delay: index * 0.08,
+                      }}
+                      whileHover={{ y: -2 }}
                       className={`
                         w-full
                         overflow-hidden
@@ -136,39 +153,63 @@ export default function FAQ() {
                           {faq.question}
                         </span>
 
-                        {isOpen ? (
-                          <ChevronUp
-                            size={19}
-                            className="shrink-0 text-gray-300"
-                          />
-                        ) : (
-                          <Plus size={19} className="shrink-0 text-gray-300" />
-                        )}
+                        <motion.span
+                          animate={{ rotate: isOpen ? 180 : 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="shrink-0"
+                        >
+                          {isOpen ? (
+                            <ChevronUp
+                              size={19}
+                              className="text-gray-300"
+                            />
+                          ) : (
+                            <Plus
+                              size={19}
+                              className="text-gray-300"
+                            />
+                          )}
+                        </motion.span>
                       </button>
 
-                      {isOpen && (
-                        <div
-                          className="
-                            border-t
-                            border-[#293746]
-                            px-4
-                            pb-5
-                            pt-4
-                            sm:px-5
-                          "
-                        >
-                          <p className="text-sm leading-6 text-gray-400">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="
+                              border-t
+                              border-[#293746]
+                              px-4
+                              pb-5
+                              pt-4
+                              sm:px-5
+                            "
+                          >
+                            <motion.p
+                              initial={{ opacity: 0, y: -8 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.25, delay: 0.05 }}
+                              className="text-sm leading-6 text-gray-400"
+                            >
+                              {faq.answer}
+                            </motion.p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
 
-            <div
+            <motion.div
+              initial={{ opacity: 0, x: 50, scale: 0.8 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="
                 hidden
                 h-full
@@ -178,7 +219,15 @@ export default function FAQ() {
                 md:flex
               "
             >
-              <div
+              <motion.div
+                animate={{
+                  scale: [1, 1.04, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="
                   select-none
                   text-[300px]
@@ -191,12 +240,16 @@ export default function FAQ() {
                 "
               >
                 ?
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
 
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
           className="
             relative
             z-10
@@ -216,7 +269,14 @@ export default function FAQ() {
             sm:py-7
           "
         >
-          <div className="flex items-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, x: -25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ y: -4 }}
+            className="flex items-center gap-4"
+          >
             <div
               className="
                 flex
@@ -238,9 +298,16 @@ export default function FAQ() {
 
               <p className="text-sm text-gray-300">Information</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ y: -4 }}
+            className="flex items-center gap-4"
+          >
             <div
               className="
                 flex
@@ -258,9 +325,16 @@ export default function FAQ() {
             </div>
 
             <p className="text-sm text-gray-300">Trusted Guidance</p>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, x: 25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            whileHover={{ y: -4 }}
+            className="flex items-center gap-4"
+          >
             <div
               className="
                 flex
@@ -282,8 +356,8 @@ export default function FAQ() {
 
               <p className="text-sm text-gray-300">Experience</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

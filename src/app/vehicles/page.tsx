@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 import vehiclesData from "../../bike-details/bikes-scooter.json";
 import AddToCartButton from "../../../components/add-to-cart";
 
@@ -185,20 +186,40 @@ export default function Vehicles() {
         }
       `}</style>
 
-      <header className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
+      <motion.header
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start"
+      >
         <div>
-          <h1 className="text-[32px] font-bold sm:text-[38px] lg:text-[42px]">
+          <motion.h1
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-[32px] font-bold sm:text-[38px] lg:text-[42px]"
+          >
             All Electric Vehicles
-          </h1>
+          </motion.h1>
 
-          <p className="mt-4 text-sm font-medium text-[#8B969C] sm:text-[15px]">
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-4 text-sm font-medium text-[#8B969C] sm:text-[15px]"
+          >
             Explore our wide range of electric bikes and scooters
             <br className="hidden sm:block" />
             from top brands.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="flex items-center gap-4 lg:mt-3">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex items-center gap-4 lg:mt-3"
+        >
           <span className="text-sm text-[#AEB7BC]">
             Sort by
           </span>
@@ -222,16 +243,31 @@ export default function Vehicles() {
               <ChevronDown size={18} />
             </span>
           </div>
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[245px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]">
-          <h2 className="mb-7 text-[19px] font-semibold">
+        <motion.aside
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="h-fit rounded-[10px] border border-[#263640] bg-[#08131C]/80 p-[14px] sm:p-5 lg:min-h-[700px]"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mb-7 text-[19px] font-semibold"
+          >
             Filters
-          </h2>
+          </motion.h2>
 
-          <div className="mb-7">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            className="mb-7"
+          >
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
             </label>
@@ -254,9 +290,14 @@ export default function Vehicles() {
                 <ChevronDown size={18} />
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mb-7">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            className="mb-7"
+          >
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
             </label>
@@ -285,9 +326,14 @@ export default function Vehicles() {
                 <ChevronDown size={18} />
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mb-7">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.45 }}
+            className="mb-7"
+          >
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
             </label>
@@ -335,9 +381,14 @@ export default function Vehicles() {
                 className="range-thumb absolute left-0 top-0 h-6 w-full appearance-none bg-transparent"
               />
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mb-7">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="mb-7"
+          >
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
             </label>
@@ -361,9 +412,14 @@ export default function Vehicles() {
                 <ChevronDown size={18} />
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.55 }}
+            className="mb-8"
+          >
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
             </label>
@@ -387,69 +443,89 @@ export default function Vehicles() {
                 <ChevronDown size={18} />
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          <button
+          <motion.button
             onClick={clearFilters}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="h-[50px] w-full rounded-lg border border-[#293943] bg-[#0A151E] text-sm font-medium text-[#D3D9DC] transition duration-200 hover:border-[#40515B] hover:bg-[#101E27] active:scale-[0.98]"
           >
             Clear Filters
-          </button>
-        </aside>
+          </motion.button>
+        </motion.aside>
 
         <section className="w-full">
           {displayedScooters.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {displayedScooters.map((scooter) => (
-                <Link
+              {displayedScooters.map((scooter, index) => (
+                <motion.div
                   key={`${scooter.type}-${scooter.id}`}
-                  href={`/${scooter.slug || "model-detail"}`}
-                  className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.08,
+                  }}
+                  whileHover={{ y: -5 }}
                 >
-                  <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
-                    <img
-                      src={scooter.image}
-                      alt={scooter.name}
-                      className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
-                    />
-                  </div>
-
-                  <div className="px-[17px] pb-[17px] pt-2">
-                    <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
-                      {scooter.name}
-                    </h3>
-
-                    <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                      {scooter.priceText}
-                    </p>
-
-                    <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[13px] text-[#B9ED42]">
-                          ★
-                        </span>
-
-                        <span>{scooter.rating}</span>
-                      </div>
+                  <Link
+                    href={`/${scooter.slug || "model-detail"}`}
+                    className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                  >
+                    <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
+                      <motion.img
+                        src={scooter.image}
+                        alt={scooter.name}
+                        whileHover={{ scale: 1.04 }}
+                        transition={{ duration: 0.3 }}
+                        className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
+                      />
                     </div>
 
-                    <AddToCartButton
-                      product={{
-                        id: scooter.id,
-                        name: scooter.name,
-                        price: scooter.price,
-                        image: scooter.image,
-                      }}
-                      className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
-                    >
-                      Add to Cart
-                    </AddToCartButton>
-                  </div>
-                </Link>
+                    <div className="px-[17px] pb-[17px] pt-2">
+                      <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
+                        {scooter.name}
+                      </h3>
+
+                      <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
+                        {scooter.priceText}
+                      </p>
+
+                      <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[13px] text-[#B9ED42]">
+                            ★
+                          </span>
+
+                          <span>{scooter.rating}</span>
+                        </div>
+                      </div>
+
+                      <AddToCartButton
+                        product={{
+                          id: scooter.id,
+                          name: scooter.name,
+                          price: scooter.price,
+                          image: scooter.image,
+                        }}
+                        className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
+                      >
+                        Add to Cart
+                      </AddToCartButton>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           ) : (
-            <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]"
+            >
               <div className="text-center">
                 <p className="text-lg font-semibold text-[#DCE1E4]">
                   No vehicles found
@@ -459,16 +535,22 @@ export default function Vehicles() {
                   Try changing your filters.
                 </p>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {visibleProducts < filteredScooters.length && (
-            <button
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
               onClick={loadMore}
               className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
             >
               Load More
-            </button>
+            </motion.button>
           )}
         </section>
       </div>

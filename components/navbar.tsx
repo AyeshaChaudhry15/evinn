@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Search, Menu, X, ShoppingCart } from "lucide-react";
 import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 
 import vehiclesData from "../src/bike-details/bikes-scooter.json";
 import accessoriesData from "../src/accessories-data/accessories.json";
@@ -14,6 +15,7 @@ const NAV_LINKS = [
   { label: "Electric Bikes", href: "/electric-bikes" },
   { label: "Electric Scooters", href: "/electric-scooters" },
   { label: "Compare", href: "/compare-vehicles" },
+  { label: "About", href: "/about-us" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -130,60 +132,89 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#0B0F0C]/95 backdrop-blur">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <Link
-          href="/"
-          className="flex items-center text-xl font-bold tracking-tight"
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <span className="text-white">EV</span>
-          <span className="text-[#8fdf0d]">INN</span>
-        </Link>
+          <Link
+            href="/"
+            className="flex items-center text-xl font-bold tracking-tight"
+          >
+            <span className="text-white">EV</span>
+            <span className="text-[#8fdf0d]">INN</span>
+          </Link>
+        </motion.div>
 
         <ul className="hidden items-center gap-8 text-lg font-medium text-gray-300 lg:flex">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
+          {NAV_LINKS.map((link, index) => (
+            <motion.li
+              key={link.label}
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
+            >
               <Link
                 href={link.href}
                 className="transition-colors hover:text-[#8fdf0d]"
               >
                 {link.label}
               </Link>
-            </li>
+            </motion.li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-5 text-gray-300">
+        <motion.div
+          className="flex items-center gap-5 text-gray-300"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="relative flex items-center gap-2" ref={searchRef}>
-            {searchOpen && (
-              <input
-                autoFocus
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search"
-                className="
-                  h-9 w-[150px] rounded-md
-                  border border-white/10
-                  bg-[#171B18]
-                  px-3 text-sm text-white
-                  outline-none
-                  placeholder:text-gray-500
-                  focus:border-[#8fdf0d]
-                  sm:w-[180px]
-                "
-              />
-            )}
+            <AnimatePresence>
+              {searchOpen && (
+                <motion.input
+                  autoFocus
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 150 }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="
+                    h-9 w-[150px] rounded-md
+                    border border-white/10
+                    bg-[#171B18]
+                    px-3 text-sm text-white
+                    outline-none
+                    placeholder:text-gray-500
+                    focus:border-[#8fdf0d]
+                    sm:w-[180px]
+                  "
+                />
+              )}
+            </AnimatePresence>
 
-            <button
+            <motion.button
               aria-label="Search"
               onClick={() => setSearchOpen((v) => !v)}
               className="flex items-center transition-colors hover:text-[#8fdf0d]"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <Search size={20} />
-            </button>
+            </motion.button>
 
-            {searchOpen && query.trim().length > 0 && (
-              <div
-                className="
+            <AnimatePresence>
+              {searchOpen && query.trim().length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  className="
                     absolute right-0 top-full z-50 mt-2
                     w-[280px]
                     rounded-2xl
@@ -192,61 +223,74 @@ export default function Navbar() {
                     p-2
                     shadow-[0_20px_50px_rgba(0,0,0,0.5)]
                   "
-              >
-                <div className="max-h-[280px] overflow-y-auto">
-                  {filteredProducts.length > 0 ? (
-                    <ul className="flex flex-col gap-1">
-                      {filteredProducts.map((product) => (
-                        <li key={product.id}>
-                          <Link
-                            href={product.link}
-                            onClick={() => {
-                              setSearchOpen(false);
-                              setQuery("");
+                >
+                  <div className="max-h-[280px] overflow-y-auto">
+                    {filteredProducts.length > 0 ? (
+                      <ul className="flex flex-col gap-1">
+                        {filteredProducts.map((product, index) => (
+                          <motion.li
+                            key={product.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.2,
+                              delay: index * 0.03,
                             }}
-                            className="
-                                  flex items-center gap-2
-                                  rounded-lg px-2 py-1.5
-                                  transition-colors
-                                  hover:bg-white/5
-                                "
                           >
-                            <img
-                              src={product.image}
-                              alt={product.name}
+                            <Link
+                              href={product.link}
+                              onClick={() => {
+                                setSearchOpen(false);
+                                setQuery("");
+                              }}
                               className="
-                                    h-8 w-8 flex-shrink-0
-                                    rounded-md object-contain
-                                  "
-                            />
+                                flex items-center gap-2
+                                rounded-lg px-2 py-1.5
+                                transition-colors
+                                hover:bg-white/5
+                              "
+                            >
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="
+                                  h-8 w-8 flex-shrink-0
+                                  rounded-md object-contain
+                                "
+                              />
 
-                            <div className="min-w-0">
-                              <p className="truncate text-xs font-medium text-white">
-                                {product.name}
-                              </p>
+                              <div className="min-w-0">
+                                <p className="truncate text-xs font-medium text-white">
+                                  {product.name}
+                                </p>
 
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-[10px] text-[#8fdf0d]">
-                                  {product.priceText}
-                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-[10px] text-[#8fdf0d]">
+                                    {product.priceText}
+                                  </span>
 
-                                <span className="text-[9px] text-gray-500">
-                                  · {product.category}
-                                </span>
+                                  <span className="text-[9px] text-gray-500">
+                                    · {product.category}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="px-2 py-2 text-xs text-gray-500">
-                      No results found.
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
+                            </Link>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="px-2 py-2 text-xs text-gray-500"
+                      >
+                        No results found.
+                      </motion.p>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <Link
@@ -258,108 +302,147 @@ export default function Navbar() {
               hover:text-[#8fdf0d]
             "
           >
-            <ShoppingCart size={21} />
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <ShoppingCart size={21} />
+            </motion.div>
 
-            {cartCount > 0 && (
-              <span
-                className="
-                  absolute -right-2 -top-2
-                  flex h-[17px] min-w-[17px]
-                  items-center justify-center
-                  rounded-full
-                  bg-[#8fdf0d]
-                  px-1
-                  text-[9px] font-bold
-                  text-[#0B0F0C]
-                "
-              >
-                {cartCount > 99 ? "99+" : cartCount}
-              </span>
-            )}
+            <AnimatePresence>
+              {cartCount > 0 && (
+                <motion.span
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="
+                    absolute -right-2 -top-2
+                    flex h-[17px] min-w-[17px]
+                    items-center justify-center
+                    rounded-full
+                    bg-[#8fdf0d]
+                    px-1
+                    text-[9px] font-bold
+                    text-[#0B0F0C]
+                  "
+                >
+                  {cartCount > 99 ? "99+" : cartCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
 
-          <Link
-            href="/contact-us"
-            className="
-              hidden rounded-lg
-              bg-[#8fdf0d]
-              px-5 py-2.5
-              text-sm font-semibold
-              text-[#0B0F0C]
-              transition-colors
-              hover:bg-[#a3f722]
-              lg:block
-            "
-          >
-            Contact Us
-          </Link>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/contact-us"
+              className="
+                hidden rounded-lg
+                bg-[#8fdf0d]
+                px-5 py-2.5
+                text-sm font-semibold
+                text-[#0B0F0C]
+                transition-colors
+                hover:bg-[#a3f722]
+                lg:block
+              "
+            >
+              Contact Us
+            </Link>
+          </motion.div>
 
-          <button
+          <motion.button
             className="text-gray-200 lg:hidden"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
+            whileTap={{ scale: 0.9 }}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </nav>
 
-      {mobileOpen && (
-        <div className="border-t border-white/5 bg-[#0B0F0C] px-5 pb-6 lg:hidden">
-          <ul className="mt-4 flex flex-col gap-4 text-sm font-medium text-gray-300">
-            {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="block py-1 transition-colors hover:text-[#8fdf0d]"
-                  onClick={() => setMobileOpen(false)}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="border-t border-white/5 bg-[#0B0F0C] px-5 pb-6 lg:hidden"
+          >
+            <ul className="mt-4 flex flex-col gap-4 text-sm font-medium text-gray-300">
+              {NAV_LINKS.map((link, index) => (
+                <motion.li
+                  key={link.label}
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.06 }}
                 >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/cart"
-            aria-label="Shopping cart"
-            className="relative flex items-center transition-colors hover:text-[#8fdf0d]"
-          >
-            <ShoppingCart size={21} />
+                  <Link
+                    href={link.href}
+                    className="block py-1 transition-colors hover:text-[#8fdf0d]"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
 
-            {cartCount > 0 && (
-              <span
-                className="
-        absolute -right-2 -top-2
-        flex h-[17px] min-w-[17px]
-        items-center justify-center
-        rounded-full
-        bg-[#8fdf0d]
-        px-1
-        text-[9px] font-bold
-        text-[#0B0F0C]
-      "
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.25 }}
+            >
+              <Link
+                href="/cart"
+                aria-label="Shopping cart"
+                className="relative mt-4 flex items-center transition-colors hover:text-[#8fdf0d]"
               >
-                {cartCount > 99 ? "99+" : cartCount}
-              </span>
-            )}
-          </Link>
+                <ShoppingCart size={21} />
 
-          <Link
-            href="/contact-us"
-            onClick={() => setMobileOpen(false)}
-            className="
-              mt-3 block rounded-lg
-              bg-[#8fdf0d]
-              px-5 py-2.5
-              text-center text-sm
-              font-semibold
-              text-[#0B0F0C]
-            "
-          >
-            Contact Us
-          </Link>
-        </div>
-      )}
+                {cartCount > 0 && (
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="
+                      absolute -right-2 -top-2
+                      flex h-[17px] min-w-[17px]
+                      items-center justify-center
+                      rounded-full
+                      bg-[#8fdf0d]
+                      px-1
+                      text-[9px] font-bold
+                      text-[#0B0F0C]
+                    "
+                  >
+                    {cartCount > 99 ? "99+" : cartCount}
+                  </motion.span>
+                )}
+              </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <Link
+                href="/contact-us"
+                onClick={() => setMobileOpen(false)}
+                className="
+                  mt-3 block rounded-lg
+                  bg-[#8fdf0d]
+                  px-5 py-2.5
+                  text-center text-sm
+                  font-semibold
+                  text-[#0B0F0C]
+                "
+              >
+                Contact Us
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

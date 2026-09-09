@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
 import { 
   ChevronDown, 
   Calendar as CalendarIcon, 
@@ -125,23 +126,48 @@ export default function BookTestRide() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#0b0f19] text-white flex flex-col justify-between p-6 md:p-12 font-sans overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center z-0 opacity-40 md:opacity-60"
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ duration: 1 }}
+        className="absolute inset-0 bg-cover bg-center z-0 md:opacity-60"
         style={{ backgroundImage: "url('/blog3.avif')" }} 
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center my-auto">
         
-        <div className="bg-[#111625]/90 backdrop-blur-md border border-slate-800 p-8 rounded-2xl max-w-md w-full shadow-2xl">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Book a Test Ride</h1>
-          <p className="text-slate-400 text-sm mb-6">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="bg-[#111625]/90 backdrop-blur-md border border-slate-800 p-8 rounded-2xl max-w-md w-full shadow-2xl"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-3xl font-bold tracking-tight mb-2"
+          >
+            Book a Test Ride
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-slate-400 text-sm mb-6"
+          >
             Experience the future, before you buy.
-          </p>
+          </motion.p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.55 }}
+            >
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Select Brand
               </label>
@@ -160,9 +186,13 @@ export default function BookTestRide() {
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.6 }}
+            >
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Select Model
               </label>
@@ -181,9 +211,13 @@ export default function BookTestRide() {
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.65 }}
+            >
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Preferred City
               </label>
@@ -202,9 +236,13 @@ export default function BookTestRide() {
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+            >
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Preferred Date
               </label>
@@ -218,9 +256,13 @@ export default function BookTestRide() {
                 />
                 <CalendarIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.75 }}
+            >
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Preferred Time
               </label>
@@ -237,40 +279,61 @@ export default function BookTestRide() {
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
               </div>
-            </div>
+            </motion.div>
 
-            <button
+            <motion.button
               type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
               className="w-full mt-2 bg-[#70b815] hover:bg-[#62a212] text-black font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.99] shadow-lg shadow-lime-950/30"
             >
               Submit Request
-            </button>
+            </motion.button>
           </form>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.5 }}
+        className="relative z-10 max-w-7xl mx-auto w-full mt-12 grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <motion.div
+          whileHover={{ y: -5 }}
+          className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3"
+        >
           <div className="p-2 rounded-full bg-lime-500/10 text-lime-400">
             <KeyRound className="w-5 h-5" />
           </div>
           <span className="text-sm font-medium text-slate-200">Free Test Ride</span>
-        </div>
+        </motion.div>
 
-        <div className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3">
+        <motion.div
+          whileHover={{ y: -5 }}
+          transition={{ delay: 0.05 }}
+          className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3"
+        >
           <div className="p-2 rounded-full bg-lime-500/10 text-lime-400">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <span className="text-sm font-medium text-slate-200">No Obligation</span>
-        </div>
+        </motion.div>
 
-        <div className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3">
+        <motion.div
+          whileHover={{ y: -5 }}
+          transition={{ delay: 0.1 }}
+          className="bg-[#111625]/80 backdrop-blur-md border border-slate-800/80 rounded-xl p-4 flex items-center gap-3"
+        >
           <div className="p-2 rounded-full bg-lime-500/10 text-lime-400">
             <Zap className="w-5 h-5" />
           </div>
           <span className="text-sm font-medium text-slate-200">Quick Booking</span>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

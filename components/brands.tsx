@@ -1,5 +1,7 @@
 "use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface Brand {
   name: string;
@@ -104,7 +106,13 @@ export default function Brands() {
   return (
     <main id="brands" className="min-h-screen bg-[#081019] py-5 sm:px-2">
       <div className="mx-auto max-w-[1250px] pt-10">
-        <div className="mb-5">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-5"
+        >
           <h1 className="text-4xl font-bold text-[#E8EBF2] sm:text-5xl">
             All Brands
           </h1>
@@ -112,38 +120,49 @@ export default function Brands() {
           <p className="mt-1 text-lg text-[#A8B0BE] sm:text-xl">
             Explore the electric vehicle brands in one place.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {brands.map((brand) => (
-            <Link
+          {brands.map((brand, index) => (
+            <motion.div
               key={brand.name}
-              href={brand.link}
-              className="
-                flex
-                h-[100px]
-                items-center
-                justify-center
-                rounded-lg
-                border
-                border-[#1D2A36]
-                bg-[#101923]
-                transition-all
-                duration-200
-                hover:border-lime-300
-                hover:bg-[#14212C]
-              "
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.05,
+              }}
+              whileHover={{ y: -5 }}
             >
-              <div className="flex w-full flex-col items-center justify-center gap-1.5 px-2">
-                <div className="flex h-[95px] w-[92%] items-center justify-center">
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    className="h-full w-full object-contain"
-                  />
+              <Link
+                href={brand.link}
+                className="
+                  flex
+                  h-[100px]
+                  items-center
+                  justify-center
+                  rounded-lg
+                  border
+                  border-[#1D2A36]
+                  bg-[#101923]
+                  transition-all
+                  duration-200
+                  hover:border-lime-300
+                  hover:bg-[#14212C]
+                "
+              >
+                <div className="flex w-full flex-col items-center justify-center gap-1.5 px-2">
+                  <div className="flex h-[95px] w-[92%] items-center justify-center">
+                    <img
+                      src={brand.logo}
+                      alt={brand.name}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
