@@ -1,18 +1,6 @@
 "use client";
 
 import Link from "next/link";
-<<<<<<< HEAD
-import accessoriesData from "../../../accessories-data/accessories.json";
-import AddToCartButton from "../../../../components/add-to-cart";
-
-export default async function AccessoryDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const resolvedParams = await params;
-  const currentSlug = resolvedParams.slug;
-=======
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/redux/cart-slice";
@@ -24,7 +12,6 @@ export default function AccessoryDetail() {
   const dispatch = useDispatch();
 
   const currentSlug = typeof params.slug === "string" ? params.slug : "";
->>>>>>> adc06ec81d5cb1a805b057fa269649796575b02d
 
   const accessory = accessoriesData.accessories.find(
     (item) =>
@@ -122,25 +109,6 @@ export default function AccessoryDetail() {
             )}
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-<<<<<<< HEAD
-              <AddToCartButton
-                product={{
-                  id: accessory.id,
-                  name: accessory.name,
-                  price: Number(accessory.price),
-                  image: accessory.image,
-                }}
-                className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
-              >
-                Add to Cart
-              </AddToCartButton>
-
-              <Link href={"/shipping"}>
-                <button className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039]">
-                  Buy Now
-                </button>
-              </Link>
-=======
               <button 
                 type="button"
                 onClick={handleAddToCart}
@@ -156,7 +124,6 @@ export default function AccessoryDetail() {
               >
                 Buy Now
               </button>
->>>>>>> adc06ec81d5cb1a805b057fa269649796575b02d
             </div>
 
             <div className="mt-8 border-t border-[#1c3039] pt-6">
