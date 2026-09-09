@@ -122,6 +122,7 @@ export default function OrderSuccessPage() {
               </p>
             </div>
 
+       <Link href={"/summary"}>
             <button
               type="button"
               onClick={() => {
@@ -136,6 +137,7 @@ export default function OrderSuccessPage() {
             >
               View Details
             </button>
+            </Link>
           </div>
 
           <div id="order-items" className="px-5 py-6 sm:px-6">

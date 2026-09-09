@@ -349,7 +349,7 @@ export default function CartPage() {
                 </div>
 
                 <Link
-                  href="/checkout"
+                  href="/shipping"
                   className="
                     mt-6 flex w-full
                     items-center
