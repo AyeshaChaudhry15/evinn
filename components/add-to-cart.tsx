@@ -28,7 +28,15 @@ export default function AddToCartButton({
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(addToCart(product));
+    dispatch(
+      addToCart({
+        id: String(product.id),
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      })
+    );
   };
 
   return (
