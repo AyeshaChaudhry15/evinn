@@ -30,8 +30,8 @@ export default function ShippingForm() {
   };
 
   return (
-    <div className="min-h-screen  bg-[#0B0F17] text-white flex justify-center items-center ">
-      <div className="w-400 max-w-lg  p-6 rounded-2xl">
+    <div className="min-h-screen  w-full bg-[#0B0F17] text-white flex justify-center items-center ">
+      <div className=" max-w-5xl w-full p-6 rounded-2xl">
         <h2 className="text-3xl font-semibold mb-6">Shipping Details</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -215,7 +215,7 @@ export default function ShippingForm() {
       type="button" 
       className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition"
     >
-      Confirm Order <ArrowRight className="w-4 h-4" />
+      confrim Order <ArrowRight className="w-4 h-4" />
     </button>
   </Link>
 </div>
