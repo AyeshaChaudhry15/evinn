@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+<<<<<<< HEAD
 import accessoriesData from "../../../accessories-data/accessories.json";
 import AddToCartButton from "../../../../components/add-to-cart";
 
@@ -9,6 +12,19 @@ export default async function AccessoryDetail({
 }) {
   const resolvedParams = await params;
   const currentSlug = resolvedParams.slug;
+=======
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/redux/cart-slice";
+import accessoriesData from "../../../accessories-data/accessories.json"; 
+
+export default function AccessoryDetail() {
+  const params = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const currentSlug = typeof params.slug === "string" ? params.slug : "";
+>>>>>>> adc06ec81d5cb1a805b057fa269649796575b02d
 
   const accessory = accessoriesData.accessories.find(
     (item) =>
@@ -16,6 +32,32 @@ export default async function AccessoryDetail({
       item.name.toLowerCase().replace(/\s+/g, "-") ===
         currentSlug.toLowerCase(),
   );
+
+  const handleAddToCart = () => {
+    if (!accessory) return;
+    dispatch(
+      addToCart({
+        id: accessory.id as any,
+        name: accessory.name,
+        price: Number(accessory.price || 0),
+        image: accessory.image,
+        quantity: 1,
+      })
+    );
+  };
+
+  const handleBuyNow = () => {
+    if (!accessory) return;
+    const singleOrderProduct = {
+      id: accessory.id,
+      name: accessory.name,
+      price: Number(accessory.price || 0),
+      image: accessory.image,
+      quantity: 1,
+    };
+    localStorage.setItem("directCheckoutItem", JSON.stringify(singleOrderProduct));
+    router.push("/shipping");
+  };
 
   if (!accessory) {
     return (
@@ -80,6 +122,7 @@ export default async function AccessoryDetail({
             )}
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+<<<<<<< HEAD
               <AddToCartButton
                 product={{
                   id: accessory.id,
@@ -97,6 +140,23 @@ export default async function AccessoryDetail({
                   Buy Now
                 </button>
               </Link>
+=======
+              <button 
+                type="button"
+                onClick={handleAddToCart}
+                className="flex-1 rounded-lg bg-[#8fdf0d] px-8 py-3.5 text-center text-sm font-bold text-black transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                Add to Cart
+              </button>
+              
+              <button 
+                type="button"
+                onClick={handleBuyNow}
+                className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039] cursor-pointer"
+              >
+                Buy Now
+              </button>
+>>>>>>> adc06ec81d5cb1a805b057fa269649796575b02d
             </div>
 
             <div className="mt-8 border-t border-[#1c3039] pt-6">

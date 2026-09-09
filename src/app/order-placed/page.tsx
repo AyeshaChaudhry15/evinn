@@ -101,7 +101,7 @@ export default function OrderSuccessPage() {
           </p>
 
           <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-            You will receive a confirmation email and SMS shortly.
+            You will receive a confirmation SMS shortly.
           </p>
         </div>
 

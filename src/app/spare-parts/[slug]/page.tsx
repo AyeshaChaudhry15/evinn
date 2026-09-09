@@ -93,8 +93,7 @@ export default async function SparePartDetail({
                 <button className="w-full rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039]">
                   Buy Now
                 </button>
-              </Link>
-            </div>
+              </Link>            </div>
             ```
             <div className="mt-8 border-t border-[#1c3039] pt-6">
               <ul className="space-y-2 text-sm text-gray-400">

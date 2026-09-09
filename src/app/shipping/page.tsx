@@ -46,6 +46,30 @@ export default function ShippingForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    let finalItems: any[] = [];
+
+    if (cartItems && cartItems.length > 0) {
+      finalItems = cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: Number(item.price),
+        image: item.image,
+        quantity: item.quantity || 1,
+      }));
+    } else {
+      const directItem = localStorage.getItem("directCheckoutItem");
+      if (directItem) {
+        const parsed = JSON.parse(directItem);
+        finalItems = [{
+          id: parsed.id,
+          name: parsed.name,
+          price: Number(parsed.price),
+          image: parsed.image,
+          quantity: parsed.quantity || 1,
+        }];
+      }
+    }
+
     const orderData = {
       orderId: `EVN${Date.now().toString().slice(-6)}`,
 
@@ -57,13 +81,7 @@ export default function ShippingForm() {
         minute: "2-digit",
       }),
 
-      items: cartItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: Number(item.price),
-        image: item.image,
-        quantity: item.quantity || 1,
-      })),
+      items: finalItems,
 
       customer: {
         fullName: formData.fullName,
@@ -80,7 +98,7 @@ export default function ShippingForm() {
       JSON.stringify(orderData)
     );
 
-    console.log("Order Placed:", orderData);
+    localStorage.removeItem("directCheckoutItem");
 
     dispatch(clearCart());
 
@@ -307,12 +325,11 @@ export default function ShippingForm() {
             </div>
           </div>
 
-
           <div className="pt-4">
 
             <button
               type="submit"
-              className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition"
+              className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer"
             >
               Confirm Order
               <ArrowRight className="w-4 h-4" />
