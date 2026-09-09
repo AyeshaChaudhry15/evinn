@@ -1,6 +1,6 @@
 "use client";
 
-import { useState,  } from "react";
+import { useState } from "react";
 import vehiclesData from "../../bike-details/bikes-scooter.json";
 
 interface Vehicle {
@@ -21,6 +21,7 @@ interface Vehicle {
     motorPower: string;
     weight: string;
     warranty: string;
+    features?: string;
   };
 }
 
@@ -32,6 +33,7 @@ const specsList = [
   { key: "motorPower", label: "Motor Power" },
   { key: "weight", label: "Weight" },
   { key: "warranty", label: "Warranty" },
+
 ] as const;
 
 export default function CompareVehicles() {
@@ -44,7 +46,6 @@ export default function CompareVehicles() {
     allVehicles.slice(0, 3),
   );
 
- 
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -93,7 +94,13 @@ export default function CompareVehicles() {
             gridTemplateColumns: `1fr repeat(${selectedVehicles.length}, 1fr)`,
           }}
         >
-          <div className="flex flex-col gap-2 pt-[180px]">
+      
+          <div className="flex flex-col gap-2">
+            
+            <div className="flex h-[170px] items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24]  text-3xl font-semibold text-[#8fdf0d]">
+              Features
+            </div>
+
             {specsList.map((spec) => (
               <div
                 key={spec.key}
@@ -125,7 +132,6 @@ export default function CompareVehicles() {
                       ✕
                     </button>
                   )}
-
                   
                   <div className="relative w-full pr-4">
                     <div
@@ -185,7 +191,7 @@ export default function CompareVehicles() {
                     key={spec.key}
                     className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
                   >
-                    {item.specs ? item.specs[spec.key] : "N/A"}
+                    {item.specs ? item.specs[spec.key as keyof typeof item.specs] || "N/A" : "N/A"}
                   </div>
                 ))}
               </div>
