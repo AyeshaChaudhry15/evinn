@@ -1,45 +1,127 @@
 "use client";
 
 import React, { useState } from "react";
-import {ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+
+import type { RootState, AppDispatch } from "@/app/redux/store";
+import { clearCart } from "@/app/redux/cart-slice";
+
 export default function ShippingForm() {
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.items
+  );
+
   const [formData, setFormData] = useState({
-    fullName: "Full name",
-    phoneNumber: "Phone number",
-    address: "Address",
-    city: "City",
-    postalCode: "Postal code",
-    paymentMethod: "jazzcash",
+    fullName: "",
+    phoneNumber: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    paymentMethod: "",
   });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handlePaymentSelect = (method: string) => {
-    setFormData((prev) => ({ ...prev, paymentMethod: method }));
+    setFormData((prev) => ({
+      ...prev,
+      paymentMethod: method,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+
+    let finalItems: any[] = [];
+
+    if (cartItems && cartItems.length > 0) {
+      finalItems = cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: Number(item.price),
+        image: item.image,
+        quantity: item.quantity || 1,
+      }));
+    } else {
+      const directItem = localStorage.getItem("directCheckoutItem");
+      if (directItem) {
+        const parsed = JSON.parse(directItem);
+        finalItems = [{
+          id: parsed.id,
+          name: parsed.name,
+          price: Number(parsed.price),
+          image: parsed.image,
+          quantity: parsed.quantity || 1,
+        }];
+      }
+    }
+
+    const orderData = {
+      orderId: `EVN${Date.now().toString().slice(-6)}`,
+
+      placedAt: new Date().toLocaleString("en-PK", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+
+      items: finalItems,
+
+      customer: {
+        fullName: formData.fullName,
+        phoneNumber: formData.phoneNumber,
+        address: formData.address,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        paymentMethod: formData.paymentMethod,
+      },
+    };
+
+    localStorage.setItem(
+      "lastOrder",
+      JSON.stringify(orderData)
+    );
+
+    localStorage.removeItem("directCheckoutItem");
+
+    dispatch(clearCart());
+
+    router.push("/order-placed");
   };
 
   return (
-    <div className="min-h-screen  w-full bg-[#0B0F17] text-white flex justify-center items-center ">
-      <div className=" max-w-5xl w-full p-6 rounded-2xl">
-        <h2 className="text-3xl font-semibold mb-6">Shipping Details</h2>
+    <div className="min-h-screen bg-[#0B0F17] text-white flex justify-center items-center px-4 py-10">
+      <div className="w-full max-w-4xl p-6 rounded-2xl">
+
+        <h2 className="text-3xl font-semibold mb-6">
+          Shipping Details
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
             <div>
               <label className="block text-xs text-gray-400 mb-1">
                 Full Name <span className="text-green-400">*</span>
               </label>
+
               <input
                 type="text"
                 placeholder="Enter your name"
@@ -50,10 +132,12 @@ export default function ShippingForm() {
                 required
               />
             </div>
+
             <div>
               <label className="block text-xs text-gray-400 mb-1">
                 Phone Number <span className="text-green-400">*</span>
               </label>
+
               <input
                 type="text"
                 placeholder="Enter your number"
@@ -64,12 +148,14 @@ export default function ShippingForm() {
                 required
               />
             </div>
+
           </div>
 
           <div>
             <label className="block text-xs text-gray-400 mb-1">
               Address <span className="text-green-400">*</span>
             </label>
+
             <input
               type="text"
               name="address"
@@ -82,10 +168,12 @@ export default function ShippingForm() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
             <div>
               <label className="block text-xs text-gray-400 mb-1">
                 City <span className="text-green-400">*</span>
               </label>
+
               <input
                 type="text"
                 name="city"
@@ -96,10 +184,12 @@ export default function ShippingForm() {
                 required
               />
             </div>
+
             <div>
               <label className="block text-xs text-gray-400 mb-1">
                 Postal Code <span className="text-green-400">*</span>
               </label>
+
               <input
                 type="text"
                 name="postalCode"
@@ -110,12 +200,17 @@ export default function ShippingForm() {
                 required
               />
             </div>
+
           </div>
 
           <div className="pt-4">
-            <h3 className="text-xl font-semibold mb-4">Payment Method</h3>
+
+            <h3 className="text-xl font-semibold mb-4">
+              Payment Method
+            </h3>
 
             <div className="space-y-3">
+
               <div
                 onClick={() => handlePaymentSelect("jazzcash")}
                 className={`flex items-start p-4 rounded-xl border cursor-pointer transition ${
@@ -125,6 +220,7 @@ export default function ShippingForm() {
                 }`}
               >
                 <div className="flex items-center h-5 mt-0.5">
+
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                       formData.paymentMethod === "jazzcash"
@@ -136,14 +232,19 @@ export default function ShippingForm() {
                       <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
+
                 </div>
+
                 <div className="ml-3">
+
                   <p className="text-sm font-medium text-white">
                     JazzCash / Easypaisa
                   </p>
+
                   <p className="text-xs text-gray-400">
                     Pay via JazzCash or Easypaisa
                   </p>
+
                 </div>
               </div>
 
@@ -156,6 +257,7 @@ export default function ShippingForm() {
                 }`}
               >
                 <div className="flex items-center h-5 mt-0.5">
+
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                       formData.paymentMethod === "bank"
@@ -167,12 +269,19 @@ export default function ShippingForm() {
                       <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
+
                 </div>
+
                 <div className="ml-3">
+
                   <p className="text-sm font-medium text-white">
                     Bank Transfer
                   </p>
-                  <p className="text-xs text-gray-400">Pay via bank transfer</p>
+
+                  <p className="text-xs text-gray-400">
+                    Pay via bank transfer
+                  </p>
+
                 </div>
               </div>
 
@@ -185,6 +294,7 @@ export default function ShippingForm() {
                 }`}
               >
                 <div className="flex items-center h-5 mt-0.5">
+
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                       formData.paymentMethod === "cod"
@@ -196,29 +306,37 @@ export default function ShippingForm() {
                       <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
+
                 </div>
+
                 <div className="ml-3">
+
                   <p className="text-sm font-medium text-white">
                     Cash on Delivery
                   </p>
+
                   <p className="text-xs text-gray-400">
                     Pay when you receive the order
                   </p>
+
                 </div>
               </div>
+
             </div>
           </div>
 
-        <div className="pt-4">
-  <Link href="/order-placed"> 
-    <button
-      type="button" 
-      className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition"
-    >
-      confrim Order <ArrowRight className="w-4 h-4" />
-    </button>
-  </Link>
-</div>
+          <div className="pt-4">
+
+            <button
+              type="submit"
+              className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer"
+            >
+              Confirm Order
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+          </div>
+
         </form>
       </div>
     </div>

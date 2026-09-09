@@ -1,20 +1,49 @@
+"use client";
+
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/redux/cart-slice";
 import accessoriesData from "../../../accessories-data/accessories.json"; 
 
-export default async function AccessoryDetail({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
-}) {
-  
-  const resolvedParams = await params;
-  const currentSlug = resolvedParams.slug;
+export default function AccessoryDetail() {
+  const params = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const currentSlug = typeof params.slug === "string" ? params.slug : "";
 
   const accessory = accessoriesData.accessories.find(
     (item) => 
       String(item.id) === String(currentSlug) ||
       item.name.toLowerCase().replace(/\s+/g, '-') === currentSlug.toLowerCase()
   );
+
+  const handleAddToCart = () => {
+    if (!accessory) return;
+    dispatch(
+      addToCart({
+        id: accessory.id as any,
+        name: accessory.name,
+        price: Number(accessory.price || 0),
+        image: accessory.image,
+        quantity: 1,
+      })
+    );
+  };
+
+  const handleBuyNow = () => {
+    if (!accessory) return;
+    const singleOrderProduct = {
+      id: accessory.id,
+      name: accessory.name,
+      price: Number(accessory.price || 0),
+      image: accessory.image,
+      quantity: 1,
+    };
+    localStorage.setItem("directCheckoutItem", JSON.stringify(singleOrderProduct));
+    router.push("/shipping");
+  };
 
   if (!accessory) {
     return (
@@ -76,11 +105,19 @@ export default async function AccessoryDetail({
             )}
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <button className="flex-1 rounded-lg bg-[#8fdf0d] px-8 py-3.5 text-center text-sm font-bold text-black transition-transform hover:scale-105 active:scale-95">
+              <button 
+                type="button"
+                onClick={handleAddToCart}
+                className="flex-1 rounded-lg bg-[#8fdf0d] px-8 py-3.5 text-center text-sm font-bold text-black transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              >
                 Add to Cart
               </button>
               
-              <button className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039]">
+              <button 
+                type="button"
+                onClick={handleBuyNow}
+                className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039] cursor-pointer"
+              >
                 Buy Now
               </button>
             </div>

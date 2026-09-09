@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import AddToCartButton from "../../../components/add-to-cart";
 
@@ -43,6 +43,7 @@ interface Vehicle {
 
 export default function ModelDetailPage() {
   const params = useParams();
+  const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<
     "overview" | "features" | "reviews"
@@ -55,6 +56,18 @@ export default function ModelDetailPage() {
     : [...(vehiclesData.bikes || []), ...(vehiclesData.scooters || [])];
 
   const vehicle = bikeData.find((bike) => bike.slug === slug);
+
+  const handleBuyNow = () => {
+    const singleOrderProduct = {
+      id: vehicle?.id,
+      name: vehicle?.name,
+      price: vehicle?.price,
+      image: vehicle?.image,
+      quantity: 1,
+    };
+    localStorage.setItem("directCheckoutItem", JSON.stringify(singleOrderProduct));
+    router.push("/shipping");
+  };
 
   if (!vehicle) {
     return (
@@ -142,12 +155,13 @@ export default function ModelDetailPage() {
                     Add to Cart
                   </AddToCartButton>
 
-                  <Link
-                    href="/checkout"
-                    className="flex-1 rounded-xl border border-[#23333D] bg-[#0A151E] px-8 py-4 text-center text-sm font-bold text-[#8FDF0D] transition-colors hover:border-[#8FDF0D] hover:text-[#8FDF0D]"
+                  <button
+                    type="button"
+                    onClick={handleBuyNow}
+                    className="flex-1 rounded-xl border border-[#23333D] bg-[#0A151E] px-8 py-4 text-center text-sm font-bold text-[#8FDF0D] transition-colors hover:border-[#8FDF0D] hover:text-[#8FDF0D] cursor-pointer"
                   >
                     Buy Now
-                  </Link>
+                  </button>
                 </div>
               </div>
 

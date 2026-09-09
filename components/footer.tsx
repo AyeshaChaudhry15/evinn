@@ -26,18 +26,16 @@ const infoLinks = [
   { label: "Contact Us", href: "/contact-us" },
   { label: "Terms & Conditions", href: "/terms-and-conditions" },
   { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Shipping & Delivery", href: "/shipping-delivery" },
 ];
 
 const brandLinks = [
   { label: "Okla Electric", href: "/brands/okla" },
-  { label: "Ecruze", href: "/brands/ecruze" },
+  { label: "Hi Speed", href: "/brands/hi-speed" },
   { label: "EVINN", href: "/brands/evinn" },
-  { label: "Jinpeng", href: "/brands/jinpeng" },
+  { label: "Evee", href: "/brands/evee" },
   { label: "Road-King", href: "/brands/road-king" },
   { label: "Crown-CMC", href: "/brands/crown-cmc" },
-  { label: "United", href: "/brands/united" },
-  { label: "Luyuan", href: "/brands/luyuan" },
+ 
 ];
 
 const socialLinks = [

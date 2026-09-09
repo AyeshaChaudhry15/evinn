@@ -1,20 +1,49 @@
+"use client";
+
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/redux/cart-slice";
 import sparepartsdata from "../../../spare-parts-data/spare-parts.json"; 
 
-export default async function SparePartDetail({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
-}) {
-  
-  const resolvedParams = await params;
-  const currentSlug = resolvedParams.slug;
+export default function SparePartDetail() {
+  const params = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const currentSlug = typeof params.slug === "string" ? params.slug : "";
 
   const part = sparepartsdata["spare-parts"].find(
     (item) => 
       String(item.id) === String(currentSlug) ||
       item.name.toLowerCase().replace(/\s+/g, '-') === currentSlug.toLowerCase()
   );
+
+  const handleAddToCart = () => {
+    if (!part) return;
+    dispatch(
+      addToCart({
+        id: part.id as any,
+        name: part.name,
+        price: Number(part.price || 0),
+        image: part.image,
+        quantity: 1,
+      })
+    );
+  };
+
+  const handleBuyNow = () => {
+    if (!part) return;
+    const singleOrderProduct = {
+      id: part.id,
+      name: part.name,
+      price: Number(part.price || 0),
+      image: part.image,
+      quantity: 1,
+    };
+    localStorage.setItem("directCheckoutItem", JSON.stringify(singleOrderProduct));
+    router.push("/shipping");
+  };
 
   if (!part) {
     return (
@@ -76,11 +105,19 @@ export default async function SparePartDetail({
             )}
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <button className="flex-1 rounded-lg bg-[#8fdf0d] px-8 py-3.5 text-center text-sm font-bold text-black transition-transform hover:scale-105 active:scale-95">
+              <button 
+                type="button"
+                onClick={handleAddToCart}
+                className="flex-1 rounded-lg bg-[#8fdf0d] px-8 py-3.5 text-center text-sm font-bold text-black transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              >
                 Add to Cart
               </button>
               
-              <button className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039]">
+              <button 
+                type="button"
+                onClick={handleBuyNow}
+                className="flex-1 rounded-lg border border-[#31444c] bg-[#10232d] px-8 py-3.5 text-center text-sm font-bold text-[#8fdf0d] transition-colors hover:bg-[#1c3039] cursor-pointer"
+              >
                 Buy Now
               </button>
             </div>
