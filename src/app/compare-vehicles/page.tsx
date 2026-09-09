@@ -47,13 +47,7 @@ export default function CompareVehicles() {
     allVehicles.slice(0, 3),
   );
 
-<<<<<<< HEAD
-  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
-    null,
-  );
-=======
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
->>>>>>> fe48804df01d5925e9fadefa9d5dfa235a013b37
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSelectChange = (index: number, vehicle: Vehicle) => {
@@ -122,17 +116,6 @@ export default function CompareVehicles() {
             gridTemplateColumns: `1fr repeat(${selectedVehicles.length}, 1fr)`,
           }}
         >
-<<<<<<< HEAD
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-2 pt-[180px]"
-          >
-            {specsList.map((spec, i) => (
-              <motion.div
-=======
       
           <div className="flex flex-col gap-2">
             
@@ -142,7 +125,6 @@ export default function CompareVehicles() {
 
             {specsList.map((spec) => (
               <div
->>>>>>> fe48804df01d5925e9fadefa9d5dfa235a013b37
                 key={spec.key}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -189,11 +171,7 @@ export default function CompareVehicles() {
                       ✕
                     </motion.button>
                   )}
-<<<<<<< HEAD
-
-=======
                   
->>>>>>> fe48804df01d5925e9fadefa9d5dfa235a013b37
                   <div className="relative w-full pr-4">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
@@ -296,13 +274,8 @@ export default function CompareVehicles() {
                     whileHover={{ y: -2 }}
                     className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
                   >
-<<<<<<< HEAD
-                    {item.specs ? item.specs[spec.key] : "N/A"}
-                  </motion.div>
-=======
                     {item.specs ? item.specs[spec.key as keyof typeof item.specs] || "N/A" : "N/A"}
                   </div>
->>>>>>> fe48804df01d5925e9fadefa9d5dfa235a013b37
                 ))}
               </motion.div>
             );
