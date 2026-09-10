@@ -3,11 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const shopLinks = [
@@ -112,8 +108,8 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Pakistan&apos;s trusted platform for electric bikes and
-              scooters. Discover, compare, and choose the future of mobility.
+              Pakistan&apos;s trusted platform for electric bikes and scooters.
+              Discover, compare, and choose the future of mobility.
             </motion.p>
 
             <motion.div
@@ -197,9 +193,7 @@ export default function Footer() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
                 >
-                  <div className="mb-1 text-base text-lime-400">
-                    {b.icon}
-                  </div>
+                  <div className="mb-1 text-base text-lime-400">{b.icon}</div>
 
                   <div className="text-[10px] text-gray-400 sm:text-[11px]">
                     <span className="block font-medium text-gray-300">
