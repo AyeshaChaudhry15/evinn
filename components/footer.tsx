@@ -3,6 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const shopLinks = [
   { label: "All Vehicles", href: "/vehicles" },
@@ -41,11 +47,10 @@ const brandLinks = [
 ];
 
 const socialLinks = [
-  { icon: "f", href: "https://facebook.com", label: "Facebook" },
-  { icon: "◎", href: "https://instagram.com", label: "Instagram" },
-  { icon: "▶", href: "https://youtube.com", label: "YouTube" },
-  { icon: "in", href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: "X", href: "https://x.com", label: "X" },
+  { icon: FaFacebookF, href: "https://facebook.com", label: "Facebook" },
+  { icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: FaLinkedinIn, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: FaXTwitter, href: "https://x.com", label: "X" },
 ];
 
 const badges = [
@@ -118,23 +123,27 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-sm text-gray-300 transition-all duration-300 hover:border-lime-400/50 hover:text-lime-400 sm:h-10 sm:w-10"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  whileHover={{ y: -4, scale: 1.05 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
+              {socialLinks.map((social, index) => {
+                const Icon = social.icon;
+
+                return (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-sm text-gray-300 transition-all duration-300 hover:border-lime-400/50 hover:text-lime-400 sm:h-10 sm:w-10"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    whileHover={{ y: -4, scale: 1.05 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
+                  >
+                    <Icon />
+                  </motion.a>
+                );
+              })}
             </motion.div>
           </motion.div>
 
