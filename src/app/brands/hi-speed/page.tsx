@@ -65,7 +65,7 @@ export default function HispeedPage() {
 
         const brandsResponse = await api.get<BrandsResponse>("/brands");
 
-        const hispeedBrand = brandsResponse.data.brands.find(
+        const hispeedBrand = brandsResponse.data.brands?.find(
           (brand) =>
             brand.displayName.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
@@ -88,8 +88,8 @@ export default function HispeedPage() {
         console.error("Hi speed API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.response?.data?.message ||
+            err?.message ||
             "Something went wrong while loading bikes."
         );
       } finally {
@@ -112,8 +112,9 @@ export default function HispeedPage() {
     return 0;
   });
 
-  const formatPKR = (price: number) =>
-    `PKR ${price.toLocaleString("en-PK")}`;
+  const formatPKR = (price: number) => {
+    return `PKR ${price.toLocaleString("en-PK")}`;
+  };
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -182,38 +183,41 @@ export default function HispeedPage() {
         {!loading && !error && sortedVehicles.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {sortedVehicles.map((bike) => (
-              <Link
+              <div
                 key={bike._id}
-                href={`/${bike.slug}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
-                <div className="flex h-56 items-center justify-center bg-white p-5">
-                  <img
-                    src={bike.imageUrl}
-                    alt={bike.name}
-                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                <div className="p-5">
-                  <p className="mb-1 text-sm text-gray-500">
-                    {bike.type}
-                  </p>
-
-                  <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
-                    {bike.name}
-                  </h2>
-
-                  <div className="mt-3 flex items-center justify-between gap-3">
-                    <p className="font-semibold text-[#8FDF0D]">
-                      {formatPKR(bike.price)}
-                    </p>
-
-                    <span className="text-sm text-yellow-400">
-                      ★ {bike.rating}
-                    </span>
+                <Link href={`/${bike.slug}`}>
+                  <div className="flex h-56 items-center justify-center bg-white p-5">
+                    <img
+                      src={bike.imageUrl}
+                      alt={bike.name}
+                      className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+                    />
                   </div>
 
+                  <div className="p-5">
+                    <p className="mb-1 text-sm text-gray-500">
+                      {bike.type}
+                    </p>
+
+                    <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
+                      {bike.name}
+                    </h2>
+
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <p className="font-semibold text-[#8FDF0D]">
+                        {formatPKR(bike.price)}
+                      </p>
+
+                      <span className="text-sm text-yellow-400">
+                        ★ {bike.rating}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+
+                <div className="px-5 pb-5">
                   <AddToCartButton
                     product={{
                       id: bike._id,
@@ -221,12 +225,12 @@ export default function HispeedPage() {
                       price: bike.price,
                       image: bike.imageUrl,
                     }}
-                    className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                    className="h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
                   >
                     Add to Cart
                   </AddToCartButton>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

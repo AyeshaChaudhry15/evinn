@@ -32,10 +32,6 @@ interface Vehicle {
   };
 }
 
-interface BrandsResponse {
-  brands: Brand[];
-}
-
 interface BikesResponse {
   bikes: Vehicle[];
   pagination: {
@@ -63,30 +59,22 @@ export default function CrownCmcPage() {
         setLoading(true);
         setError("");
 
-        // 1. Get all brands
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
-
-        // 2. Find Crown CMC
-        const crownBrand = brandsResponse.data.brands.find(
-          (brand) =>
-            brand.displayName.toLowerCase().trim() ===
-            brandName.toLowerCase().trim()
-        );
-
-        if (!crownBrand) {
-          throw new Error("Crown CMC brand not found");
-        }
-
-        // 3. Get bikes belonging to Crown CMC
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
           params: {
-            brand: crownBrand._id,
             page: 1,
             limit: 100,
           },
         });
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
+        const bikes = bikesResponse.data?.bikes || [];
+
+        const crownCmcBikes = bikes.filter(
+          (bike) =>
+            bike.brand?.displayName?.toLowerCase().trim() ===
+            brandName.toLowerCase().trim()
+        );
+
+        setBrandVehicles(crownCmcBikes);
       } catch (err: any) {
         console.error("Crown CMC API Error:", err);
 
@@ -161,7 +149,6 @@ export default function CrownCmcPage() {
           </div>
         </header>
 
-        {/* Loading */}
         {loading && (
           <div className="rounded-2xl border border-white/10 py-16 text-center">
             <p className="text-gray-400">
@@ -170,14 +157,12 @@ export default function CrownCmcPage() {
           </div>
         )}
 
-        {/* Error */}
         {!loading && error && (
           <div className="rounded-2xl border border-red-500/20 bg-red-500/5 py-16 text-center">
             <p className="text-red-400">{error}</p>
           </div>
         )}
 
-        {/* No bikes */}
         {!loading && !error && sortedVehicles.length === 0 && (
           <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
             <p className="text-gray-500">
@@ -186,7 +171,6 @@ export default function CrownCmcPage() {
           </div>
         )}
 
-        {/* Bikes */}
         {!loading && !error && sortedVehicles.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {sortedVehicles.map((bike) => (

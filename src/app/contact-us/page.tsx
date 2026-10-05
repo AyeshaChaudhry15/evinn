@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -11,6 +12,7 @@ import {
 import { FaInstagram, FaYoutube } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { api } from "../../lib/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -28,6 +30,7 @@ export default function Contact() {
   });
 
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -49,7 +52,7 @@ export default function Contact() {
     setSuccess("");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = {
@@ -96,14 +99,47 @@ export default function Contact() {
 
     if (!isValid) return;
 
-    setSuccess("Your message has been sent successfully!");
+    try {
+      setLoading(true);
+      setSuccess("");
 
-    setFormData({
-      name: "",
-      email: "",
-      inquiry: "General Inquiry",
-      message: "",
-    });
+      const response = await api.post("/contact-submissions", {
+        fullName: formData.name.trim(),
+        email: formData.email.trim(),
+        reason: formData.inquiry,
+        message: formData.message.trim(),
+      });
+
+      setSuccess(
+        response.data?.message ||
+          "Thanks for reaching out! We'll get back to you soon."
+      );
+
+      setFormData({
+        name: "",
+        email: "",
+        inquiry: "General Inquiry",
+        message: "",
+      });
+    } catch (err: any) {
+      console.error("Contact Form API Error:", err);
+
+      const status = err.response?.status;
+
+      if (status === 429) {
+        setSuccess(
+          "You've sent several messages already. Please try again later."
+        );
+      } else {
+        setSuccess(
+          err.response?.data?.message ||
+            err.message ||
+            "Something went wrong. Please try again."
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -191,7 +227,9 @@ export default function Contact() {
               transition={{ duration: 0.5, delay: 0.55 }}
               className="pt-3"
             >
-              <h2 className="mb-4 text-[20px] font-medium">Follow Us</h2>
+              <h2 className="mb-4 text-[20px] font-medium">
+                Follow Us
+              </h2>
 
               <div className="flex gap-3">
                 <motion.a
@@ -255,7 +293,9 @@ export default function Contact() {
               />
 
               {errors.name && (
-                <p className="mb-3 text-xs text-red-500">{errors.name}</p>
+                <p className="mb-3 text-xs text-red-500">
+                  {errors.name}
+                </p>
               )}
 
               {!errors.name && <div className="mb-3" />}
@@ -275,7 +315,9 @@ export default function Contact() {
               />
 
               {errors.email && (
-                <p className="mb-3 text-xs text-red-500">{errors.email}</p>
+                <p className="mb-3 text-xs text-red-500">
+                  {errors.email}
+                </p>
               )}
 
               {!errors.email && <div className="mb-3" />}
@@ -288,13 +330,23 @@ export default function Contact() {
                 value={formData.inquiry}
                 onChange={handleChange}
                 className={`mb-1 h-[40px] w-full rounded-[7px] border ${
-                  errors.inquiry ? "border-red-500" : "border-[#263544]"
+                  errors.inquiry
+                    ? "border-red-500"
+                    : "border-[#263544]"
                 } bg-[#0A141D] px-3 text-[15px] text-[#87909C] outline-none focus:border-[#8BCB00]`}
               >
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Product Inquiry">Product Inquiry</option>
-                <option value="Support">Support</option>
-                <option value="Business Inquiry">Business Inquiry</option>
+                <option value="General Inquiry">
+                  General Inquiry
+                </option>
+                <option value="Product Inquiry">
+                  Product Inquiry
+                </option>
+                <option value="Support">
+                  Support
+                </option>
+                <option value="Business Inquiry">
+                  Business Inquiry
+                </option>
               </motion.select>
 
               {errors.inquiry && (
@@ -314,7 +366,9 @@ export default function Contact() {
                 onChange={handleChange}
                 placeholder="Your Message"
                 className={`mb-1 h-[115px] w-full resize-none rounded-[7px] border ${
-                  errors.message ? "border-red-500" : "border-[#263544]"
+                  errors.message
+                    ? "border-red-500"
+                    : "border-[#263544]"
                 } bg-[#0A141D] px-3 py-3 text-[15px] text-white outline-none placeholder:text-[#87909C] focus:border-[#8BCB00]`}
               />
 
@@ -327,19 +381,31 @@ export default function Contact() {
               {!errors.message && <div className="mb-3" />}
 
               {success && (
-                <p className="mb-3 text-sm text-[#8BCB00]">{success}</p>
+                <p
+                  className={`mb-3 text-sm ${
+                    success.includes("try again") ||
+                    success.includes("required") ||
+                    success.includes("invalid") ||
+                    success.includes("Too many")
+                      ? "text-red-400"
+                      : "text-[#8BCB00]"
+                  }`}
+                >
+                  {success}
+                </p>
               )}
 
               <motion.button
                 type="submit"
+                disabled={loading}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.7 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="h-[46px] w-full rounded-[7px] bg-[#82C900] text-[15px] font-medium text-white transition hover:bg-[#70B500]"
+                whileHover={{ scale: loading ? 1 : 1.02 }}
+                whileTap={{ scale: loading ? 1 : 0.98 }}
+                className="h-[46px] w-full rounded-[7px] bg-[#82C900] text-[15px] font-medium text-white transition hover:bg-[#70B500] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </motion.button>
             </form>
           </motion.div>
@@ -407,3 +473,4 @@ export default function Contact() {
     </main>
   );
 }
+

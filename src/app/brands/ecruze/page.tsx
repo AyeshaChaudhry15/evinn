@@ -63,11 +63,9 @@ export default function EcruzePage() {
         setLoading(true);
         setError("");
 
-        // 1. Get all brands
         const brandsResponse = await api.get<BrandsResponse>("/brands");
 
-        // 2. Find ECruze brand
-        const ecruzeBrand = brandsResponse.data.brands.find(
+        const ecruzeBrand = brandsResponse.data.brands?.find(
           (brand) =>
             brand.displayName.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
@@ -77,7 +75,6 @@ export default function EcruzePage() {
           throw new Error("ECruze brand not found");
         }
 
-        // 3. Get bikes belonging to ECruze
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
           params: {
             brand: ecruzeBrand._id,
@@ -91,8 +88,8 @@ export default function EcruzePage() {
         console.error("ECruze API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.response?.data?.message ||
+            err?.message ||
             "Something went wrong while loading bikes."
         );
       } finally {
@@ -161,7 +158,6 @@ export default function EcruzePage() {
           </div>
         </header>
 
-        {/* Loading */}
         {loading && (
           <div className="rounded-2xl border border-white/10 py-16 text-center">
             <p className="text-gray-400">
@@ -170,14 +166,12 @@ export default function EcruzePage() {
           </div>
         )}
 
-        {/* Error */}
         {!loading && error && (
           <div className="rounded-2xl border border-red-500/20 bg-red-500/5 py-16 text-center">
             <p className="text-red-400">{error}</p>
           </div>
         )}
 
-        {/* No bikes */}
         {!loading && !error && sortedVehicles.length === 0 && (
           <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
             <p className="text-gray-500">
@@ -186,42 +180,44 @@ export default function EcruzePage() {
           </div>
         )}
 
-        {/* Bikes */}
         {!loading && !error && sortedVehicles.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {sortedVehicles.map((bike) => (
-              <Link
+              <div
                 key={bike._id}
-                href={`/${bike.slug}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
-                <div className="flex h-56 items-center justify-center bg-white p-5">
-                  <img
-                    src={bike.imageUrl}
-                    alt={bike.name}
-                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                <div className="p-5">
-                  <p className="mb-1 text-sm text-gray-500">
-                    {bike.type}
-                  </p>
-
-                  <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
-                    {bike.name}
-                  </h2>
-
-                  <div className="mt-3 flex items-center justify-between gap-3">
-                    <p className="font-semibold text-[#8FDF0D]">
-                      {formatPKR(bike.price)}
-                    </p>
-
-                    <span className="text-sm text-yellow-400">
-                      ★ {bike.rating}
-                    </span>
+                <Link href={`/${bike.slug}`}>
+                  <div className="flex h-56 items-center justify-center bg-white p-5">
+                    <img
+                      src={bike.imageUrl}
+                      alt={bike.name}
+                      className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+                    />
                   </div>
 
+                  <div className="p-5">
+                    <p className="mb-1 text-sm text-gray-500">
+                      {bike.type}
+                    </p>
+
+                    <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
+                      {bike.name}
+                    </h2>
+
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <p className="font-semibold text-[#8FDF0D]">
+                        {formatPKR(bike.price)}
+                      </p>
+
+                      <span className="text-sm text-yellow-400">
+                        ★ {bike.rating}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+
+                <div className="px-5 pb-5">
                   <AddToCartButton
                     product={{
                       id: bike._id,
@@ -229,12 +225,12 @@ export default function EcruzePage() {
                       price: bike.price,
                       image: bike.imageUrl,
                     }}
-                    className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
+                    className="h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
                   >
                     Add to Cart
                   </AddToCartButton>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

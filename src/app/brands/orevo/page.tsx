@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -23,13 +24,9 @@ interface Vehicle {
   slug: string;
 }
 
-interface BrandsResponse {
-  brands: Brand[];
-}
-
 interface BikesResponse {
-  bikes: Vehicle[];
-  pagination: {
+  bikes?: Vehicle[];
+  pagination?: {
     page: number;
     limit: number;
     total: number;
@@ -54,36 +51,29 @@ export default function OrevoPage() {
         setLoading(true);
         setError("");
 
-        // Get all brands
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
-
-        const orevoBrand = brandsResponse.data.brands.find(
-          (brand) =>
-            brand.displayName.toLowerCase().trim() ===
-            brandName.toLowerCase().trim()
-        );
-
-        if (!orevoBrand) {
-          throw new Error("Orevo brand not found");
-        }
-
-        // Get Orevo bikes
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
           params: {
-            brand: orevoBrand._id,
             page: 1,
             limit: 100,
           },
         });
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
+        const bikes = bikesResponse.data?.bikes || [];
+
+        const orevoBikes = bikes.filter(
+          (bike) =>
+            bike.brand?.displayName?.toLowerCase().trim() ===
+            brandName.toLowerCase().trim()
+        );
+
+        setBrandVehicles(orevoBikes);
       } catch (err: any) {
         console.error("Orevo API Error:", err);
 
         setError(
           err.response?.data?.message ||
             err.message ||
-            "Something went wrong while loading bikes."
+            "Something went wrong while loading Orevo bikes."
         );
       } finally {
         setLoading(false);
@@ -150,7 +140,6 @@ export default function OrevoPage() {
           </div>
         </header>
 
-        {/* Loading */}
         {loading && (
           <div className="rounded-2xl border border-white/10 py-16 text-center">
             <p className="text-gray-400">
@@ -159,14 +148,12 @@ export default function OrevoPage() {
           </div>
         )}
 
-        {/* Error */}
         {!loading && error && (
           <div className="rounded-2xl border border-red-500/20 bg-red-500/5 py-16 text-center">
             <p className="text-red-400">{error}</p>
           </div>
         )}
 
-        {/* No bikes */}
         {!loading && !error && sortedVehicles.length === 0 && (
           <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
             <p className="text-gray-500">
@@ -175,7 +162,6 @@ export default function OrevoPage() {
           </div>
         )}
 
-        {/* Bikes */}
         {!loading && !error && sortedVehicles.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {sortedVehicles.map((bike) => (
