@@ -1,61 +1,113 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import vehiclesData from "../../../bike-details/bikes-scooter.json";
 import AddToCartButton from "../../../../components/add-to-cart";
+import { api } from "../../../lib/api";
 
+interface Brand {
+  _id: string;
+  displayName: string;
+  logoUrl?: string;
+}
 
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
+  brand: Brand;
   type: string;
-  priceText: string;
   price: number;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
-  specs?: {
-    range: string;
-    topSpeed: string;
-    battery: string;
-    chargingTime: string;
-    motorPower: string;
-    weight: string;
-    warranty: string;
+}
+
+interface BrandsResponse {
+  brands: Brand[];
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   };
 }
 
 export default function OrevoPage() {
   const [sortBy, setSortBy] = useState("Price: Low to High");
-
-  const bikeData: Vehicle[] = Array.isArray(vehiclesData)
-    ? vehiclesData
-    : [
-        ...((vehiclesData as { bikes?: Vehicle[] })?.bikes || []),
-        ...((vehiclesData as { scooters?: Vehicle[] })?.scooters || []),
-      ];
+  const [brandVehicles, setBrandVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const brandName = "Orevo";
   const brandSlug = "orevo";
 
-  let brandVehicles = bikeData.filter(
-    (bike) =>
-      bike.brand?.toLowerCase().trim() === brandName.toLowerCase().trim(),
-  );
+  useEffect(() => {
+    const fetchBrandBikes = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-  if (sortBy === "Price: Low to High") {
-    brandVehicles = [...brandVehicles].sort((a, b) => a.price - b.price);
-  } else if (sortBy === "Price: High to Low") {
-    brandVehicles = [...brandVehicles].sort((a, b) => b.price - a.price);
-  }
-  const handleAddToCart = (e: React.MouseEvent, bike: Vehicle) => {
-    e.preventDefault();
+        // Get all brands
+        const brandsResponse = await api.get<BrandsResponse>("/brands");
 
-    console.log("Added to cart:", bike);
-  };
+        const orevoBrand = brandsResponse.data.brands.find(
+          (brand) =>
+            brand.displayName.toLowerCase().trim() ===
+            brandName.toLowerCase().trim()
+        );
+
+        if (!orevoBrand) {
+          throw new Error("Orevo brand not found");
+        }
+
+        // Get Orevo bikes
+        const bikesResponse = await api.get<BikesResponse>("/bikes", {
+          params: {
+            brand: orevoBrand._id,
+            page: 1,
+            limit: 100,
+          },
+        });
+
+        setBrandVehicles(bikesResponse.data.bikes || []);
+      } catch (err: any) {
+        console.error("Orevo API Error:", err);
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Something went wrong while loading bikes."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrandBikes();
+  }, []);
+
+  const sortedVehicles = [...brandVehicles].sort((a, b) => {
+    if (sortBy === "Price: Low to High") {
+      return a.price - b.price;
+    }
+
+    if (sortBy === "Price: High to Low") {
+      return b.price - a.price;
+    }
+
+    return 0;
+  });
+
+  const formatPKR = (price: number) =>
+    `PKR ${price.toLocaleString("en-PK")}`;
+
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
       <div className="mx-auto max-w-7xl">
@@ -98,28 +150,52 @@ export default function OrevoPage() {
           </div>
         </header>
 
-        {brandVehicles.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
-            <p className="text-gray-500">No Orevo motorcycles found.</p>
+        {/* Loading */}
+        {loading && (
+          <div className="rounded-2xl border border-white/10 py-16 text-center">
+            <p className="text-gray-400">
+              Loading Orevo motorcycles...
+            </p>
           </div>
-        ) : (
+        )}
+
+        {/* Error */}
+        {!loading && error && (
+          <div className="rounded-2xl border border-red-500/20 bg-red-500/5 py-16 text-center">
+            <p className="text-red-400">{error}</p>
+          </div>
+        )}
+
+        {/* No bikes */}
+        {!loading && !error && sortedVehicles.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center">
+            <p className="text-gray-500">
+              No Orevo motorcycles found.
+            </p>
+          </div>
+        )}
+
+        {/* Bikes */}
+        {!loading && !error && sortedVehicles.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {brandVehicles.map((bike) => (
+            {sortedVehicles.map((bike) => (
               <Link
-                key={bike.id}
+                key={bike._id}
                 href={`/${bike.slug}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0A1822] transition duration-300 hover:-translate-y-1 hover:border-[#8FDF0D]/40"
               >
                 <div className="flex h-56 items-center justify-center bg-white p-5">
                   <img
-                    src={bike.image}
+                    src={bike.imageUrl}
                     alt={bike.name}
                     className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                   />
                 </div>
 
                 <div className="p-5">
-                  <p className="mb-1 text-sm text-gray-500">{bike.type}</p>
+                  <p className="mb-1 text-sm text-gray-500">
+                    {bike.type}
+                  </p>
 
                   <h2 className="text-xl font-bold transition group-hover:text-[#8FDF0D]">
                     {bike.name}
@@ -127,19 +203,20 @@ export default function OrevoPage() {
 
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <p className="font-semibold text-[#8FDF0D]">
-                      {bike.priceText}
+                      {formatPKR(bike.price)}
                     </p>
 
                     <span className="text-sm text-yellow-400">
                       ★ {bike.rating}
                     </span>
                   </div>
+
                   <AddToCartButton
                     product={{
-                      id: bike.id,
+                      id: bike._id,
                       name: bike.name,
                       price: bike.price,
-                      image: bike.image,
+                      image: bike.imageUrl,
                     }}
                     className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
                   >

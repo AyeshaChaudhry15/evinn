@@ -1,29 +1,43 @@
-
 "use client";
 
-import { useState } from "react";
-import vehiclesData from "../../bike-details/bikes-scooter.json";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { api } from "../../lib/api";
 
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
+  brand: {
+    _id: string;
+    displayName: string;
+    logoUrl?: string;
+  };
   type: string;
   price: number;
-  priceText: string;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
-  specs: {
-    range: string;
-    topSpeed: string;
-    battery: string;
-    chargingTime: string;
-    motorPower: string;
-    weight: string;
-    warranty: string;
+  specs?: {
+    range?: string;
+    topSpeed?: string;
+    battery?: string;
+    chargingTime?: string;
+    motorPower?: string;
+    weight?: string;
+    warranty?: string;
     features?: string;
+  };
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   };
 }
 
@@ -38,23 +52,56 @@ const specsList = [
 ] as const;
 
 export default function CompareVehicles() {
-  const allVehicles: Vehicle[] = [
-    ...(vehiclesData?.bikes || []),
-    ...(vehiclesData?.scooters || []),
-  ];
+  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([]);
+  const [selectedVehicles, setSelectedVehicles] = useState<Vehicle[]>([]);
 
-  const [selectedVehicles, setSelectedVehicles] = useState<Vehicle[]>(
-    allVehicles.slice(0, 3),
-  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
     null,
   );
+
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await api.get<BikesResponse>("/bikes", {
+          params: {
+            page: 1,
+            limit: 100,
+          },
+        });
+
+        const vehicles = response.data.bikes || [];
+
+        setAllVehicles(vehicles);
+        setSelectedVehicles(vehicles.slice(0, 3));
+      } catch (err: any) {
+        console.error("Compare Vehicles API Error:", err);
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Something went wrong while loading vehicles.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
 
   const handleSelectChange = (index: number, vehicle: Vehicle) => {
     const updated = [...selectedVehicles];
+
     updated[index] = vehicle;
+
     setSelectedVehicles(updated);
     setOpenDropdownIndex(null);
     setSearchQuery("");
@@ -66,7 +113,7 @@ export default function CompareVehicles() {
     const available = allVehicles.find(
       (v) =>
         !selectedVehicles.some(
-          (sv) => String(sv.id) === String(v.id),
+          (sv) => String(sv._id) === String(v._id),
         ),
     );
 
@@ -75,15 +122,58 @@ export default function CompareVehicles() {
     }
   };
 
-  const handleRemoveVehicle = (id: string | number) => {
+  const handleRemoveVehicle = (id: string) => {
     if (selectedVehicles.length <= 1) return;
 
     setSelectedVehicles(
       selectedVehicles.filter(
-        (v) => String(v.id) !== String(id),
+        (v) => String(v._id) !== String(id),
       ),
     );
   };
+
+  const formatPKR = (price: number) =>
+    `PKR ${price.toLocaleString("en-PK")}`;
+
+  if (loading) {
+    return (
+      <section className="flex min-h-[500px] w-full items-center justify-center bg-[#07151d] p-6 md:p-8">
+        <div className="text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-[#1c3039] border-t-[#8fdf0d]" />
+
+          <p className="mt-4 text-sm text-gray-400">
+            Loading vehicles...
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="flex min-h-[500px] w-full items-center justify-center bg-[#07151d] p-6 md:p-8">
+        <div className="text-center">
+          <p className="text-red-400">{error}</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (allVehicles.length === 0) {
+    return (
+      <section className="flex min-h-[500px] w-full items-center justify-center bg-[#07151d] p-6 md:p-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-white">
+            No Vehicles Available
+          </h2>
+
+          <p className="mt-2 text-sm text-gray-400">
+            No vehicles are currently available for comparison.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full bg-[#07151d] p-6 md:p-8">
@@ -150,12 +240,14 @@ export default function CompareVehicles() {
             const isOpen = openDropdownIndex === index;
 
             const filteredVehicles = allVehicles.filter((v) =>
-              v.name.toLowerCase().includes(searchQuery.toLowerCase()),
+              v.name
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()),
             );
 
             return (
               <motion.div
-                key={`${item.id}-${index}`}
+                key={`${item._id}-${index}`}
                 initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -177,7 +269,9 @@ export default function CompareVehicles() {
                       whileHover={{ scale: 1.15 }}
                       whileTap={{ scale: 0.9 }}
                       transition={{ duration: 0.2 }}
-                      onClick={() => handleRemoveVehicle(item.id)}
+                      onClick={() =>
+                        handleRemoveVehicle(item._id)
+                      }
                       className="absolute right-2 top-1 z-10 text-xs text-gray-400 hover:text-red-400"
                       title="Remove"
                     >
@@ -190,7 +284,9 @@ export default function CompareVehicles() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
-                        setOpenDropdownIndex(isOpen ? null : index);
+                        setOpenDropdownIndex(
+                          isOpen ? null : index,
+                        );
                         setSearchQuery("");
                       }}
                       className="w-full cursor-pointer truncate rounded border border-[#1c3039] bg-[#06111a] px-2 py-1.5 text-center text-xs font-semibold text-white hover:border-[#8fdf0d]"
@@ -201,9 +297,21 @@ export default function CompareVehicles() {
                     <AnimatePresence>
                       {isOpen && (
                         <motion.div
-                          initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                          initial={{
+                            opacity: 0,
+                            y: -8,
+                            scale: 0.98,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                          }}
+                          exit={{
+                            opacity: 0,
+                            y: -8,
+                            scale: 0.98,
+                          }}
                           transition={{ duration: 0.2 }}
                           className="absolute left-0 right-0 top-full z-50 mt-1 max-h-48 overflow-y-auto rounded border border-[#1c3039] bg-[#06111a] p-1 text-left shadow-lg"
                         >
@@ -224,9 +332,15 @@ export default function CompareVehicles() {
                           {filteredVehicles.length > 0 ? (
                             filteredVehicles.map((v, i) => (
                               <motion.div
-                                key={v.id}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                key={v._id}
+                                initial={{
+                                  opacity: 0,
+                                  x: -10,
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                }}
                                 transition={{
                                   duration: 0.2,
                                   delay: i * 0.03,
@@ -265,7 +379,7 @@ export default function CompareVehicles() {
                     className="relative h-16 w-full"
                   >
                     <img
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.name}
                       className="h-full w-full object-contain"
                     />
@@ -280,7 +394,7 @@ export default function CompareVehicles() {
                     }}
                     className="text-xs font-semibold text-[#8fdf0d]"
                   >
-                    {item.priceText}
+                    {formatPKR(item.price)}
                   </motion.p>
                 </motion.div>
 
@@ -297,11 +411,9 @@ export default function CompareVehicles() {
                     whileHover={{ y: -2 }}
                     className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
                   >
-                    {item.specs
-                      ? item.specs[
-                          spec.key as keyof typeof item.specs
-                        ] || "N/A"
-                      : "N/A"}
+                    {item.specs?.[
+                      spec.key as keyof typeof item.specs
+                    ] || "N/A"}
                   </motion.div>
                 ))}
               </motion.div>
@@ -346,4 +458,3 @@ export default function CompareVehicles() {
     </section>
   );
 }
-

@@ -1,22 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Info, ClipboardList, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import vehiclesData from "../../../bike-details/bikes-scooter.json";
+import { api } from "../../../lib/api";
 import brandInfo from "../brand-info.json";
 import AddToCartButton from "../../../../components/add-to-cart";
 
+interface Brand {
+  _id: string;
+  displayName: string;
+  logoUrl?: string;
+}
+
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
+  brand: Brand;
   type: string;
-  priceText: string;
   price: number;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
 }
 
@@ -33,19 +39,87 @@ interface BrandInfo {
   facebook: string;
 }
 
+interface BrandsResponse {
+  brands: Brand[];
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
+
 export default function BrandDetailPage() {
   const params = useParams();
 
-  const brandSlug = typeof params.brand === "string" ? params.brand : "";
+  const brandSlug =
+    typeof params.brand === "string" ? params.brand : "";
 
   const info = (brandInfo as Record<string, BrandInfo>)[brandSlug];
 
-  const bikeData: Vehicle[] = Array.isArray(vehiclesData)
-    ? vehiclesData
-    : [
-        ...((vehiclesData as { bikes?: Vehicle[] })?.bikes || []),
-        ...((vehiclesData as { scooters?: Vehicle[] })?.scooters || []),
-      ];
+  const [models, setModels] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchBrandModels = async () => {
+      if (!info?.displayName) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError("");
+
+        const brandsResponse =
+          await api.get<BrandsResponse>("/brands");
+
+        const backendBrand =
+          brandsResponse.data.brands.find(
+            (brand) =>
+              brand.displayName.toLowerCase().trim() ===
+              info.displayName.toLowerCase().trim()
+          );
+
+        if (!backendBrand) {
+          setModels([]);
+          return;
+        }
+
+        const bikesResponse =
+          await api.get<BikesResponse>("/bikes", {
+            params: {
+              page: 1,
+              limit: 100,
+              brand: backendBrand._id,
+            },
+          });
+
+        setModels(bikesResponse.data.bikes || []);
+      } catch (err: any) {
+        console.error("Brand Detail API Error:", err);
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Something went wrong while loading models."
+        );
+
+        setModels([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrandModels();
+  }, [info?.displayName]);
 
   if (!info) {
     return (
@@ -56,7 +130,9 @@ export default function BrandDetailPage() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h1 className="mb-3 text-3xl font-bold">Brand Not Found</h1>
+          <h1 className="mb-3 text-3xl font-bold">
+            Brand Not Found
+          </h1>
 
           <p className="mb-6 text-gray-400">
             The requested brand information could not be found.
@@ -78,12 +154,6 @@ export default function BrandDetailPage() {
       </main>
     );
   }
-
-  const models = bikeData.filter(
-    (vehicle) =>
-      vehicle.brand?.toLowerCase().trim() ===
-      info.displayName?.toLowerCase().trim(),
-  );
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -137,7 +207,8 @@ export default function BrandDetailPage() {
               </h1>
 
               <p className="mt-2 text-gray-400">
-                Discover {info.displayName} motorcycles and electric vehicles.
+                Discover {info.displayName} motorcycles and electric
+                vehicles.
               </p>
             </motion.div>
           </div>
@@ -168,7 +239,9 @@ export default function BrandDetailPage() {
               </h2>
             </div>
 
-            <p className="leading-8 text-gray-400">{info.about}</p>
+            <p className="leading-8 text-gray-400">
+              {info.about}
+            </p>
           </motion.div>
 
           <motion.div
@@ -178,7 +251,9 @@ export default function BrandDetailPage() {
             transition={{ duration: 0.6 }}
             className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8"
           >
-            <h2 className="mb-6 text-2xl font-bold">Quick Facts</h2>
+            <h2 className="mb-6 text-2xl font-bold">
+              Quick Facts
+            </h2>
 
             <div className="space-y-5">
               <motion.div
@@ -187,7 +262,9 @@ export default function BrandDetailPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.1 }}
               >
-                <p className="text-sm text-gray-500">Origin</p>
+                <p className="text-sm text-gray-500">
+                  Origin
+                </p>
 
                 <p className="mt-1 font-semibold">
                   {info.origin || "—"}
@@ -200,7 +277,9 @@ export default function BrandDetailPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.15 }}
               >
-                <p className="text-sm text-gray-500">Established</p>
+                <p className="text-sm text-gray-500">
+                  Established
+                </p>
 
                 <p className="mt-1 font-semibold">
                   {info.established || "—"}
@@ -213,7 +292,9 @@ export default function BrandDetailPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.2 }}
               >
-                <p className="text-sm text-gray-500">Headquarters</p>
+                <p className="text-sm text-gray-500">
+                  Headquarters
+                </p>
 
                 <p className="mt-1 font-semibold">
                   {info.headquarters || "—"}
@@ -226,7 +307,9 @@ export default function BrandDetailPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.25 }}
               >
-                <p className="text-sm text-gray-500">Models Listed</p>
+                <p className="text-sm text-gray-500">
+                  Models Listed
+                </p>
 
                 <p className="mt-1 font-semibold text-[#8FDF0D]">
                   {models.length}
@@ -262,7 +345,11 @@ export default function BrandDetailPage() {
               </div>
 
               <p className="mt-2 text-gray-500">
-                {models.length} model{models.length !== 1 ? "s" : ""} available
+                {loading
+                  ? "Loading models..."
+                  : `${models.length} model${
+                      models.length !== 1 ? "s" : ""
+                    } available`}
               </p>
             </motion.div>
 
@@ -279,7 +366,19 @@ export default function BrandDetailPage() {
             </motion.div>
           </div>
 
-          {models.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/10 border-t-[#8FDF0D]" />
+            </div>
+          ) : error ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-2xl border border-dashed border-white/10 py-12 text-center"
+            >
+              <p className="text-red-400">{error}</p>
+            </motion.div>
+          ) : models.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -295,20 +394,23 @@ export default function BrandDetailPage() {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {models.map((vehicle, index) => (
                 <motion.div
-                  key={vehicle.id}
+                  key={vehicle._id}
                   initial={{ opacity: 0, y: 35 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                  }}
                   whileHover={{ y: -6 }}
                 >
                   <Link
                     href={`/${vehicle.slug}`}
-                    className="group overflow-hidden rounded-2xl border border-white/10 bg-[#06111A] transition hover:-translate-y-1 hover:border-[#8FDF0D]/40"
+                    className="group block overflow-hidden rounded-2xl border border-white/10 bg-[#06111A] transition hover:-translate-y-1 hover:border-[#8FDF0D]/40"
                   >
                     <div className="flex h-48 items-center justify-center bg-white p-5">
                       <motion.img
-                        src={vehicle.image}
+                        src={vehicle.imageUrl}
                         alt={vehicle.name}
                         className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                         whileHover={{ scale: 1.08 }}
@@ -316,7 +418,7 @@ export default function BrandDetailPage() {
                     </div>
 
                     <div className="p-5">
-                      <p className="mb-1 text-sm text-gray-500">
+                      <p className="mb-1 text-sm capitalize text-gray-500">
                         {vehicle.type}
                       </p>
 
@@ -325,15 +427,15 @@ export default function BrandDetailPage() {
                       </h3>
 
                       <p className="mt-3 font-semibold text-[#8FDF0D]">
-                        {vehicle.priceText}
+                        PKR {vehicle.price.toLocaleString("en-PK")}
                       </p>
 
                       <AddToCartButton
                         product={{
-                          id: vehicle.id,
+                          id: vehicle._id,
                           name: vehicle.name,
                           price: vehicle.price,
-                          image: vehicle.image,
+                          image: vehicle.imageUrl,
                         }}
                         className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
                       >

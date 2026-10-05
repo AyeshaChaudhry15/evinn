@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import AddToCartButton from "../../../components/add-to-cart";
+import { api } from "../../lib/api";
 
 import {
   ArrowLeft,
@@ -18,28 +19,33 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-import vehiclesData from "../../bike-details/bikes-scooter.json";
-
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
+  brand: {
+    _id: string;
+    displayName: string;
+    logoUrl?: string;
+  };
   type: string;
-  priceText: string;
   price: number;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
 
   specs?: {
-    range: string;
-    topSpeed: string;
-    battery: string;
-    chargingTime: string;
-    motorPower: string;
-    weight: string;
-    warranty: string;
+    range?: string;
+    topSpeed?: string;
+    battery?: string;
+    chargingTime?: string;
+    motorPower?: string;
+    weight?: string;
+    warranty?: string;
   };
+}
+
+interface BikeResponse {
+  bike: Vehicle;
 }
 
 export default function ModelDetailPage() {
@@ -50,20 +56,54 @@ export default function ModelDetailPage() {
     "overview" | "features" | "reviews"
   >("overview");
 
+  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const slug = typeof params.slug === "string" ? params.slug : "";
 
-  const bikeData: Vehicle[] = Array.isArray(vehiclesData)
-    ? vehiclesData
-    : [...(vehiclesData.bikes || []), ...(vehiclesData.scooters || [])];
+  useEffect(() => {
+    const fetchVehicle = async () => {
+      if (!slug) return;
 
-  const vehicle = bikeData.find((bike) => bike.slug === slug);
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await api.get<BikeResponse>(
+          `/bikes/${slug}`
+        );
+
+        setVehicle(response.data.bike);
+      } catch (err: any) {
+        console.error("Bike Detail API Error:", err);
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Something went wrong while loading this model."
+        );
+
+        setVehicle(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicle();
+  }, [slug]);
+
+  const formatPKR = (price: number) =>
+    `PKR ${price.toLocaleString("en-PK")}`;
 
   const handleBuyNow = () => {
+    if (!vehicle) return;
+
     const singleOrderProduct = {
-      id: vehicle?.id,
-      name: vehicle?.name,
-      price: vehicle?.price,
-      image: vehicle?.image,
+      id: vehicle._id,
+      name: vehicle.name,
+      price: vehicle.price,
+      image: vehicle.imageUrl,
       quantity: 1,
     };
 
@@ -74,6 +114,19 @@ export default function ModelDetailPage() {
 
     router.push("/shipping");
   };
+
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#06111A] px-4 text-white">
+        <div className="text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-[#23333D] border-t-[#8FDF0D]" />
+          <p className="mt-4 text-sm text-[#AEB7BC]">
+            Loading model...
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   if (!vehicle) {
     return (
@@ -87,7 +140,7 @@ export default function ModelDetailPage() {
           <h1 className="text-3xl font-bold">Model Not Found</h1>
 
           <p className="mt-3 text-[#AEB7BC]">
-            The model you are looking for does not exist.
+            {error || "The model you are looking for does not exist."}
           </p>
 
           <div>
@@ -129,7 +182,7 @@ export default function ModelDetailPage() {
               className="flex min-h-[400px] items-center justify-center overflow-hidden rounded-2xl bg-white p-8 sm:min-h-[500px]"
             >
               <motion.img
-                src={vehicle.image}
+                src={vehicle.imageUrl}
                 alt={vehicle.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -150,7 +203,7 @@ export default function ModelDetailPage() {
                 transition={{ delay: 0.2 }}
                 className="text-sm font-bold uppercase tracking-[2px] text-[#8FDF0D]"
               >
-                {vehicle.brand}
+                {vehicle.brand?.displayName || "—"}
               </motion.p>
 
               <motion.h1
@@ -194,7 +247,7 @@ export default function ModelDetailPage() {
                 <p className="text-sm text-[#8B969C]">Starting Price</p>
 
                 <p className="mt-1 text-3xl font-extrabold text-[#8FDF0D]">
-                  {vehicle.priceText}
+                  {formatPKR(vehicle.price)}
                 </p>
               </motion.div>
 
@@ -208,10 +261,10 @@ export default function ModelDetailPage() {
                   <div className="flex-1">
                     <AddToCartButton
                       product={{
-                        id: vehicle.id,
+                        id: vehicle._id,
                         name: vehicle.name,
                         price: vehicle.price,
-                        image: vehicle.image,
+                        image: vehicle.imageUrl,
                       }}
                       className="flex-1 rounded-xl bg-[#8FDF0D] px-8 py-4 text-center text-sm font-bold text-[#06111A] transition-transform hover:scale-105 active:scale-95"
                     >
@@ -276,7 +329,9 @@ export default function ModelDetailPage() {
                         {item.label}
                       </p>
 
-                      <p className="mt-1 text-sm font-bold">{item.value}</p>
+                      <p className="mt-1 text-sm font-bold">
+                        {item.value}
+                      </p>
                     </motion.div>
                   );
                 })}
@@ -330,14 +385,16 @@ export default function ModelDetailPage() {
                   </h2>
 
                   <p className="mt-4 max-w-4xl text-sm leading-7 text-[#AEB7BC]">
-                    The {vehicle.name} is a {vehicle.type} from {vehicle.brand}.
-                    Explore its performance, specifications and key details
-                    below.
+                    The {vehicle.name} is a {vehicle.type} from{" "}
+                    {vehicle.brand?.displayName || "—"}. Explore its
+                    performance, specifications and key details below.
                   </p>
                 </div>
 
                 <div>
-                  <h2 className="mb-5 text-2xl font-bold">Specifications</h2>
+                  <h2 className="mb-5 text-2xl font-bold">
+                    Specifications
+                  </h2>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {[
@@ -401,7 +458,9 @@ export default function ModelDetailPage() {
 
                           <p
                             className={`mt-1 font-bold ${
-                              item.label === "Vehicle Type" ? "capitalize" : ""
+                              item.label === "Vehicle Type"
+                                ? "capitalize"
+                                : ""
                             }`}
                           >
                             {item.value}
@@ -476,7 +535,9 @@ export default function ModelDetailPage() {
                       >
                         <Icon className="h-6 w-6 text-[#8FDF0D]" />
 
-                        <h3 className="mt-4 font-bold">{item.title}</h3>
+                        <h3 className="mt-4 font-bold">
+                          {item.title}
+                        </h3>
 
                         <p className="mt-2 text-sm leading-6 text-[#8B969C]">
                           {item.description}
@@ -538,12 +599,14 @@ export default function ModelDetailPage() {
                       ))}
                     </div>
 
-                    <h3 className="mt-4 font-bold">Great everyday ride</h3>
+                    <h3 className="mt-4 font-bold">
+                      Great everyday ride
+                    </h3>
 
                     <p className="mt-3 text-sm leading-7 text-[#AEB7BC]">
-                      The {vehicle.name} offers a practical riding experience
-                      with good performance and useful features for everyday
-                      commuting.
+                      The {vehicle.name} offers a practical riding
+                      experience with good performance and useful features
+                      for everyday commuting.
                     </p>
 
                     <p className="mt-4 text-xs font-semibold text-[#8B969C]">
