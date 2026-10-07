@@ -63,16 +63,13 @@ export default function OrderSummary() {
     }
   }, []);
 
-
   if (!order) {
     return (
       <div style={styles.page}>
         <div style={styles.emptyCard}>
           <h2 style={styles.emptyTitle}>No order found</h2>
 
-          <p style={styles.emptyText}>
-            Your order summary could not be found.
-          </p>
+          <p style={styles.emptyText}>Your order summary could not be found.</p>
 
           <a href="/vehicles" style={styles.shopButton}>
             Continue Shopping
@@ -82,15 +79,12 @@ export default function OrderSummary() {
     );
   }
 
-
   const items = order.items || [];
 
   const subtotal = items.reduce(
     (sum, item) =>
-      sum +
-      (Number(item.price) || 0) *
-        (Number(item.quantity) || 1),
-    0
+      sum + (Number(item.price) || 0) * (Number(item.quantity) || 1),
+    0,
   );
 
   const shipping = 0;
@@ -100,44 +94,24 @@ export default function OrderSummary() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-
-
         <div style={styles.headerRow}>
-          <h2 style={styles.headerTitle}>
-            Order summary
-          </h2>
+          <h2 style={styles.headerTitle}>Order summary</h2>
         </div>
 
-
         <div style={styles.orderMeta}>
-          <p style={styles.orderId}>
-            Order #{order.orderId}
-          </p>
+          <p style={styles.orderId}>Order #{order.orderId}</p>
 
-          <p style={styles.orderDate}>
-            Placed on: {order.placedAt}
-          </p>
+          <p style={styles.orderDate}>Placed on: {order.placedAt}</p>
         </div>
 
         <hr style={styles.divider} />
 
-
         <div style={styles.itemsRow}>
-
-
           <div style={styles.itemsCol}>
-
-            <p style={styles.sectionLabel}>
-              Items ({items.length})
-            </p>
+            <p style={styles.sectionLabel}>Items ({items.length})</p>
 
             {items.map((item, index) => (
-              <div
-                key={`${item.id}-${index}`}
-                style={styles.itemRow}
-              >
-
-
+              <div key={`${item.id}-${index}`} style={styles.itemRow}>
                 <div style={styles.imageWrapper}>
                   <img
                     src={item.image}
@@ -146,139 +120,79 @@ export default function OrderSummary() {
                   />
                 </div>
 
-
                 <div style={styles.itemInfo}>
+                  <p style={styles.itemName}>{item.name}</p>
 
-                  <p style={styles.itemName}>
-                    {item.name}
-                  </p>
+                  <p style={styles.itemPrice}>{formatPKR(item.price)}</p>
 
-                  <p style={styles.itemPrice}>
-                    {formatPKR(item.price)}
-                  </p>
-
-                  <p style={styles.itemQty}>
-                    Qty: {item.quantity || 1}
-                  </p>
-
+                  <p style={styles.itemQty}>Qty: {item.quantity || 1}</p>
                 </div>
               </div>
             ))}
-
           </div>
-
 
           <div style={styles.colDivider} />
 
-
           <div style={styles.totalsCol}>
-
             <div style={styles.totalsRow}>
-              <span style={styles.totalsLabel}>
-                Subtotal
-              </span>
+              <span style={styles.totalsLabel}>Subtotal</span>
 
-              <span style={styles.totalsValue}>
-                {formatPKR(subtotal)}
-              </span>
+              <span style={styles.totalsValue}>{formatPKR(subtotal)}</span>
             </div>
 
             <div style={styles.totalsRow}>
-              <span style={styles.totalsLabel}>
-                Shipping
-              </span>
+              <span style={styles.totalsLabel}>Shipping</span>
 
-              <span style={styles.freeLabel}>
-                Free
-              </span>
+              <span style={styles.freeLabel}>Free</span>
             </div>
 
             <hr style={styles.dividerSmall} />
 
             <div style={styles.totalsRow}>
-              <span style={styles.grandLabel}>
-                Total
-              </span>
+              <span style={styles.grandLabel}>Total</span>
 
-              <span style={styles.grandValue}>
-                {formatPKR(total)}
-              </span>
+              <span style={styles.grandValue}>{formatPKR(total)}</span>
             </div>
-
           </div>
         </div>
 
         <hr style={styles.divider} />
 
-
         <div style={styles.bottomRow}>
-
-
           <div style={styles.bottomCol}>
+            <p style={styles.sectionLabel}>Shipping address</p>
 
-            <p style={styles.sectionLabel}>
-              Shipping address
-            </p>
+            <p style={styles.addrName}>{order.customer?.fullName}</p>
 
-            <p style={styles.addrName}>
-              {order.customer?.fullName}
-            </p>
+            <p style={styles.addrLine}>{order.customer?.address}</p>
 
             <p style={styles.addrLine}>
-              {order.customer?.address}
+              {order.customer?.city} - {order.customer?.postalCode}
             </p>
 
-            <p style={styles.addrLine}>
-              {order.customer?.city} -{" "}
-              {order.customer?.postalCode}
-            </p>
-
-            <p style={styles.addrLine}>
-              {order.customer?.phoneNumber}
-            </p>
-
+            <p style={styles.addrLine}>{order.customer?.phoneNumber}</p>
           </div>
-
 
           <div style={styles.colDivider} />
 
-
           <div style={styles.bottomCol}>
-
-            <p style={styles.sectionLabel}>
-              Payment method
-            </p>
+            <p style={styles.sectionLabel}>Payment method</p>
 
             <div style={styles.paymentRow}>
+              <div style={styles.paymentIcon}>💳</div>
 
-              <div style={styles.paymentIcon}>
-                💳
-              </div>
-
-              <span style={styles.paymentText}>
-                {getPaymentName(
-                  order.customer?.paymentMethod
-                )}
-              </span>
-
+              <span style={styles.paymentText}>Cash on Delivery</span>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </div>
   );
 }
 
-
-
-
 const styles: {
   [key: string]: React.CSSProperties;
 } = {
-
   page: {
     minHeight: "100vh",
     background: "#0a0e14",
@@ -286,8 +200,7 @@ const styles: {
     justifyContent: "center",
     alignItems: "flex-start",
     padding: "40px 16px",
-    fontFamily:
-      "'Segoe UI', Roboto, Arial, sans-serif",
+    fontFamily: "'Segoe UI', Roboto, Arial, sans-serif",
   },
 
   card: {

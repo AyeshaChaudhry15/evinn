@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -12,6 +13,16 @@ interface Brand {
   logoUrl?: string;
 }
 
+interface VehicleSpec {
+  range?: string;
+  topSpeed?: string;
+  battery?: string;
+  chargingTime?: string;
+  motorPower?: string;
+  weight?: string;
+  warranty?: string;
+}
+
 interface Vehicle {
   _id: string;
   name: string;
@@ -21,38 +32,47 @@ interface Vehicle {
   rating: number;
   imageUrl: string;
   slug: string;
-  specs?: {
-    range?: string;
-    topSpeed?: string;
-    battery?: string;
-    chargingTime?: string;
-    motorPower?: string;
-    weight?: string;
-    warranty?: string;
-  };
+  specs?: VehicleSpec;
+}
+
+interface BikesResponse {
+  bikes?: Vehicle[];
+}
+
+interface BrandsResponse {
+  brands?: Brand[];
 }
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
+const INITIAL_VISIBLE_PRODUCTS = 9;
 
-export default function ElectricBikesPage() {
-  const [brand, setBrand] = useState("All Brands");
-  const [topSpeed, setTopSpeed] = useState("All");
-  const [range, setRange] = useState("All");
-  const [sortBy, setSortBy] = useState("Price: Low to High");
+export default function ElectricBikes() {
+  const [bikes, setBikes] = useState<Vehicle[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  const [selectedBrand, setSelectedBrand] =
+    useState("All Brands");
+  const [selectedSpeed, setSelectedSpeed] =
+    useState("All");
+  const [selectedRange, setSelectedRange] =
+    useState("All");
+  const [sortBy, setSortBy] =
+    useState("Price: Low to High");
+
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
-  const [visibleProducts, setVisibleProducts] = useState(9);
 
-  const [bikeData, setBikeData] = useState<Vehicle[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const [visibleProducts, setVisibleProducts] =
+    useState(INITIAL_VISIBLE_PRODUCTS);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchBikes = async () => {
+    const loadBikes = async () => {
       try {
         setLoading(true);
         setError("");
@@ -65,7 +85,6 @@ export default function ElectricBikesPage() {
                 method: "GET",
               }
             ),
-
             fetch(
               "https://evinn.evermontech.com/api/bikes?page=1&limit=100&type=bike",
               {
@@ -74,102 +93,111 @@ export default function ElectricBikesPage() {
             ),
           ]);
 
-        const brandsData =
+        const brandsData: BrandsResponse =
           await brandsResponse.json().catch(() => ({}));
 
-        const bikesData =
+        const bikesData: BikesResponse =
           await bikesResponse.json().catch(() => ({}));
 
         if (!brandsResponse.ok) {
           throw new Error(
-            brandsData?.message ||
-              "Failed to load brands."
+            "Failed to load brands."
           );
         }
 
         if (!bikesResponse.ok) {
           throw new Error(
-            bikesData?.message ||
-              "Failed to load bikes."
+            "Failed to load bikes."
           );
         }
 
-        setBrands(brandsData?.brands || []);
-        setBikeData(bikesData?.bikes || []);
-      } catch (err: any) {
+        setBrands(brandsData.brands || []);
+        setBikes(bikesData.bikes || []);
+      } catch (err: unknown) {
         console.error(
           "Electric Bikes API Error:",
           err
         );
 
         setError(
-          err?.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBikes();
+    loadBikes();
   }, []);
 
-  const filteredBikes = [...bikeData]
-    .filter((bike) => {
+  const filteredBikes = useMemo(() => {
+    const result = bikes.filter((bike) => {
       const bikeBrandName =
         typeof bike.brand === "object"
           ? bike.brand?.displayName
           : "";
 
+      const price = Number(bike.price) || 0;
+
+      const speedValue = parseInt(
+        bike.specs?.topSpeed || "0",
+        10
+      );
+
+      const rangeValue = parseInt(
+        bike.specs?.range || "0",
+        10
+      );
+
       const brandMatch =
-        brand === "All Brands" ||
-        bikeBrandName === brand;
+        selectedBrand === "All Brands" ||
+        bikeBrandName === selectedBrand;
 
       const priceMatch =
-        bike.price >= minPrice &&
-        bike.price <= maxPrice;
+        price >= minPrice &&
+        price <= maxPrice;
 
       let speedMatch = true;
 
-      if (topSpeed !== "All" && bike.specs?.topSpeed) {
-        const speedValue = parseInt(
-          bike.specs.topSpeed
-        );
-
-        if (!Number.isNaN(speedValue)) {
-          if (topSpeed === "Under 80 km/h") {
-            speedMatch = speedValue < 80;
-          } else if (
-            topSpeed === "80 - 120 km/h"
-          ) {
-            speedMatch =
-              speedValue >= 80 &&
-              speedValue <= 120;
-          } else if (topSpeed === "120+ km/h") {
-            speedMatch = speedValue > 120;
-          }
+      if (
+        selectedSpeed !== "All" &&
+        !Number.isNaN(speedValue)
+      ) {
+        if (selectedSpeed === "Under 80 km/h") {
+          speedMatch = speedValue < 80;
+        } else if (
+          selectedSpeed === "80 - 120 km/h"
+        ) {
+          speedMatch =
+            speedValue >= 80 &&
+            speedValue <= 120;
+        } else if (
+          selectedSpeed === "120+ km/h"
+        ) {
+          speedMatch = speedValue > 120;
         }
       }
 
       let rangeMatch = true;
 
-      if (range !== "All" && bike.specs?.range) {
-        const rangeValue = parseInt(
-          bike.specs.range
-        );
-
-        if (!Number.isNaN(rangeValue)) {
-          if (range === "Under 100 km") {
-            rangeMatch = rangeValue < 100;
-          } else if (
-            range === "100 - 200 km"
-          ) {
-            rangeMatch =
-              rangeValue >= 100 &&
-              rangeValue <= 200;
-          } else if (range === "200+ km") {
-            rangeMatch = rangeValue > 200;
-          }
+      if (
+        selectedRange !== "All" &&
+        !Number.isNaN(rangeValue)
+      ) {
+        if (selectedRange === "Under 100 km") {
+          rangeMatch = rangeValue < 100;
+        } else if (
+          selectedRange === "100 - 200 km"
+        ) {
+          rangeMatch =
+            rangeValue >= 100 &&
+            rangeValue <= 200;
+        } else if (
+          selectedRange === "200+ km"
+        ) {
+          rangeMatch = rangeValue > 200;
         }
       }
 
@@ -179,27 +207,52 @@ export default function ElectricBikesPage() {
         speedMatch &&
         rangeMatch
       );
-    })
-    .sort((a, b) => {
-      if (sortBy === "Price: Low to High") {
-        return a.price - b.price;
-      }
-
-      if (sortBy === "Price: High to Low") {
-        return b.price - a.price;
-      }
-
-      return 0;
     });
 
+    if (sortBy === "Price: Low to High") {
+      result.sort(
+        (a, b) =>
+          Number(a.price) - Number(b.price)
+      );
+    }
+
+    if (sortBy === "Price: High to Low") {
+      result.sort(
+        (a, b) =>
+          Number(b.price) - Number(a.price)
+      );
+    }
+
+    return result;
+  }, [
+    bikes,
+    selectedBrand,
+    selectedSpeed,
+    selectedRange,
+    sortBy,
+    minPrice,
+    maxPrice,
+  ]);
+
+  useEffect(() => {
+    setVisibleProducts(INITIAL_VISIBLE_PRODUCTS);
+  }, [
+    selectedBrand,
+    selectedSpeed,
+    selectedRange,
+    sortBy,
+    minPrice,
+    maxPrice,
+  ]);
+
   const clearFilters = () => {
-    setBrand("All Brands");
-    setTopSpeed("All");
-    setRange("All");
+    setSelectedBrand("All Brands");
+    setSelectedSpeed("All");
+    setSelectedRange("All");
     setSortBy("Price: Low to High");
     setMinPrice(PRICE_MIN);
     setMaxPrice(PRICE_MAX);
-    setVisibleProducts(9);
+    setVisibleProducts(INITIAL_VISIBLE_PRODUCTS);
   };
 
   const loadMore = () => {
@@ -236,66 +289,41 @@ export default function ElectricBikesPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
-      <style jsx global>{`
-        .range-thumb {
-          pointer-events: none;
-        }
-
-        .range-thumb::-webkit-slider-thumb {
-          pointer-events: all;
-          -webkit-appearance: none;
-          appearance: none;
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          background: #8fdf0d;
-          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
-          cursor: pointer;
-        }
-
-        .range-thumb::-moz-range-thumb {
-          pointer-events: all;
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          background: #8fdf0d;
-          box-shadow: 0 0 9px rgba(201, 255, 115, 0.4);
-          cursor: pointer;
-          border: none;
-        }
-      `}</style>
-
+    <main className="min-h-screen bg-[#06111A] px-4 py-10 text-white sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <motion.header
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="mb-9 flex flex-col justify-between gap-7 lg:flex-row lg:items-start"
-        >
+        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <h1 className="text-[32px] font-bold tracking-[-1.5px] sm:text-[38px] lg:text-[42px]">
+            <h1 className="text-3xl font-bold sm:text-4xl">
               Electric Bikes
             </h1>
 
-            <p className="mt-4 text-sm font-medium leading-7 text-[#8B969C] sm:text-[15px]">
-              High-performance electric bikes built for speed, style
-              <br className="hidden sm:block" />
-              and sustainability.
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#8B969C]">
+              Explore our collection of high-performance
+              electric bikes built for modern and
+              sustainable transportation.
             </p>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{
+              opacity: 0,
+              x: 30,
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              duration: 0.6,
+              delay: 0.2,
+            }}
             className="flex items-center gap-4 lg:mt-3"
           >
             <span className="text-sm text-[#AEB7BC]">
               Sort by
             </span>
 
-            <div className="relative w-[180px]">
+            <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) =>
@@ -306,7 +334,6 @@ export default function ElectricBikesPage() {
                 <option>
                   Price: Low to High
                 </option>
-
                 <option>
                   Price: High to Low
                 </option>
@@ -317,7 +344,7 @@ export default function ElectricBikesPage() {
               </span>
             </div>
           </motion.div>
-        </motion.header>
+        </div>
 
         {loading && (
           <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
@@ -383,11 +410,12 @@ export default function ElectricBikesPage() {
 
                 <div className="relative">
                   <select
-                    value={brand}
-                    onChange={(e) => {
-                      setBrand(e.target.value);
-                      setVisibleProducts(9);
-                    }}
+                    value={selectedBrand}
+                    onChange={(e) =>
+                      setSelectedBrand(
+                        e.target.value
+                      )
+                    }
                     className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
                   >
                     <option>
@@ -397,7 +425,9 @@ export default function ElectricBikesPage() {
                     {brands.map((bikeBrand) => (
                       <option
                         key={bikeBrand._id}
-                        value={bikeBrand.displayName}
+                        value={
+                          bikeBrand.displayName
+                        }
                       >
                         {bikeBrand.displayName}
                       </option>
@@ -431,11 +461,17 @@ export default function ElectricBikesPage() {
 
                 <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
                   <span>
-                    PKR {minPrice.toLocaleString()}
+                    PKR{" "}
+                    {minPrice.toLocaleString(
+                      "en-PK"
+                    )}
                   </span>
 
                   <span>
-                    PKR {maxPrice.toLocaleString()}
+                    PKR{" "}
+                    {maxPrice.toLocaleString(
+                      "en-PK"
+                    )}
                   </span>
                 </div>
 
@@ -510,23 +546,21 @@ export default function ElectricBikesPage() {
 
                 <div className="relative">
                   <select
-                    value={topSpeed}
-                    onChange={(e) => {
-                      setTopSpeed(e.target.value);
-                      setVisibleProducts(9);
-                    }}
+                    value={selectedSpeed}
+                    onChange={(e) =>
+                      setSelectedSpeed(
+                        e.target.value
+                      )
+                    }
                     className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
                   >
                     <option>All</option>
-
                     <option>
                       Under 80 km/h
                     </option>
-
                     <option>
                       80 - 120 km/h
                     </option>
-
                     <option>
                       120+ km/h
                     </option>
@@ -559,23 +593,21 @@ export default function ElectricBikesPage() {
 
                 <div className="relative">
                   <select
-                    value={range}
-                    onChange={(e) => {
-                      setRange(e.target.value);
-                      setVisibleProducts(9);
-                    }}
+                    value={selectedRange}
+                    onChange={(e) =>
+                      setSelectedRange(
+                        e.target.value
+                      )
+                    }
                     className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#263640] bg-[#0B1720] px-4 pr-10 text-sm text-[#D7DCDF] outline-none transition hover:border-[#3D4E58] focus:border-[#52656F]"
                   >
                     <option>All</option>
-
                     <option>
                       Under 100 km
                     </option>
-
                     <option>
                       100 - 200 km
                     </option>
-
                     <option>
                       200+ km
                     </option>
@@ -615,86 +647,130 @@ export default function ElectricBikesPage() {
 
             <section className="w-full">
               {displayedBikes.length > 0 ? (
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {displayedBikes.map(
-                    (bike, index) => (
-                      <motion.div
-                        key={bike._id}
-                        initial={{
-                          opacity: 0,
-                          y: 35,
-                        }}
-                        whileInView={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        viewport={{
-                          once: true,
-                        }}
-                        transition={{
-                          duration: 0.5,
-                          delay: index * 0.08,
-                        }}
-                        whileHover={{
-                          y: -6,
-                        }}
-                      >
-                        <Link
-                          href={`/${bike.slug}`}
-                          className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                <>
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    {displayedBikes.map(
+                      (bike, index) => (
+                        <motion.div
+                          key={bike._id}
+                          initial={{
+                            opacity: 0,
+                            y: 35,
+                          }}
+                          whileInView={{
+                            opacity: 1,
+                            y: 0,
+                          }}
+                          viewport={{
+                            once: true,
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            delay:
+                              index * 0.08,
+                          }}
+                          whileHover={{
+                            y: -6,
+                          }}
                         >
-                          <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
-                            <motion.img
-                              src={bike.imageUrl}
-                              alt={bike.name}
-                              className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
-                              whileHover={{
-                                scale: 1.07,
-                              }}
-                            />
-                          </div>
-
-                          <div className="px-[17px] pb-[17px] pt-3">
-                            <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
-                              {bike.name}
-                            </h3>
-
-                            <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                              PKR{" "}
-                              {bike.price.toLocaleString(
-                                "en-PK"
-                              )}
-                            </p>
-
-                            <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                              <span className="text-[13px] text-[#B9ED42]">
-                                ★
-                              </span>
-
-                              <span>
-                                {bike.rating}
-                              </span>
+                          <Link
+                            href={`/${bike.slug}`}
+                            className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                          >
+                            <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
+                              <motion.img
+                                src={
+                                  bike.imageUrl
+                                }
+                                alt={
+                                  bike.name
+                                }
+                                className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
+                                whileHover={{
+                                  scale: 1.07,
+                                }}
+                              />
                             </div>
 
-                            <AddToCartButton
-                              product={{
-                                id: bike._id,
-                                name: bike.name,
-                                price: Number(
+                            <div className="px-[17px] pb-[17px] pt-3">
+                              <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
+                                {
+                                  bike.name
+                                }
+                              </h3>
+
+                              <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
+                                PKR{" "}
+                                {Number(
                                   bike.price
-                                ),
-                                image: bike.imageUrl,
-                              }}
-                              className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
-                            >
-                              Add to Cart
-                            </AddToCartButton>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    )
+                                ).toLocaleString(
+                                  "en-PK"
+                                )}
+                              </p>
+
+                              <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
+                                <span className="text-[13px] text-[#B9ED42]">
+                                  ★
+                                </span>
+
+                                <span>
+                                  {
+                                    bike.rating
+                                  }
+                                </span>
+                              </div>
+
+                              <AddToCartButton
+                                product={{
+                                  id: bike._id,
+                                  name: bike.name,
+                                  price: Number(
+                                    bike.price
+                                  ),
+                                  image:
+                                    bike.imageUrl,
+                                }}
+                                className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
+                              >
+                                Add to Cart
+                              </AddToCartButton>
+                            </div>
+                          </Link>
+                        </motion.div>
+                      )
+                    )}
+                  </div>
+
+                  {visibleProducts <
+                    filteredBikes.length && (
+                    <motion.button
+                      onClick={loadMore}
+                      initial={{
+                        opacity: 0,
+                        y: 20,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      viewport={{
+                        once: true,
+                      }}
+                      whileHover={{
+                        scale: 1.04,
+                      }}
+                      whileTap={{
+                        scale: 0.98,
+                      }}
+                      transition={{
+                        duration: 0.4,
+                      }}
+                      className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
+                    >
+                      Load More
+                    </motion.button>
                   )}
-                </div>
+                </>
               ) : (
                 <motion.div
                   initial={{
@@ -716,40 +792,10 @@ export default function ElectricBikesPage() {
                     </p>
 
                     <p className="mt-2 text-sm text-[#78858C]">
-                      Try changing your filters.
+                      Try adjusting your filters.
                     </p>
                   </div>
                 </motion.div>
-              )}
-
-              {visibleProducts <
-                filteredBikes.length && (
-                <motion.button
-                  onClick={loadMore}
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                  }}
-                  whileHover={{
-                    scale: 1.04,
-                  }}
-                  whileTap={{
-                    scale: 0.98,
-                  }}
-                  transition={{
-                    duration: 0.4,
-                  }}
-                  className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
-                >
-                  Load More
-                </motion.button>
               )}
             </section>
           </div>

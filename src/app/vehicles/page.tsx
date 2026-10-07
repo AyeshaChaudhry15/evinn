@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -5,6 +6,23 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import AddToCartButton from "../../../components/add-to-cart";
+
+interface Brand {
+  _id: string;
+  displayName: string;
+  logoUrl: string;
+  origin?: string;
+}
+
+interface BikeSpecs {
+  range?: string;
+  topSpeed?: string;
+  battery?: string;
+  chargingTime?: string;
+  motorPower?: string;
+  weight?: string;
+  warranty?: string;
+}
 
 interface Vehicle {
   _id: string;
@@ -20,19 +38,29 @@ interface Vehicle {
   imageUrl: string;
   slug: string;
   createdAt?: string;
-  specs?: {
-    range?: string;
-    topSpeed?: string;
-    battery?: string;
-    chargingTime?: string;
-    motorPower?: string;
-    weight?: string;
-    warranty?: string;
-  };
+  updatedAt?: string;
+  specs?: BikeSpecs;
+}
+
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: Pagination;
+}
+
+interface BrandsResponse {
+  brands: Brand[];
 }
 
 const PRICE_MIN = 0;
-const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
@@ -50,7 +78,9 @@ export default function Vehicles() {
   const [sortBy, setSortBy] = useState("Popular");
 
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
-  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
+  const [maxPrice, setMaxPrice] = useState(5000000);
+  const [priceLimit, setPriceLimit] = useState(5000000);
+
   const [visibleProducts, setVisibleProducts] = useState(9);
 
   useEffect(() => {
@@ -75,12 +105,34 @@ export default function Vehicles() {
           );
         }
 
-        setVehicles(Array.isArray(data?.bikes) ? data.bikes : []);
-      } catch (error: any) {
-        console.error("Vehicles API Error:", error);
-        setApiError(
-          error?.message || "Something went wrong while loading vehicles."
+        const bikes = Array.isArray(data?.bikes)
+          ? data.bikes
+          : [];
+
+        setVehicles(bikes);
+
+        const highestPrice = bikes.reduce(
+          (highest: number, vehicle: Vehicle) =>
+            Math.max(highest, Number(vehicle.price) || 0),
+          0
         );
+
+        if (highestPrice > 0) {
+          const calculatedLimit =
+            Math.ceil(highestPrice / PRICE_STEP) * PRICE_STEP;
+
+          setPriceLimit(Math.max(calculatedLimit, 500000));
+          setMaxPrice(Math.max(calculatedLimit, 500000));
+        }
+      } catch (error: unknown) {
+        console.error("Vehicles API Error:", error);
+
+        setApiError(
+          error instanceof Error
+            ? error.message
+            : "Something went wrong while loading vehicles."
+        );
+
         setVehicles([]);
       } finally {
         setLoading(false);
@@ -101,7 +153,7 @@ export default function Vehicles() {
   }, [vehicles]);
 
   const filteredVehicles = useMemo(() => {
-    let result = vehicles.filter((vehicle) => {
+    const result = vehicles.filter((vehicle) => {
       const brandMatch =
         brand === "All Brands" ||
         vehicle.brand?.displayName === brand;
@@ -111,39 +163,49 @@ export default function Vehicles() {
         (vehicleType === "Bike" && vehicle.type === "bike") ||
         (vehicleType === "Scooter" && vehicle.type === "scooter");
 
+      const priceValue = Number(vehicle.price) || 0;
+
       const priceMatch =
-        vehicle.price >= minPrice &&
-        vehicle.price <= maxPrice;
+        priceValue >= minPrice &&
+        priceValue <= maxPrice;
 
       let speedMatch = true;
 
-      if (topSpeed !== "All" && vehicle.specs?.topSpeed) {
-        const speedValue = parseInt(vehicle.specs.topSpeed);
+      if (topSpeed !== "All") {
+        const speedText = vehicle.specs?.topSpeed || "";
+        const speedValue = parseInt(speedText, 10);
 
         if (!Number.isNaN(speedValue)) {
           if (topSpeed === "Under 60 km/h") {
             speedMatch = speedValue < 60;
           } else if (topSpeed === "60 - 90 km/h") {
-            speedMatch = speedValue >= 60 && speedValue <= 90;
+            speedMatch =
+              speedValue >= 60 && speedValue <= 90;
           } else if (topSpeed === "90+ km/h") {
             speedMatch = speedValue > 90;
           }
+        } else {
+          speedMatch = false;
         }
       }
 
       let rangeMatch = true;
 
-      if (range !== "All" && vehicle.specs?.range) {
-        const rangeValue = parseInt(vehicle.specs.range);
+      if (range !== "All") {
+        const rangeText = vehicle.specs?.range || "";
+        const rangeValue = parseInt(rangeText, 10);
 
         if (!Number.isNaN(rangeValue)) {
           if (range === "Under 80 km") {
             rangeMatch = rangeValue < 80;
           } else if (range === "80 - 150 km") {
-            rangeMatch = rangeValue >= 80 && rangeValue <= 150;
+            rangeMatch =
+              rangeValue >= 80 && rangeValue <= 150;
           } else if (range === "150+ km") {
             rangeMatch = rangeValue > 150;
           }
+        } else {
+          rangeMatch = false;
         }
       }
 
@@ -157,11 +219,19 @@ export default function Vehicles() {
     });
 
     if (sortBy === "Price: Low to High") {
-      result.sort((a, b) => a.price - b.price);
+      result.sort(
+        (a, b) =>
+          (Number(a.price) || 0) -
+          (Number(b.price) || 0)
+      );
     }
 
     if (sortBy === "Price: High to Low") {
-      result.sort((a, b) => b.price - a.price);
+      result.sort(
+        (a, b) =>
+          (Number(b.price) || 0) -
+          (Number(a.price) || 0)
+      );
     }
 
     if (sortBy === "Newest") {
@@ -202,7 +272,7 @@ export default function Vehicles() {
     setRange("All");
     setSortBy("Popular");
     setMinPrice(PRICE_MIN);
-    setMaxPrice(PRICE_MAX);
+    setMaxPrice(priceLimit);
     setVisibleProducts(9);
   };
 
@@ -341,12 +411,7 @@ export default function Vehicles() {
             Filters
           </motion.h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.35 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
             </label>
@@ -371,12 +436,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
             </label>
@@ -405,23 +465,18 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.45 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
               <span>
-                PKR {minPrice.toLocaleString("en-US")}
+                PKR {minPrice.toLocaleString("en-PK")}
               </span>
 
               <span>
-                PKR {maxPrice.toLocaleString("en-US")}
+                PKR {maxPrice.toLocaleString("en-PK")}
               </span>
             </div>
 
@@ -431,9 +486,9 @@ export default function Vehicles() {
               <div
                 className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d]"
                 style={{
-                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  left: `${(minPrice / priceLimit) * 100}%`,
                   right: `${
-                    100 - (maxPrice / PRICE_MAX) * 100
+                    100 - (maxPrice / priceLimit) * 100
                   }%`,
                 }}
               />
@@ -441,7 +496,7 @@ export default function Vehicles() {
               <input
                 type="range"
                 min={PRICE_MIN}
-                max={PRICE_MAX}
+                max={priceLimit}
                 step={PRICE_STEP}
                 value={minPrice}
                 onChange={handleMinChange}
@@ -451,7 +506,7 @@ export default function Vehicles() {
               <input
                 type="range"
                 min={PRICE_MIN}
-                max={PRICE_MAX}
+                max={priceLimit}
                 step={PRICE_STEP}
                 value={maxPrice}
                 onChange={handleMaxChange}
@@ -460,12 +515,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.5 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
             </label>
@@ -491,12 +541,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.55 }}
-            className="mb-8"
-          >
+          <motion.div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
             </label>
@@ -541,6 +586,7 @@ export default function Vehicles() {
                   className="h-[350px] animate-pulse overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E]"
                 >
                   <div className="h-[205px] bg-[#101C25]" />
+
                   <div className="space-y-3 p-4">
                     <div className="h-4 w-3/4 rounded bg-[#17242D]" />
                     <div className="h-4 w-1/2 rounded bg-[#17242D]" />
@@ -611,7 +657,10 @@ export default function Vehicles() {
                         </p>
 
                         <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                          PKR {vehicle.price.toLocaleString("en-US")}
+                          PKR{" "}
+                          {Number(vehicle.price).toLocaleString(
+                            "en-US"
+                          )}
                         </p>
 
                         <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
@@ -632,7 +681,7 @@ export default function Vehicles() {
                           product={{
                             id: vehicle._id,
                             name: vehicle.name,
-                            price: vehicle.price,
+                            price: Number(vehicle.price),
                             image: vehicle.imageUrl,
                           }}
                           className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
@@ -683,3 +732,5 @@ export default function Vehicles() {
     </main>
   );
 }
+
+

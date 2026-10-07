@@ -1,10 +1,10 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -63,34 +63,51 @@ export default function EveonPage() {
         setLoading(true);
         setError("");
 
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
+        });
 
-        const eveonBrand = brandsResponse.data.brands?.find(
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands.");
+        }
+
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const eveonBrand = brandsData.brands?.find(
           (brand) =>
-            brand.displayName.toLowerCase().trim() ===
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
         if (!eveonBrand) {
-          throw new Error("Eveon brand not found");
+          throw new Error("Eveon brand not found.");
         }
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
-            brand: eveonBrand._id,
-            page: 1,
-            limit: 100,
-          },
-        });
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            eveonBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
-      } catch (err: any) {
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Eveon motorcycles.");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
+      } catch (err) {
         console.error("Eveon API Error:", err);
 
         setError(
-          err?.response?.data?.message ||
-            err?.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
