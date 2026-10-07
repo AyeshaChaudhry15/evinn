@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,38 +6,37 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Info, ClipboardList, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import { api } from "../../../lib/api";
-import brandInfo from "../brand-info.json";
 import AddToCartButton from "../../../../components/add-to-cart";
+
+const API_URL = "http://localhost:5000/api";
 
 interface Brand {
   _id: string;
   displayName: string;
   logoUrl?: string;
+  origin?: string;
+  established?: string;
+  headquarters?: string;
+  about?: string;
+  websiteUrl?: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  facebookUrl?: string;
 }
 
 interface Vehicle {
   _id: string;
   name: string;
-  brand: Brand;
+  brand: {
+    _id: string;
+    displayName: string;
+    logoUrl?: string;
+  };
   type: string;
   price: number;
   rating: number;
   imageUrl: string;
   slug: string;
-}
-
-interface BrandInfo {
-  displayName: string;
-  logo: string;
-  origin: string;
-  established: string;
-  headquarters: string;
-  about: string;
-  website: string;
-  instagram: string;
-  twitter: string;
-  facebook: string;
 }
 
 interface BrandsResponse {
@@ -61,15 +61,14 @@ export default function BrandDetailPage() {
   const brandSlug =
     typeof params.brand === "string" ? params.brand : "";
 
-  const info = (brandInfo as Record<string, BrandInfo>)[brandSlug];
-
+  const [brand, setBrand] = useState<Brand | null>(null);
   const [models, setModels] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchBrandModels = async () => {
-      if (!info?.displayName) {
+    const fetchBrandData = async () => {
+      if (!brandSlug) {
         setLoading(false);
         return;
       }
@@ -78,377 +77,308 @@ export default function BrandDetailPage() {
         setLoading(true);
         setError("");
 
-        const brandsResponse =
-          await api.get<BrandsResponse>("/brands");
+        const brandsResponse = await fetch(`${API_URL}/brands`, {
+          credentials: "include",
+        });
 
-        const backendBrand =
-          brandsResponse.data.brands.find(
-            (brand) =>
-              brand.displayName.toLowerCase().trim() ===
-              info.displayName.toLowerCase().trim()
-          );
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands.");
+        }
 
-        if (!backendBrand) {
+        const brandsData: BrandsResponse =
+          await brandsResponse.json();
+
+        const foundBrand = brandsData.brands.find((item) => {
+          const slug = item.displayName
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, "-");
+
+          return slug === brandSlug.toLowerCase();
+        });
+
+        if (!foundBrand) {
+          setBrand(null);
           setModels([]);
+          setError("Brand not found.");
           return;
         }
 
-        const bikesResponse =
-          await api.get<BikesResponse>("/bikes", {
-            params: {
-              page: 1,
-              limit: 100,
-              brand: backendBrand._id,
-            },
-          });
+        setBrand(foundBrand);
 
-        setModels(bikesResponse.data.bikes || []);
-      } catch (err: any) {
-        console.error("Brand Detail API Error:", err);
-
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading models."
+        const bikesResponse = await fetch(
+          `${API_URL}/bikes?brand=${foundBrand._id}&page=1&limit=100`,
+          {
+            credentials: "include",
+          }
         );
 
-        setModels([]);
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load brand models.");
+        }
+
+        const bikesData: BikesResponse =
+          await bikesResponse.json();
+
+        setModels(bikesData.bikes || []);
+      } catch (err) {
+        console.error("Brand API Error:", err);
+
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading brand information."
+        );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBrandModels();
-  }, [info?.displayName]);
+    fetchBrandData();
+  }, [brandSlug]);
 
-  if (!info) {
+  const formatPrice = (price: number) => {
+    return `PKR ${price.toLocaleString("en-US")}`;
+  };
+
+  if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#06111A] px-4 text-white">
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
+      <main className="flex min-h-screen items-center justify-center bg-[#06111A] text-white">
+        <p className="text-lg">Loading brand...</p>
+      </main>
+    );
+  }
+
+  if (error || !brand) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#06111A] px-6 text-white">
+        <p className="mb-6 text-lg text-red-400">
+          {error || "Brand not found."}
+        </p>
+
+        <Link
+          href="/brands"
+          className="flex items-center gap-2 rounded-lg bg-[#8FDF0D] px-5 py-3 font-semibold text-black"
         >
-          <h1 className="mb-3 text-3xl font-bold">
-            Brand Not Found
-          </h1>
-
-          <p className="mb-6 text-gray-400">
-            The requested brand information could not be found.
-          </p>
-
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Link
-              href="/brands"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#8FDF0D] px-5 py-3 font-semibold text-black transition hover:bg-[#a5ed32]"
-            >
-              <ArrowLeft size={18} />
-              Back to Brands
-            </Link>
-          </motion.div>
-        </motion.div>
+          <ArrowLeft size={18} />
+          Back to Brands
+        </Link>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
-      <div className="mx-auto max-w-7xl">
-
-        <motion.div
-          initial={{ opacity: 0, x: -25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+    <main className="min-h-screen bg-[#06111A] text-white">
+      <section className="px-6 py-16 md:px-12 lg:px-20">
+        <div className="mx-auto max-w-7xl">
           <Link
-            href={`/brands/${brandSlug}`}
-            className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition hover:text-[#8FDF0D]"
+            href="/brands"
+            className="mb-10 inline-flex items-center gap-2 text-gray-400 transition hover:text-[#8FDF0D]"
           >
-            <ArrowLeft size={17} />
-            Back to {info.displayName}
+            <ArrowLeft size={18} />
+            Back to Brands
           </Link>
-        </motion.div>
 
-        <motion.section
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="mb-10 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8 lg:p-10"
-        >
-          <div className="flex flex-col gap-7 sm:flex-row sm:items-center">
+          <div className="grid gap-10 lg:grid-cols-[320px_1fr]">
             <motion.div
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl p-3"
-            >
-              <img
-                src={info.logo}
-                alt={`${info.displayName} logo`}
-                className="max-h-full max-w-full object-contain"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 25 }}
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6 }}
+              className="rounded-2xl border border-white/10 bg-white/5 p-8"
             >
-              <p className="mb-2 text-sm font-medium uppercase tracking-wider text-[#8FDF0D]">
-                Brand Information
-              </p>
+              <div className="flex justify-center">
+                {brand.logoUrl ? (
+                  <img
+                    src={brand.logoUrl}
+                    alt={brand.displayName}
+                    className="h-40 w-40 rounded-xl object-contain"
+                  />
+                ) : (
+                  <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-white/10 text-gray-400">
+                    No Logo
+                  </div>
+                )}
+              </div>
 
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                {info.displayName}
+              <h1 className="mt-6 text-center text-3xl font-bold">
+                {brand.displayName}
               </h1>
 
-              <p className="mt-2 text-gray-400">
-                Discover {info.displayName} motorcycles and electric
-                vehicles.
-              </p>
+              <div className="mt-8 space-y-4 text-sm">
+                {brand.origin && (
+                  <div>
+                    <p className="text-gray-500">Origin</p>
+                    <p className="mt-1 text-gray-200">
+                      {brand.origin}
+                    </p>
+                  </div>
+                )}
+
+                {brand.established && (
+                  <div>
+                    <p className="text-gray-500">Established</p>
+                    <p className="mt-1 text-gray-200">
+                      {brand.established}
+                    </p>
+                  </div>
+                )}
+
+                {brand.headquarters && (
+                  <div>
+                    <p className="text-gray-500">Headquarters</p>
+                    <p className="mt-1 text-gray-200">
+                      {brand.headquarters}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                {brand.websiteUrl && (
+                  <a
+                    href={brand.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-[#8FDF0D] px-4 py-2 text-sm font-semibold text-black"
+                  >
+                    Website
+                  </a>
+                )}
+
+                {brand.instagramUrl && (
+                  <a
+                    href={brand.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-[#8FDF0D] hover:text-[#8FDF0D]"
+                  >
+                    Instagram
+                  </a>
+                )}
+
+                {brand.facebookUrl && (
+                  <a
+                    href={brand.facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-[#8FDF0D] hover:text-[#8FDF0D]"
+                  >
+                    Facebook
+                  </a>
+                )}
+
+                {brand.twitterUrl && (
+                  <a
+                    href={brand.twitterUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-[#8FDF0D] hover:text-[#8FDF0D]"
+                  >
+                    Twitter
+                  </a>
+                )}
+              </div>
             </motion.div>
-          </div>
-        </motion.section>
 
-        <section className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+            <div>
+              {brand.about && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="mb-10 rounded-2xl border border-white/10 bg-white/5 p-8"
+                >
+                  <div className="mb-5 flex items-center gap-3">
+                    <Info
+                      className="text-[#8FDF0D]"
+                      size={24}
+                    />
 
-          <motion.div
-            initial={{ opacity: 0, x: -35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FDF0D]/10 text-[#8FDF0D]"
-              >
-                <Info size={21} />
-              </motion.div>
+                    <h2 className="text-2xl font-bold">
+                      About {brand.displayName}
+                    </h2>
+                  </div>
 
-              <h2 className="text-2xl font-bold">
-                About {info.displayName}
-              </h2>
-            </div>
+                  <p className="leading-8 text-gray-400">
+                    {brand.about}
+                  </p>
+                </motion.div>
+              )}
 
-            <p className="leading-8 text-gray-400">
-              {info.about}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8"
-          >
-            <h2 className="mb-6 text-2xl font-bold">
-              Quick Facts
-            </h2>
-
-            <div className="space-y-5">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-              >
-                <p className="text-sm text-gray-500">
-                  Origin
-                </p>
-
-                <p className="mt-1 font-semibold">
-                  {info.origin || "—"}
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-              >
-                <p className="text-sm text-gray-500">
-                  Established
-                </p>
-
-                <p className="mt-1 font-semibold">
-                  {info.established || "—"}
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              >
-                <p className="text-sm text-gray-500">
-                  Headquarters
-                </p>
-
-                <p className="mt-1 font-semibold">
-                  {info.headquarters || "—"}
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.25 }}
-              >
-                <p className="text-sm text-gray-500">
-                  Models Listed
-                </p>
-
-                <p className="mt-1 font-semibold text-[#8FDF0D]">
-                  {models.length}
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-
-        </section>
-
-        <motion.section
-          initial={{ opacity: 0, y: 35 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mt-6 rounded-3xl border border-white/10 bg-[#0A1822] p-6 sm:p-8"
-        >
-          <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FDF0D]/10 text-[#8FDF0D]">
-                  <ClipboardList size={21} />
-                </div>
+              <div className="mb-6 flex items-center gap-3">
+                <ClipboardList
+                  className="text-[#8FDF0D]"
+                  size={25}
+                />
 
                 <h2 className="text-2xl font-bold">
-                  {info.displayName} Models
+                  {brand.displayName} Models
                 </h2>
               </div>
 
-              <p className="mt-2 text-gray-500">
-                {loading
-                  ? "Loading models..."
-                  : `${models.length} model${
-                      models.length !== 1 ? "s" : ""
-                    } available`}
-              </p>
-            </motion.div>
+              {models.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-10 text-center text-gray-400">
+                  No models available for this brand.
+                </div>
+              ) : (
+                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                  {models.map((vehicle) => (
+                    <motion.div
+                      key={vehicle._id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+                    >
+                      <Link href={`/bikes/${vehicle.slug}`}>
+                        <div className="h-56 overflow-hidden bg-white">
+                          <img
+                            src={vehicle.imageUrl}
+                            alt={vehicle.name}
+                            className="h-full w-full object-contain transition duration-300 hover:scale-105"
+                          />
+                        </div>
 
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Link
-                href={`/brands/${brandSlug}`}
-                className="inline-flex items-center justify-center rounded-lg bg-[#8FDF0D] px-5 py-3 font-semibold text-black transition hover:bg-[#a5ed32]"
-              >
-                Browse Models
-              </Link>
-            </motion.div>
+                        <div className="p-5">
+                          <p className="mb-2 text-sm capitalize text-[#8FDF0D]">
+                            {vehicle.type}
+                          </p>
+
+                          <h3 className="text-lg font-semibold">
+                            {vehicle.name}
+                          </h3>
+
+                          <div className="mt-3 flex items-center justify-between">
+                            <p className="font-semibold text-[#8FDF0D]">
+                              {formatPrice(vehicle.price)}
+                            </p>
+
+                            <p className="text-sm text-yellow-400">
+                              ★ {vehicle.rating}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+
+                      <div className="px-5 pb-5">
+                        <AddToCartButton
+                          product={{
+                            id: vehicle._id,
+                            name: vehicle.name,
+                            price: vehicle.price,
+                            image: vehicle.imageUrl,
+                          }}
+                        />
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/10 border-t-[#8FDF0D]" />
-            </div>
-          ) : error ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-dashed border-white/10 py-12 text-center"
-            >
-              <p className="text-red-400">{error}</p>
-            </motion.div>
-          ) : models.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="rounded-2xl border border-dashed border-white/10 py-12 text-center"
-            >
-              <p className="text-gray-500">
-                No models available for this brand yet.
-              </p>
-            </motion.div>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {models.map((vehicle, index) => (
-                <motion.div
-                  key={vehicle._id}
-                  initial={{ opacity: 0, y: 35 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                  }}
-                  whileHover={{ y: -6 }}
-                >
-                  <Link
-                    href={`/${vehicle.slug}`}
-                    className="group block overflow-hidden rounded-2xl border border-white/10 bg-[#06111A] transition hover:-translate-y-1 hover:border-[#8FDF0D]/40"
-                  >
-                    <div className="flex h-48 items-center justify-center bg-white p-5">
-                      <motion.img
-                        src={vehicle.imageUrl}
-                        alt={vehicle.name}
-                        className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-                        whileHover={{ scale: 1.08 }}
-                      />
-                    </div>
-
-                    <div className="p-5">
-                      <p className="mb-1 text-sm capitalize text-gray-500">
-                        {vehicle.type}
-                      </p>
-
-                      <h3 className="text-lg font-bold transition group-hover:text-[#8FDF0D]">
-                        {vehicle.name}
-                      </h3>
-
-                      <p className="mt-3 font-semibold text-[#8FDF0D]">
-                        PKR {vehicle.price.toLocaleString("en-PK")}
-                      </p>
-
-                      <AddToCartButton
-                        product={{
-                          id: vehicle._id,
-                          name: vehicle.name,
-                          price: vehicle.price,
-                          image: vehicle.imageUrl,
-                        }}
-                        className="mt-4 h-[40px] w-full rounded-lg bg-[#8FDF0D] text-sm font-semibold text-[#06111A] transition hover:bg-[#a5ed32] active:scale-[0.98]"
-                      >
-                        Add to Cart
-                      </AddToCartButton>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </motion.section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }
+
