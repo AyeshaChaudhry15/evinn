@@ -5,7 +5,6 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import AddToCartButton from "../../../components/add-to-cart";
-import { api } from "../../lib/api";
 
 interface Brand {
   _id: string;
@@ -33,26 +32,12 @@ interface Scooter {
   };
 }
 
-interface BrandsResponse {
-  brands: Brand[];
-}
-
-interface ScootersResponse {
-  bikes: Scooter[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
-}
-
 const PRICE_MIN = 0;
 const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
+
+const API_URL = "https://evinn.evermontech.com/api";
 
 export default function ElectricScootersPage() {
   const [scooters, setScooters] = useState<Scooter[]>([]);
@@ -76,26 +61,54 @@ export default function ElectricScootersPage() {
         setLoading(true);
         setError("");
 
-        const [brandsResponse, scootersResponse] = await Promise.all([
-          api.get<BrandsResponse>("/brands"),
+        const [brandsResponse, scootersResponse] =
+          await Promise.all([
+            fetch(`${API_URL}/brands`, {
+              method: "GET",
+              credentials: "include",
+            }),
 
-          api.get<ScootersResponse>("/bikes", {
-            params: {
-              page: 1,
-              limit: 100,
-              type: "scooter",
-            },
-          }),
-        ]);
+            fetch(
+              `${API_URL}/bikes?page=1&limit=100&type=scooter`,
+              {
+                method: "GET",
+                credentials: "include",
+              }
+            ),
+          ]);
 
-        setBrands(brandsResponse.data.brands || []);
-        setScooters(scootersResponse.data.bikes || []);
+        const brandsData = await brandsResponse
+          .json()
+          .catch(() => ({}));
+
+        const scootersData = await scootersResponse
+          .json()
+          .catch(() => ({}));
+
+        if (!brandsResponse.ok) {
+          throw new Error(
+            brandsData?.message ||
+              "Failed to load brands."
+          );
+        }
+
+        if (!scootersResponse.ok) {
+          throw new Error(
+            scootersData?.message ||
+              "Failed to load scooters."
+          );
+        }
+
+        setBrands(brandsData?.brands || []);
+        setScooters(scootersData?.bikes || []);
       } catch (err: any) {
-        console.error("Electric Scooters API Error:", err);
+        console.error(
+          "Electric Scooters API Error:",
+          err
+        );
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.message ||
             "Something went wrong while loading scooters."
         );
       } finally {
@@ -112,7 +125,8 @@ export default function ElectricScootersPage() {
         scooter.brand?.displayName || "";
 
       const brandMatch =
-        brand === "All Brands" || scooterBrandName === brand;
+        brand === "All Brands" ||
+        scooterBrandName === brand;
 
       const priceMatch =
         scooter.price >= minPrice &&
@@ -121,7 +135,9 @@ export default function ElectricScootersPage() {
       let speedMatch = true;
 
       if (topSpeed !== "All" && scooter.specs?.topSpeed) {
-        const speedValue = parseInt(scooter.specs.topSpeed);
+        const speedValue = parseInt(
+          scooter.specs.topSpeed
+        );
 
         if (!Number.isNaN(speedValue)) {
           if (topSpeed === "Under 80 km/h") {
@@ -138,7 +154,9 @@ export default function ElectricScootersPage() {
       let rangeMatch = true;
 
       if (range !== "All" && scooter.specs?.range) {
-        const rangeValue = parseInt(scooter.specs.range);
+        const rangeValue = parseInt(
+          scooter.specs.range
+        );
 
         if (!Number.isNaN(rangeValue)) {
           if (range === "Under 100 km") {
@@ -275,7 +293,10 @@ export default function ElectricScootersPage() {
             <div className="relative w-[170px]">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  setVisibleProducts(9);
+                }}
                 className="h-12 w-full cursor-pointer appearance-none rounded-lg border border-[#273741] bg-[#0A151E] px-4 pr-9 text-sm text-[#DCE1E4] outline-none transition hover:border-[#40515B] focus:border-[#52656F]"
               >
                 <option>Price: Low to High</option>
@@ -326,7 +347,10 @@ export default function ElectricScootersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.25 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.25,
+                }}
                 className="mb-7"
               >
                 <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -363,7 +387,10 @@ export default function ElectricScootersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.35 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.35,
+                }}
                 className="mb-7"
               >
                 <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -388,7 +415,8 @@ export default function ElectricScootersPage() {
                     style={{
                       left: `${(minPrice / PRICE_MAX) * 100}%`,
                       right: `${
-                        100 - (maxPrice / PRICE_MAX) * 100
+                        100 -
+                        (maxPrice / PRICE_MAX) * 100
                       }%`,
                     }}
                   />
@@ -403,7 +431,8 @@ export default function ElectricScootersPage() {
                     className="range-thumb absolute left-0 top-0 h-6 w-full cursor-pointer appearance-none bg-transparent"
                     style={{
                       zIndex:
-                        minPrice > PRICE_MAX - 500000
+                        minPrice >
+                        PRICE_MAX - 500000
                           ? 5
                           : 3,
                     }}
@@ -425,7 +454,10 @@ export default function ElectricScootersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.45 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.45,
+                }}
                 className="mb-7"
               >
                 <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -456,7 +488,10 @@ export default function ElectricScootersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.55 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.55,
+                }}
                 className="mb-8"
               >
                 <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
@@ -488,7 +523,10 @@ export default function ElectricScootersPage() {
                 onClick={clearFilters}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.65 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.65,
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="h-[50px] w-full rounded-lg border border-[#293943] bg-[#0A151E] text-sm font-medium text-[#D3D9DC] transition duration-200 hover:border-[#40515B] hover:bg-[#101E27] active:scale-[0.98]"
@@ -500,69 +538,89 @@ export default function ElectricScootersPage() {
             <section className="w-full">
               {displayedScooters.length > 0 ? (
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {displayedScooters.map((scooter, index) => (
-                    <motion.div
-                      key={scooter._id}
-                      initial={{ opacity: 0, y: 35 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 0.5,
-                        delay: index * 0.08,
-                      }}
-                      whileHover={{ y: -6 }}
-                    >
-                      <Link
-                        href={`/${scooter.slug}`}
-                        className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                  {displayedScooters.map(
+                    (scooter, index) => (
+                      <motion.div
+                        key={scooter._id}
+                        initial={{
+                          opacity: 0,
+                          y: 35,
+                        }}
+                        whileInView={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.08,
+                        }}
+                        whileHover={{ y: -6 }}
                       >
-                        <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
-                          <motion.img
-                            src={scooter.imageUrl}
-                            alt={scooter.name}
-                            className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
-                            whileHover={{ scale: 1.07 }}
-                          />
-                        </div>
-
-                        <div className="px-[17px] pb-[17px] pt-2">
-                          <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
-                            {scooter.name}
-                          </h3>
-
-                          <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                            PKR{" "}
-                            {scooter.price.toLocaleString("en-PK")}
-                          </p>
-
-                          <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
-                            <span className="text-[13px] text-[#B9ED42]">
-                              ★
-                            </span>
-
-                            <span>{scooter.rating}</span>
+                        <Link
+                          href={`/${scooter.slug}`}
+                          className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                        >
+                          <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
+                            <motion.img
+                              src={scooter.imageUrl}
+                              alt={scooter.name}
+                              className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
+                              whileHover={{
+                                scale: 1.07,
+                              }}
+                            />
                           </div>
 
-                          <AddToCartButton
-                            product={{
-                              id: scooter._id,
-                              name: scooter.name,
-                              price: scooter.price,
-                              image: scooter.imageUrl,
-                            }}
-                            className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
-                          >
-                            Add to Cart
-                          </AddToCartButton>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
+                          <div className="px-[17px] pb-[17px] pt-2">
+                            <h3 className="mb-2 truncate text-[15px] font-semibold text-[#E7EBED]">
+                              {scooter.name}
+                            </h3>
+
+                            <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
+                              PKR{" "}
+                              {scooter.price.toLocaleString(
+                                "en-PK"
+                              )}
+                            </p>
+
+                            <div className="mb-3 flex items-center gap-1.5 text-xs text-[#6F7B81]">
+                              <span className="text-[13px] text-[#B9ED42]">
+                                ★
+                              </span>
+
+                              <span>
+                                {scooter.rating}
+                              </span>
+                            </div>
+
+                            <AddToCartButton
+                              product={{
+                                id: scooter._id,
+                                name: scooter.name,
+                                price: scooter.price,
+                                image: scooter.imageUrl,
+                              }}
+                              className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
+                            >
+                              Add to Cart
+                            </AddToCartButton>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    )
+                  )}
                 </div>
               ) : (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.95,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
                   transition={{ duration: 0.5 }}
                   className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]"
                 >
@@ -582,8 +640,14 @@ export default function ElectricScootersPage() {
                 filteredScooters.length && (
                 <motion.button
                   onClick={loadMore}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.98 }}

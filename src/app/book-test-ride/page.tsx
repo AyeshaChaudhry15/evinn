@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -11,34 +10,46 @@ import {
   Zap,
 } from "lucide-react";
 
-import bikeData from "../../bike-details/bikes-scooter.json";
-
-interface VehicleSpec {
-  range?: string;
-  topSpeed?: string;
-  battery?: string;
-  chargingTime?: string;
-  motorPower?: string;
-  weight?: string;
-  warranty?: string;
+interface Brand {
+  _id: string;
+  displayName: string;
+  logoUrl?: string;
 }
 
 interface Vehicle {
-  id: string;
+  _id: string;
   name: string;
-  brand: string;
+  brand: Brand;
   type: string;
   price: number;
-  priceText: string;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
-  specs: VehicleSpec;
+  specs?: {
+    range?: string;
+    topSpeed?: string;
+    battery?: string;
+    chargingTime?: string;
+    motorPower?: string;
+    weight?: string;
+    warranty?: string;
+  };
 }
 
-interface BikeJsonData {
-  bikes?: Vehicle[];
-  scooters?: Vehicle[];
+interface BrandsResponse {
+  brands: Brand[];
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
 }
 
 const DEFAULT_CITIES = [
@@ -55,31 +66,14 @@ const DEFAULT_CITIES = [
 export default function BookTestRide() {
   const [isMounted, setIsMounted] = useState(false);
 
-  const brandOptions = useMemo(() => {
-    const rawData = bikeData as BikeJsonData;
-    const allVehicles = [
-      ...(rawData.bikes || []),
-      ...(rawData.scooters || []),
-    ];
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-    const brandMap: Record<string, Set<string>> = {};
+  const [loadingVehicles, setLoadingVehicles] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-    allVehicles.forEach((vehicle) => {
-      const brandName = vehicle.brand.trim();
-
-      if (!brandMap[brandName]) {
-        brandMap[brandName] = new Set();
-      }
-
-      brandMap[brandName].add(vehicle.name);
-    });
-
-    return Object.keys(brandMap).map((brand) => ({
-      brand,
-      models: Array.from(brandMap[brand]),
-      cities: DEFAULT_CITIES,
-    }));
-  }, []);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -95,55 +89,214 @@ export default function BookTestRide() {
   useEffect(() => {
     setIsMounted(true);
 
-    if (brandOptions.length > 0) {
-      setFormData((prev) => ({
-        ...prev,
-        brand: brandOptions[0]?.brand || "",
-        model: brandOptions[0]?.models?.[0] || "",
-        city: brandOptions[0]?.cities?.[0] || "",
-      }));
-    }
-  }, [brandOptions]);
+    const fetchData = async () => {
+      try {
+        setLoadingVehicles(true);
+        setError("");
+
+        const [brandsResponse, bikesResponse] =
+          await Promise.all([
+            fetch(
+              "https://evinn.evermontech.com/api/brands",
+              {
+                method: "GET",
+              }
+            ),
+            fetch(
+              "https://evinn.evermontech.com/api/bikes?page=1&limit=100",
+              {
+                method: "GET",
+              }
+            ),
+          ]);
+
+        const brandsData: BrandsResponse & {
+          message?: string;
+        } = await brandsResponse
+          .json()
+          .catch(() => ({} as BrandsResponse));
+
+        const bikesData: BikesResponse & {
+          message?: string;
+        } = await bikesResponse
+          .json()
+          .catch(() => ({} as BikesResponse));
+
+        if (!brandsResponse.ok) {
+          throw new Error(
+            brandsData?.message ||
+              "Failed to load brands."
+          );
+        }
+
+        if (!bikesResponse.ok) {
+          throw new Error(
+            bikesData?.message ||
+              "Failed to load bikes."
+          );
+        }
+
+        const fetchedBrands = brandsData?.brands || [];
+        const fetchedVehicles = bikesData?.bikes || [];
+
+        setBrands(fetchedBrands);
+        setVehicles(fetchedVehicles);
+
+        if (fetchedBrands.length > 0) {
+          const firstBrand = fetchedBrands[0];
+
+          const firstBrandVehicles =
+            fetchedVehicles.filter(
+              (vehicle) =>
+                vehicle.brand?._id === firstBrand._id
+            );
+
+          setFormData((prev) => ({
+            ...prev,
+            brand: firstBrand._id,
+            model:
+              firstBrandVehicles[0]?.name || "",
+            city: DEFAULT_CITIES[0],
+          }));
+        }
+      } catch (err: any) {
+        console.error("Test Ride Data API Error:", err);
+
+        setError(
+          err?.message ||
+            "Something went wrong while loading test ride data."
+        );
+      } finally {
+        setLoadingVehicles(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const brandOptions = useMemo(() => {
+    return brands.map((brand) => ({
+      brand: brand._id,
+      displayName: brand.displayName,
+      models: vehicles
+        .filter(
+          (vehicle) =>
+            vehicle.brand?._id === brand._id
+        )
+        .map((vehicle) => vehicle.name),
+      cities: DEFAULT_CITIES,
+    }));
+  }, [brands, vehicles]);
 
   const selectedBrandObj = brandOptions.find(
     (item) => item.brand === formData.brand
   );
 
-  const availableModels = selectedBrandObj?.models || [];
-  const availableCities = selectedBrandObj?.cities || DEFAULT_CITIES;
+  const availableModels =
+    selectedBrandObj?.models || [];
+
+  const availableCities =
+    selectedBrandObj?.cities || DEFAULT_CITIES;
 
   const handleBrandChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newBrand = e.target.value;
+
     const matched = brandOptions.find(
       (item) => item.brand === newBrand
     );
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       brand: newBrand,
       model: matched?.models?.[0] || "",
       city: matched?.cities?.[0] || "",
-    });
+    }));
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >
   ) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (
+    e: React.FormEvent
+  ) => {
     e.preventDefault();
-    console.log("Form Submitted Data:", formData);
+
+    try {
+      setSubmitLoading(true);
+      setError("");
+      setSuccess("");
+
+      const response = await fetch(
+        "https://evinn.evermontech.com/api/test-ride-requests",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName: formData.name.trim(),
+            email: formData.email.trim(),
+            contactNumber: formData.contact.trim(),
+            brand: formData.brand,
+            model: formData.model,
+            city: formData.city,
+            date: formData.date,
+            time: formData.time,
+          }),
+        }
+      );
+
+      const data = await response
+        .json()
+        .catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ||
+            "Failed to submit test ride request."
+        );
+      }
+
+      setSuccess(
+        data?.message ||
+          "Your test ride request has been submitted successfully!"
+      );
+
+      setFormData((prev) => ({
+        ...prev,
+        name: "",
+        email: "",
+        contact: "",
+      }));
+    } catch (err: any) {
+      console.error(
+        "Test Ride Submit API Error:",
+        err
+      );
+
+      setError(
+        err?.message ||
+          "Something went wrong while submitting your request."
+      );
+    } finally {
+      setSubmitLoading(false);
+    }
   };
 
   if (!isMounted) {
-    return <div className="min-h-screen bg-[#0b0f19]" />;
+    return (
+      <div className="min-h-screen bg-[#0b0f19]" />
+    );
   }
 
   return (
@@ -155,13 +308,12 @@ export default function BookTestRide() {
         className="absolute inset-0 z-0 bg-cover bg-center"
       />
 
-
       <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center py-8 md:py-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full max-w-3xl rounded-2xl border border-slate-700/80  p-6 shadow-2xl  sm:p-8 md:p-10"
+          className="w-full max-w-3xl rounded-2xl border border-slate-700/80 p-6 shadow-2xl sm:p-8 md:p-10"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -169,7 +321,7 @@ export default function BookTestRide() {
             transition={{ duration: 0.5 }}
             className="mb-7 text-center"
           >
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl text-[#70b815]">
+            <h1 className="text-3xl font-bold tracking-tight text-[#70b815] sm:text-4xl">
               Book a Test Ride
             </h1>
 
@@ -177,6 +329,24 @@ export default function BookTestRide() {
               Experience the future, before you buy.
             </p>
           </motion.div>
+
+          {loadingVehicles && (
+            <div className="mb-5 rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-center text-sm text-slate-400">
+              Loading brands and vehicles...
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-5 rounded-xl border border-red-900/50 bg-red-950/20 px-4 py-3 text-center text-sm text-red-400">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-5 rounded-xl border border-green-900/50 bg-green-950/20 px-4 py-3 text-center text-sm text-green-400">
+              {success}
+            </div>
+          )}
 
           <form
             onSubmit={handleSubmit}
@@ -198,7 +368,7 @@ export default function BookTestRide() {
                 onChange={handleChange}
                 placeholder="Enter your name"
                 required
-                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 placeholder:text-slate-400 outline-none transition-colors focus:border-lime-500"
+                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors placeholder:text-slate-400 focus:border-lime-500"
               />
             </motion.div>
 
@@ -218,7 +388,7 @@ export default function BookTestRide() {
                 onChange={handleChange}
                 placeholder="Enter your email"
                 required
-                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 placeholder:text-slate-400 outline-none transition-colors focus:border-lime-500"
+                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors placeholder:text-slate-400 focus:border-lime-500"
               />
             </motion.div>
 
@@ -238,7 +408,7 @@ export default function BookTestRide() {
                 onChange={handleChange}
                 placeholder="03XX XXXXXXX"
                 required
-                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 placeholder:text-slate-400 outline-none transition-colors focus:border-lime-500"
+                className="w-full rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors placeholder:text-slate-400 focus:border-lime-500"
               />
             </motion.div>
 
@@ -256,11 +426,18 @@ export default function BookTestRide() {
                   name="brand"
                   value={formData.brand}
                   onChange={handleBrandChange}
-                  className="w-full appearance-none rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors focus:border-lime-500"
+                  disabled={
+                    loadingVehicles ||
+                    brandOptions.length === 0
+                  }
+                  className="w-full appearance-none rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors focus:border-lime-500 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {brandOptions.map((item, idx) => (
-                    <option key={idx} value={item.brand}>
-                      {item.brand}
+                  {brandOptions.map((item) => (
+                    <option
+                      key={item.brand}
+                      value={item.brand}
+                    >
+                      {item.displayName}
                     </option>
                   ))}
                 </select>
@@ -283,10 +460,14 @@ export default function BookTestRide() {
                   name="model"
                   value={formData.model}
                   onChange={handleChange}
-                  className="w-full appearance-none rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors focus:border-lime-500"
+                  disabled={
+                    loadingVehicles ||
+                    availableModels.length === 0
+                  }
+                  className="w-full appearance-none rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors focus:border-lime-500 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {availableModels.map((model, idx) => (
-                    <option key={idx} value={model}>
+                  {availableModels.map((model) => (
+                    <option key={model} value={model}>
                       {model}
                     </option>
                   ))}
@@ -312,8 +493,8 @@ export default function BookTestRide() {
                   onChange={handleChange}
                   className="w-full appearance-none rounded-xl border border-slate-700/80 bg-[#0d111d] px-4 py-3 text-sm text-slate-400 outline-none transition-colors focus:border-lime-500"
                 >
-                  {availableCities.map((city, idx) => (
-                    <option key={idx} value={city}>
+                  {availableCities.map((city) => (
+                    <option key={city} value={city}>
                       {city}
                     </option>
                   ))}
@@ -382,14 +563,17 @@ export default function BookTestRide() {
 
             <motion.button
               type="submit"
+              disabled={submitLoading || loadingVehicles}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.5 }}
-              className="mt-2 w-full rounded-xl bg-[#70b815] px-4 py-3.5 font-semibold text-black shadow-lg shadow-lime-950/30 transition-all duration-200 hover:bg-[#62a212] active:scale-[0.99] sm:col-span-2"
+              className="mt-2 w-full rounded-xl bg-[#70b815] px-4 py-3.5 font-semibold text-black shadow-lg shadow-lime-950/30 transition-all duration-200 hover:bg-[#62a212] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:col-span-2"
             >
-              Submit Request
+              {submitLoading
+                ? "Submitting..."
+                : "Submit Request"}
             </motion.button>
           </form>
         </motion.div>
@@ -445,4 +629,3 @@ export default function BookTestRide() {
     </div>
   );
 }
-

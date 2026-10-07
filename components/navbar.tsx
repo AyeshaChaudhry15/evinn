@@ -6,10 +6,6 @@ import { Search, Menu, X, ShoppingCart } from "lucide-react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 
-import vehiclesData from "../src/bike-details/bikes-scooter.json";
-import accessoriesData from "../src/accessories-data/accessories.json";
-import sparePartsData from "../src/spare-parts-data/spare-parts.json";
-
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Electric Bikes", href: "/electric-bikes" },
@@ -18,14 +14,6 @@ const NAV_LINKS = [
   { label: "About", href: "/about-us" },
   { label: "Blog", href: "/blog" },
 ];
-
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
 
 type SearchProduct = {
   id: string;
@@ -37,52 +25,54 @@ type SearchProduct = {
   link: string;
 };
 
-function buildSearchIndex(): SearchProduct[] {
-  const bikes: SearchProduct[] = (vehiclesData.bikes ?? []).map((b: any) => ({
-    id: `bike-${b.id}`,
-    name: b.name,
-    brand: b.brand,
-    priceText: b.priceText,
-    image: b.image,
-    category: "Bike",
-    link: `/${b.slug}`,
-  }));
+interface Bike {
+  _id: string;
+  name: string;
+  slug: string;
+  brand?:
+    | string
+    | {
+        _id?: string;
+        displayName?: string;
+        logoUrl?: string;
+      };
+  type: "bike" | "scooter";
+  price?: number;
+  priceText?: string;
+  imageUrl?: string;
+}
 
-  const scooters: SearchProduct[] = (vehiclesData.scooters ?? []).map(
-    (s: any) => ({
-      id: `scooter-${s.id}`,
-      name: s.name,
-      brand: s.brand,
-      priceText: s.priceText,
-      image: s.image,
-      category: "Scooter",
-      link: `/${s.slug}`,
-    }),
-  );
+interface Accessory {
+  _id: string;
+  name: string;
+  slug: string;
+  price?: number;
+  priceText?: string;
+  imageUrl?: string;
+}
 
-  const accessories: SearchProduct[] = (accessoriesData.accessories ?? []).map(
-    (a: any) => ({
-      id: `accessory-${a.id}`,
-      name: a.name,
-      priceText: a.priceText,
-      image: a.image,
-      category: "Accessory",
-      link: `/${slugify(a.name)}`,
-    }),
-  );
+interface SparePart {
+  _id: string;
+  name: string;
+  slug: string;
+  price?: number;
+  priceText?: string;
+  imageUrl?: string;
+}
 
-  const spareParts: SearchProduct[] = (
-    (sparePartsData as any)["spare-parts"] ?? []
-  ).map((p: any) => ({
-    id: `spare-${p.id}`,
-    name: p.name,
-    priceText: p.priceText,
-    image: p.image,
-    category: "Spare Part",
-    link: `/${slugify(p.name)}`,
-  }));
+interface BikesResponse {
+  bikes?: Bike[];
+  message?: string;
+}
 
-  return [...bikes, ...scooters, ...accessories, ...spareParts];
+interface AccessoriesResponse {
+  accessories?: Accessory[];
+  message?: string;
+}
+
+interface SparePartsResponse {
+  spareParts?: SparePart[];
+  message?: string;
 }
 
 export default function Navbar() {
@@ -90,24 +80,132 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const searchRef = useRef<HTMLDivElement>(null);
+  const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
 
-  const ALL_PRODUCTS = useMemo(() => buildSearchIndex(), []);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const cartItems = useSelector((state: any) => state.cart.items);
 
   const cartCount = cartItems.reduce(
     (total: number, item: any) => total + item.quantity,
-    0,
+    0
+  );
+
+  useEffect(() => {
+    const fetchSearchProducts = async () => {
+      try {
+        setSearchLoading(true);
+
+        const [bikesResponse, accessoriesResponse, sparePartsResponse] =
+          await Promise.all([
+            fetch(
+              "https://evinn.evermontech.com/api/bikes?page=1&limit=100"
+            ),
+            fetch(
+              "https://evinn.evermontech.com/api/accessories?page=1&limit=100"
+            ),
+            fetch(
+              "https://evinn.evermontech.com/api/spare-parts?page=1&limit=100"
+            ),
+          ]);
+
+        const bikesData: BikesResponse = await bikesResponse
+          .json()
+          .catch(() => ({}));
+
+        const accessoriesData: AccessoriesResponse =
+          await accessoriesResponse.json().catch(() => ({}));
+
+        const sparePartsData: SparePartsResponse =
+          await sparePartsResponse.json().catch(() => ({}));
+
+        const bikes: SearchProduct[] = (bikesData.bikes || []).map(
+          (bike) => ({
+            id: `bike-${bike._id}`,
+            name: bike.name,
+            brand:
+              typeof bike.brand === "string"
+                ? bike.brand
+                : bike.brand?.displayName,
+            priceText:
+              bike.priceText ||
+              (typeof bike.price === "number"
+                ? `PKR ${bike.price.toLocaleString()}`
+                : ""),
+            image: bike.imageUrl || "",
+            category: bike.type === "scooter" ? "Scooter" : "Bike",
+            link:
+              bike.type === "scooter"
+                ? `/electric-scooters/${bike.slug}`
+                : `/electric-bikes/${bike.slug}`,
+          })
+        );
+
+        const accessories: SearchProduct[] = (
+          accessoriesData.accessories || []
+        ).map((accessory) => ({
+          id: `accessory-${accessory._id}`,
+          name: accessory.name,
+          priceText:
+            accessory.priceText ||
+            (typeof accessory.price === "number"
+              ? `PKR ${accessory.price.toLocaleString()}`
+              : ""),
+          image: accessory.imageUrl || "",
+          category: "Accessory",
+          link: `/accessories/${accessory.slug}`,
+        }));
+
+        const spareParts: SearchProduct[] = (
+          sparePartsData.spareParts || []
+        ).map((part) => ({
+          id: `spare-${part._id}`,
+          name: part.name,
+          priceText:
+            part.priceText ||
+            (typeof part.price === "number"
+              ? `PKR ${part.price.toLocaleString()}`
+              : ""),
+          image: part.imageUrl || "",
+          category: "Spare Part",
+          link: `/spare-parts/${part.slug}`,
+        }));
+
+        setSearchProducts([
+          ...bikes,
+          ...accessories,
+          ...spareParts,
+        ]);
+      } catch (error) {
+        console.error("Navbar Search API Error:", error);
+        setSearchProducts([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    fetchSearchProducts();
+  }, []);
+
+  const ALL_PRODUCTS = useMemo(
+    () => searchProducts,
+    [searchProducts]
   );
 
   const filteredProducts =
     query.trim().length > 0
       ? ALL_PRODUCTS.filter(
-          (p) =>
-            p.name.toLowerCase().includes(query.toLowerCase()) ||
-            p.brand?.toLowerCase().includes(query.toLowerCase()) ||
-            p.category.toLowerCase().includes(query.toLowerCase()),
+          (product) =>
+            product.name
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
+            product.brand
+              ?.toLowerCase()
+              .includes(query.toLowerCase()) ||
+            product.category
+              .toLowerCase()
+              .includes(query.toLowerCase())
         ).slice(0, 15)
       : [];
 
@@ -152,7 +250,10 @@ export default function Navbar() {
               key={link.label}
               initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
+              transition={{
+                duration: 0.4,
+                delay: 0.1 + index * 0.08,
+              }}
             >
               <Link
                 href={link.href}
@@ -170,7 +271,10 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="relative flex items-center gap-2" ref={searchRef}>
+          <div
+            className="relative flex items-center gap-2"
+            ref={searchRef}
+          >
             <AnimatePresence>
               {searchOpen && (
                 <motion.input
@@ -225,7 +329,15 @@ export default function Navbar() {
                   "
                 >
                   <div className="max-h-[280px] overflow-y-auto">
-                    {filteredProducts.length > 0 ? (
+                    {searchLoading ? (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="px-2 py-2 text-xs text-gray-500"
+                      >
+                        Loading...
+                      </motion.p>
+                    ) : filteredProducts.length > 0 ? (
                       <ul className="flex flex-col gap-1">
                         {filteredProducts.map((product, index) => (
                           <motion.li
@@ -302,7 +414,10 @@ export default function Navbar() {
               hover:text-[#8fdf0d]
             "
           >
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
               <ShoppingCart size={21} />
             </motion.div>
 
@@ -330,7 +445,10 @@ export default function Navbar() {
             </AnimatePresence>
           </Link>
 
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
             <Link
               href="/contact-us"
               className="
@@ -374,7 +492,10 @@ export default function Navbar() {
                   key={link.label}
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.06 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.06,
+                  }}
                 >
                   <Link
                     href={link.href}

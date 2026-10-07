@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import AddToCartButton from "../../../components/add-to-cart";
-import { api } from "../../lib/api";
 
 import {
   ArrowLeft,
@@ -64,23 +63,37 @@ export default function ModelDetailPage() {
 
   useEffect(() => {
     const fetchVehicle = async () => {
-      if (!slug) return;
+      if (!slug) {
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
         setError("");
 
-        const response = await api.get<BikeResponse>(
-          `/bikes/${slug}`
+        const response = await fetch(
+          `https://evinn.evermontech.com/api/bikes/${slug}`,
+          {
+            method: "GET",
+          }
         );
 
-        setVehicle(response.data.bike);
+        const data: BikeResponse & { message?: string } =
+          await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message || "Failed to load vehicle."
+          );
+        }
+
+        setVehicle(data?.bike || null);
       } catch (err: any) {
         console.error("Bike Detail API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.message ||
             "Something went wrong while loading this model."
         );
 
@@ -244,7 +257,9 @@ export default function ModelDetailPage() {
                 transition={{ delay: 0.6 }}
                 className="mt-7"
               >
-                <p className="text-sm text-[#8B969C]">Starting Price</p>
+                <p className="text-sm text-[#8B969C]">
+                  Starting Price
+                </p>
 
                 <p className="mt-1 text-3xl font-extrabold text-[#8FDF0D]">
                   {formatPKR(vehicle.price)}
@@ -349,22 +364,24 @@ export default function ModelDetailPage() {
           className="border-b border-[#23333D]"
         >
           <div className="flex gap-8 overflow-x-auto">
-            {(["overview", "features", "reviews"] as const).map((tab) => (
-              <motion.button
-                key={tab}
-                type="button"
-                onClick={() => setActiveTab(tab)}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className={`whitespace-nowrap pb-4 text-sm font-bold transition ${
-                  activeTab === tab
-                    ? "border-b-2 border-[#8FDF0D] text-[#8FDF0D]"
-                    : "text-[#8B969C] hover:text-white"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </motion.button>
-            ))}
+            {(["overview", "features", "reviews"] as const).map(
+              (tab) => (
+                <motion.button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`whitespace-nowrap pb-4 text-sm font-bold transition ${
+                    activeTab === tab
+                      ? "border-b-2 border-[#8FDF0D] text-[#8FDF0D]"
+                      : "text-[#8B969C] hover:text-white"
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </motion.button>
+              )
+            )}
           </div>
         </motion.div>
 
@@ -416,12 +433,14 @@ export default function ModelDetailPage() {
                       {
                         icon: Clock,
                         label: "Charging Time",
-                        value: vehicle.specs?.chargingTime || "—",
+                        value:
+                          vehicle.specs?.chargingTime || "—",
                       },
                       {
                         icon: Zap,
                         label: "Motor Power",
-                        value: vehicle.specs?.motorPower || "—",
+                        value:
+                          vehicle.specs?.motorPower || "—",
                       },
                       {
                         icon: Weight,
@@ -431,7 +450,8 @@ export default function ModelDetailPage() {
                       {
                         icon: ShieldCheck,
                         label: "Warranty",
-                        value: vehicle.specs?.warranty || "—",
+                        value:
+                          vehicle.specs?.warranty || "—",
                       },
                       {
                         icon: CheckCircle2,
@@ -570,9 +590,17 @@ export default function ModelDetailPage() {
                       {[1, 2, 3, 4, 5].map((star) => (
                         <motion.div
                           key={star}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: star * 0.08 }}
+                          initial={{
+                            opacity: 0,
+                            scale: 0,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            scale: 1,
+                          }}
+                          transition={{
+                            delay: star * 0.08,
+                          }}
                         >
                           <Star className="h-5 w-5 fill-[#8FDF0D] text-[#8FDF0D]" />
                         </motion.div>
@@ -605,8 +633,8 @@ export default function ModelDetailPage() {
 
                     <p className="mt-3 text-sm leading-7 text-[#AEB7BC]">
                       The {vehicle.name} offers a practical riding
-                      experience with good performance and useful features
-                      for everyday commuting.
+                      experience with good performance and useful
+                      features for everyday commuting.
                     </p>
 
                     <p className="mt-4 text-xs font-semibold text-[#8B969C]">

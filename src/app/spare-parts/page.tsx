@@ -1,10 +1,8 @@
-
 "use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { api } from "../../lib/api";
 
 interface SparePart {
   _id: string;
@@ -25,6 +23,7 @@ interface SparePartsResponse {
     hasNextPage: boolean;
     hasPrevPage: boolean;
   };
+  message?: string;
 }
 
 export default function SpareParts() {
@@ -38,24 +37,39 @@ export default function SpareParts() {
         setLoading(true);
         setError("");
 
-        const response = await api.get<SparePartsResponse>(
-          "/spare-parts",
-          {
-            params: {
-              page: 1,
-              limit: 100,
-            },
-          }
+        const response = await fetch(
+          "https://evinn.evermontech.com/api/spare-parts?page=1&limit=100"
         );
 
-        setSpareParts(response.data.spareParts || []);
-      } catch (err: any) {
+        const data: SparePartsResponse = await response
+          .json()
+          .catch(() => ({
+            spareParts: [],
+            pagination: {
+              page: 1,
+              limit: 100,
+              total: 0,
+              totalPages: 0,
+              hasNextPage: false,
+              hasPrevPage: false,
+            },
+          }));
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message ||
+              "Something went wrong while loading spare parts."
+          );
+        }
+
+        setSpareParts(data.spareParts || []);
+      } catch (err) {
         console.error("Spare Parts API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading spare parts."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading spare parts."
         );
       } finally {
         setLoading(false);
@@ -152,4 +166,3 @@ export default function SpareParts() {
     </section>
   );
 }
-

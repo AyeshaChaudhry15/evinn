@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { api } from "../../lib/api";
 
 interface Accessory {
   _id: string;
@@ -36,23 +35,28 @@ export default function Accessories() {
         setLoading(true);
         setError("");
 
-        const response = await api.get<AccessoriesResponse>(
-          "/accessories",
+        const response = await fetch(
+          "https://evinn.evermontech.com/api/accessories?page=1&limit=100",
           {
-            params: {
-              page: 1,
-              limit: 100,
-            },
+            method: "GET",
           }
         );
-        
-        setAccessories(response.data.accessories || []);
+
+        const data: AccessoriesResponse & { message?: string } =
+          await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message || "Failed to load accessories."
+          );
+        }
+
+        setAccessories(data?.accessories || []);
       } catch (err: any) {
         console.error("Accessories API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.message ||
             "Something went wrong while loading accessories."
         );
       } finally {
@@ -92,9 +96,7 @@ export default function Accessories() {
 
       {!loading && error && (
         <div className="flex min-h-[250px] items-center justify-center">
-          <p className="text-red-400">
-            {error}
-          </p>
+          <p className="text-red-400">{error}</p>
         </div>
       )}
 

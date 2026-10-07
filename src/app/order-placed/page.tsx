@@ -23,28 +23,53 @@ export default function OrderSuccessPage() {
   const [order, setOrder] = useState<OrderData | null>(null);
 
   useEffect(() => {
-   
     const savedOrder = localStorage.getItem("lastOrder");
 
-    if (savedOrder) {
-      try {
-        const parsedOrder = JSON.parse(savedOrder);
+    if (!savedOrder) {
+      return;
+    }
+
+    try {
+      const parsedOrder = JSON.parse(savedOrder);
+
+      if (
+        parsedOrder &&
+        parsedOrder.orderId &&
+        Array.isArray(parsedOrder.items)
+      ) {
         setOrder(parsedOrder);
-      } catch (error) {
-        console.error("Failed to read order:", error);
       }
+    } catch (error) {
+      console.error("Failed to read order:", error);
     }
   }, []);
 
   const formatPrice = (price: number) => {
-    return `PKR ${price.toLocaleString("en-PK")}`;
+    return `PKR ${Number(price || 0).toLocaleString("en-PK")}`;
   };
+
+  const totalItems =
+    order?.items.reduce(
+      (total, item) => total + Number(item.quantity || 0),
+      0,
+    ) || 0;
+
+  const totalAmount =
+    order?.items.reduce(
+      (total, item) =>
+        total +
+        Number(item.price || 0) *
+          Number(item.quantity || 0),
+      0,
+    ) || 0;
 
   if (!order) {
     return (
       <main className="min-h-screen bg-[#06111A] px-4 py-20 text-white">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-2xl font-bold">No order found</h1>
+          <h1 className="text-2xl font-bold">
+            No order found
+          </h1>
 
           <p className="mt-3 text-sm text-gray-400">
             Your order details could not be found.
@@ -122,38 +147,29 @@ export default function OrderSuccessPage() {
               </p>
             </div>
 
-       <Link href={"/summary"}>
-            <button
-              type="button"
-              onClick={() => {
-                document
-                  .getElementById("order-items")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                  });
-              }}
-              className="w-full rounded-lg border border-[#8FDF0D]/70 px-6 py-3 text-sm font-bold text-[#8FDF0D] transition hover:bg-[#8FDF0D] hover:text-[#06111A] sm:w-auto"
+            <Link
+              href="/summary"
+              className="w-full rounded-lg border border-[#8FDF0D]/70 px-6 py-3 text-center text-sm font-bold text-[#8FDF0D] transition hover:bg-[#8FDF0D] hover:text-[#06111A] sm:w-auto"
             >
               View Details
-            </button>
             </Link>
           </div>
 
-          <div id="order-items" className="px-5 py-6 sm:px-6">
-
+          <div
+            id="order-items"
+            className="px-5 py-6 sm:px-6"
+          >
             <h3 className="mb-5 text-base font-bold text-white">
               Order Items ({order.items.length})
             </h3>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
-              {order.items.map((item) => (
+              {order.items.map((item, index) => (
                 <div
-                  key={item.id}
+                  key={`${item.id}-${index}`}
                   className="flex gap-4 rounded-xl border border-[#19313D] bg-[#07141D] p-4 transition hover:border-[#8FDF0D]/30"
                 >
-
                   <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-lg border border-[#243D49] bg-[#0B1B25]">
                     <Image
                       src={item.image}
@@ -184,7 +200,10 @@ export default function OrderSuccessPage() {
                     <p className="mt-1 text-xs text-gray-500">
                       Item Total:{" "}
                       <span className="text-gray-300">
-                        {formatPrice(item.price * item.quantity)}
+                        {formatPrice(
+                          Number(item.price || 0) *
+                            Number(item.quantity || 0),
+                        )}
                       </span>
                     </p>
 
@@ -199,12 +218,7 @@ export default function OrderSuccessPage() {
               <div className="flex items-center justify-between text-sm text-gray-400">
                 <span>Items</span>
 
-                <span>
-                  {order.items.reduce(
-                    (total, item) => total + item.quantity,
-                    0
-                  )}
-                </span>
+                <span>{totalItems}</span>
               </div>
 
               <div className="mt-3 flex items-center justify-between">
@@ -213,13 +227,7 @@ export default function OrderSuccessPage() {
                 </span>
 
                 <span className="text-xl font-bold text-[#8FDF0D]">
-                  {formatPrice(
-                    order.items.reduce(
-                      (total, item) =>
-                        total + item.price * item.quantity,
-                      0
-                    )
-                  )}
+                  {formatPrice(totalAmount)}
                 </span>
               </div>
 

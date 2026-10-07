@@ -1,30 +1,33 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import vehiclesData from "../../bike-details/bikes-scooter.json";
 import AddToCartButton from "../../../components/add-to-cart";
 
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
-  type: string;
+  brand: {
+    _id: string;
+    displayName: string;
+    logoUrl?: string;
+  };
+  type: "bike" | "scooter";
   price: number;
-  priceText: string;
   rating: number;
-  image: string;
+  imageUrl: string;
   slug: string;
+  createdAt?: string;
   specs?: {
-    range: string;
-    topSpeed: string;
-    battery: string;
-    chargingTime: string;
-    motorPower: string;
-    weight: string;
-    warranty: string;
+    range?: string;
+    topSpeed?: string;
+    battery?: string;
+    chargingTime?: string;
+    motorPower?: string;
+    weight?: string;
+    warranty?: string;
   };
 }
 
@@ -33,83 +36,164 @@ const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
+const API_URL = "https://evinn.evermontech.com/api";
+
 export default function Vehicles() {
-  const scooters: Vehicle[] = [
-    ...(vehiclesData?.bikes || []),
-    ...(vehiclesData?.scooters || []),
-  ];
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState("");
 
   const [vehicleType, setVehicleType] = useState("All Types");
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
   const [sortBy, setSortBy] = useState("Popular");
+
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
   const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  let filteredScooters = scooters.filter((scooter) => {
-    const brandMatch =
-      brand === "All Brands" || scooter.brand === brand;
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        setApiError("");
 
-    const typeMatch =
-      vehicleType === "All Types" ||
-      (vehicleType === "Bike" && scooter.type === "bike") ||
-      (vehicleType === "Scooter" && scooter.type === "scooter");
+        const response = await fetch(
+          `${API_URL}/bikes?page=1&limit=100`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-    const priceMatch =
-      scooter.price >= minPrice && scooter.price <= maxPrice;
+        const data = await response.json().catch(() => ({}));
 
-    let speedMatch = true;
+        if (!response.ok) {
+          throw new Error(
+            data?.message || "Failed to load vehicles."
+          );
+        }
 
-    if (topSpeed !== "All" && scooter.specs) {
-      const speedValue = parseInt(scooter.specs.topSpeed);
-
-      if (topSpeed === "Under 60 km/h") {
-        speedMatch = speedValue < 60;
-      } else if (topSpeed === "60 - 90 km/h") {
-        speedMatch = speedValue >= 60 && speedValue <= 90;
-      } else if (topSpeed === "90+ km/h") {
-        speedMatch = speedValue > 90;
+        setVehicles(Array.isArray(data?.bikes) ? data.bikes : []);
+      } catch (error: any) {
+        console.error("Vehicles API Error:", error);
+        setApiError(
+          error?.message || "Something went wrong while loading vehicles."
+        );
+        setVehicles([]);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    fetchVehicles();
+  }, []);
+
+  const brands = useMemo(() => {
+    return [
+      ...new Set(
+        vehicles
+          .map((vehicle) => vehicle.brand?.displayName)
+          .filter(Boolean)
+      ),
+    ];
+  }, [vehicles]);
+
+  const filteredVehicles = useMemo(() => {
+    let result = vehicles.filter((vehicle) => {
+      const brandMatch =
+        brand === "All Brands" ||
+        vehicle.brand?.displayName === brand;
+
+      const typeMatch =
+        vehicleType === "All Types" ||
+        (vehicleType === "Bike" && vehicle.type === "bike") ||
+        (vehicleType === "Scooter" && vehicle.type === "scooter");
+
+      const priceMatch =
+        vehicle.price >= minPrice &&
+        vehicle.price <= maxPrice;
+
+      let speedMatch = true;
+
+      if (topSpeed !== "All" && vehicle.specs?.topSpeed) {
+        const speedValue = parseInt(vehicle.specs.topSpeed);
+
+        if (!Number.isNaN(speedValue)) {
+          if (topSpeed === "Under 60 km/h") {
+            speedMatch = speedValue < 60;
+          } else if (topSpeed === "60 - 90 km/h") {
+            speedMatch = speedValue >= 60 && speedValue <= 90;
+          } else if (topSpeed === "90+ km/h") {
+            speedMatch = speedValue > 90;
+          }
+        }
+      }
+
+      let rangeMatch = true;
+
+      if (range !== "All" && vehicle.specs?.range) {
+        const rangeValue = parseInt(vehicle.specs.range);
+
+        if (!Number.isNaN(rangeValue)) {
+          if (range === "Under 80 km") {
+            rangeMatch = rangeValue < 80;
+          } else if (range === "80 - 150 km") {
+            rangeMatch = rangeValue >= 80 && rangeValue <= 150;
+          } else if (range === "150+ km") {
+            rangeMatch = rangeValue > 150;
+          }
+        }
+      }
+
+      return (
+        brandMatch &&
+        typeMatch &&
+        priceMatch &&
+        speedMatch &&
+        rangeMatch
+      );
+    });
+
+    if (sortBy === "Price: Low to High") {
+      result.sort((a, b) => a.price - b.price);
     }
 
-    let rangeMatch = true;
-
-    if (range !== "All" && scooter.specs) {
-      const rangeValue = parseInt(scooter.specs.range);
-
-      if (range === "Under 80 km") {
-        rangeMatch = rangeValue < 80;
-      } else if (range === "80 - 150 km") {
-        rangeMatch = rangeValue >= 80 && rangeValue <= 150;
-      } else if (range === "150+ km") {
-        rangeMatch = rangeValue > 150;
-      }
+    if (sortBy === "Price: High to Low") {
+      result.sort((a, b) => b.price - a.price);
     }
 
-    return (
-      brandMatch &&
-      typeMatch &&
-      priceMatch &&
-      speedMatch &&
-      rangeMatch
-    );
-  });
+    if (sortBy === "Newest") {
+      result.sort((a, b) => {
+        const dateA = a.createdAt
+          ? new Date(a.createdAt).getTime()
+          : 0;
 
-  if (sortBy === "Price: Low to High") {
-    filteredScooters.sort((a, b) => a.price - b.price);
-  }
+        const dateB = b.createdAt
+          ? new Date(b.createdAt).getTime()
+          : 0;
 
-  if (sortBy === "Price: High to Low") {
-    filteredScooters.sort((a, b) => b.price - a.price);
-  }
+        return dateB - dateA;
+      });
+    }
 
-  if (sortBy === "Newest") {
-    filteredScooters.sort(
-      (a, b) => Number(b.id) - Number(a.id)
-    );
-  }
+    return result;
+  }, [
+    vehicles,
+    vehicleType,
+    brand,
+    topSpeed,
+    range,
+    sortBy,
+    minPrice,
+    maxPrice,
+  ]);
+
+  const displayedVehicles = filteredVehicles.slice(
+    0,
+    visibleProducts
+  );
 
   const clearFilters = () => {
     setVehicleType("All Types");
@@ -149,11 +233,6 @@ export default function Vehicles() {
     setMaxPrice(value);
     setVisibleProducts(9);
   };
-
-  const displayedScooters = filteredScooters.slice(
-    0,
-    visibleProducts
-  );
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -313,13 +392,11 @@ export default function Vehicles() {
               >
                 <option>All Brands</option>
 
-                {[...new Set(scooters.map((s) => s.brand))].map(
-                  (b) => (
-                    <option key={b} value={b}>
-                      {b}
-                    </option>
-                  )
-                )}
+                {brands.map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -456,69 +533,133 @@ export default function Vehicles() {
         </motion.aside>
 
         <section className="w-full">
-          {displayedScooters.length > 0 ? (
+          {loading ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {displayedScooters.map((scooter, index) => (
-                <motion.div
-                  key={`${scooter.type}-${scooter.id}`}
-                  initial={{ opacity: 0, y: 35 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.08,
-                  }}
-                  whileHover={{ y: -5 }}
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div
+                  key={item}
+                  className="h-[350px] animate-pulse overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E]"
                 >
-                  <Link
-                    href={`/${scooter.slug || "model-detail"}`}
-                    className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
-                  >
-                    <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
-                      <motion.img
-                        src={scooter.image}
-                        alt={scooter.name}
-                        whileHover={{ scale: 1.04 }}
-                        transition={{ duration: 0.3 }}
-                        className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
-                      />
-                    </div>
-
-                    <div className="px-[17px] pb-[17px] pt-2">
-                      <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
-                        {scooter.name}
-                      </h3>
-
-                      <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                        {scooter.priceText}
-                      </p>
-
-                      <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[13px] text-[#B9ED42]">
-                            ★
-                          </span>
-
-                          <span>{scooter.rating}</span>
-                        </div>
-                      </div>
-
-                      <AddToCartButton
-                        product={{
-                          id: scooter.id,
-                          name: scooter.name,
-                          price: scooter.price,
-                          image: scooter.image,
-                        }}
-                        className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
-                      >
-                        Add to Cart
-                      </AddToCartButton>
-                    </div>
-                  </Link>
-                </motion.div>
+                  <div className="h-[205px] bg-[#101C25]" />
+                  <div className="space-y-3 p-4">
+                    <div className="h-4 w-3/4 rounded bg-[#17242D]" />
+                    <div className="h-4 w-1/2 rounded bg-[#17242D]" />
+                    <div className="h-10 w-full rounded bg-[#17242D]" />
+                  </div>
+                </div>
               ))}
             </div>
+          ) : apiError ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]"
+            >
+              <div className="text-center">
+                <p className="text-lg font-semibold text-[#DCE1E4]">
+                  Unable to load vehicles
+                </p>
+
+                <p className="mt-2 text-sm text-[#78858C]">
+                  {apiError}
+                </p>
+
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-5 rounded-lg bg-[#B9ED42] px-5 py-3 text-sm font-semibold text-[#06111A]"
+                >
+                  Try Again
+                </button>
+              </div>
+            </motion.div>
+          ) : displayedVehicles.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                {displayedVehicles.map((vehicle, index) => (
+                  <motion.div
+                    key={`${vehicle.type}-${vehicle._id}`}
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.08,
+                    }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <Link
+                      href={`/${vehicle.slug || "model-detail"}`}
+                      className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
+                    >
+                      <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
+                        <motion.img
+                          src={vehicle.imageUrl}
+                          alt={vehicle.name}
+                          whileHover={{ scale: 1.04 }}
+                          transition={{ duration: 0.3 }}
+                          className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
+                        />
+                      </div>
+
+                      <div className="px-[17px] pb-[17px] pt-2">
+                        <h3 className="mb-1 text-[15px] font-semibold text-[#E7EBED]">
+                          {vehicle.name}
+                        </h3>
+
+                        <p className="mb-2 text-xs text-[#78858C]">
+                          {vehicle.brand?.displayName}
+                        </p>
+
+                        <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
+                          PKR {vehicle.price.toLocaleString("en-US")}
+                        </p>
+
+                        <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[13px] text-[#B9ED42]">
+                              ★
+                            </span>
+
+                            <span>{vehicle.rating}</span>
+                          </div>
+
+                          <span className="capitalize">
+                            {vehicle.type}
+                          </span>
+                        </div>
+
+                        <AddToCartButton
+                          product={{
+                            id: vehicle._id,
+                            name: vehicle.name,
+                            price: vehicle.price,
+                            image: vehicle.imageUrl,
+                          }}
+                          className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
+                        >
+                          Add to Cart
+                        </AddToCartButton>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {visibleProducts < filteredVehicles.length && (
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={loadMore}
+                  className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
+                >
+                  Load More
+                </motion.button>
+              )}
+            </>
           ) : (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -536,21 +677,6 @@ export default function Vehicles() {
                 </p>
               </div>
             </motion.div>
-          )}
-
-          {visibleProducts < filteredScooters.length && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={loadMore}
-              className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
-            >
-              Load More
-            </motion.button>
           )}
         </section>
       </div>

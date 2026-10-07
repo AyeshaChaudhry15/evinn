@@ -8,12 +8,41 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "@/app/redux/store";
 import { clearCart } from "@/app/redux/cart-slice";
 
+interface CreatedOrder {
+  _id: string;
+  bike: {
+    _id: string;
+    name: string;
+    slug?: string;
+    imageUrl?: string;
+  } | null;
+  bikeName: string;
+  unitPrice: number;
+  quantity: number;
+  totalAmount: number;
+  shippingAddress: {
+    fullName: string;
+    phoneNumber: string;
+    address: string;
+    postalCode: string;
+    city: string;
+  };
+  paymentMethod: string;
+  status: string;
+  createdAt: string;
+}
+
+interface OrderResponse {
+  message?: string;
+  order?: CreatedOrder;
+}
+
 export default function ShippingForm() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
   const cartItems = useSelector(
-    (state: RootState) => state.cart.items
+    (state: RootState) => state.cart.items,
   );
 
   const [formData, setFormData] = useState({
@@ -34,8 +63,13 @@ export default function ShippingForm() {
     paymentMethod: "",
   });
 
+  const [submitError, setSubmitError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -48,6 +82,8 @@ export default function ShippingForm() {
       ...prev,
       [name]: "",
     }));
+
+    setSubmitError("");
   };
 
   const handlePaymentSelect = (method: string) => {
@@ -60,6 +96,8 @@ export default function ShippingForm() {
       ...prev,
       paymentMethod: "",
     }));
+
+    setSubmitError("");
   };
 
   const validateForm = () => {
@@ -78,15 +116,22 @@ export default function ShippingForm() {
       newErrors.fullName = "Full name is required";
       isValid = false;
     } else if (formData.fullName.trim().length < 3) {
-      newErrors.fullName = "Full name must be at least 3 characters";
+      newErrors.fullName =
+        "Full name must be at least 3 characters";
       isValid = false;
     }
 
     if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = "Phone number is required";
+      newErrors.phoneNumber =
+        "Phone number is required";
       isValid = false;
-    } else if (!/^(03\d{9}|\+92\d{10})$/.test(formData.phoneNumber.trim())) {
-      newErrors.phoneNumber = "Enter a valid Pakistani phone number";
+    } else if (
+      !/^(03\d{9}|\+92\d{10})$/.test(
+        formData.phoneNumber.trim(),
+      )
+    ) {
+      newErrors.phoneNumber =
+        "Enter a valid Pakistani phone number";
       isValid = false;
     }
 
@@ -94,7 +139,8 @@ export default function ShippingForm() {
       newErrors.address = "Address is required";
       isValid = false;
     } else if (formData.address.trim().length < 5) {
-      newErrors.address = "Address must be at least 5 characters";
+      newErrors.address =
+        "Address must be at least 5 characters";
       isValid = false;
     }
 
@@ -107,15 +153,32 @@ export default function ShippingForm() {
     }
 
     if (!formData.postalCode.trim()) {
-      newErrors.postalCode = "Postal code is required";
+      newErrors.postalCode =
+        "Postal code is required";
       isValid = false;
-    } else if (!/^\d{5}$/.test(formData.postalCode.trim())) {
-      newErrors.postalCode = "Postal code must be 5 digits";
+    } else if (
+      !/^\d{5}$/.test(
+        formData.postalCode.trim(),
+      )
+    ) {
+      newErrors.postalCode =
+        "Postal code must be 5 digits";
       isValid = false;
     }
 
     if (!formData.paymentMethod) {
-      newErrors.paymentMethod = "Please select a payment method";
+      newErrors.paymentMethod =
+        "Please select a payment method";
+      isValid = false;
+    }
+
+    // Backend currently supports only COD.
+    if (
+      formData.paymentMethod &&
+      formData.paymentMethod !== "cod"
+    ) {
+      newErrors.paymentMethod =
+        "Currently only Cash on Delivery is available";
       isValid = false;
     }
 
@@ -124,91 +187,273 @@ export default function ShippingForm() {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (
+    e: React.FormEvent,
+  ) => {
     e.preventDefault();
+
+    setSubmitError("");
 
     if (!validateForm()) {
       return;
     }
 
-    let finalItems: any[] = [];
-
-    if (cartItems && cartItems.length > 0) {
-      finalItems = cartItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: Number(item.price),
-        image: item.image,
-        quantity: item.quantity || 1,
-      }));
-    } else {
-      const directItem = localStorage.getItem("directCheckoutItem");
-
-      if (directItem) {
-        const parsed = JSON.parse(directItem);
-
-        finalItems = [
-          {
-            id: parsed.id,
-            name: parsed.name,
-            price: Number(parsed.price),
-            image: parsed.image,
-            quantity: parsed.quantity || 1,
-          },
-        ];
-      }
+    if (loading) {
+      return;
     }
 
-    const orderData = {
-      orderId: `EVN${Date.now().toString().slice(-6)}`,
+    try {
+      setLoading(true);
 
-      placedAt: new Date().toLocaleString("en-PK", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      /*
+       * Get checkout items.
+       *
+       * Normal checkout:
+       * Redux cart
+       *
+       * Direct checkout:
+       * localStorage directCheckoutItem
+       */
+      let finalItems: any[] = [];
 
-      items: finalItems,
+      if (cartItems && cartItems.length > 0) {
+        finalItems = cartItems.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: Number(item.price),
+          image: item.image,
+          quantity: item.quantity || 1,
+        }));
+      } else {
+        const directItem =
+          localStorage.getItem(
+            "directCheckoutItem",
+          );
 
-      customer: {
-        fullName: formData.fullName,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-        city: formData.city,
-        postalCode: formData.postalCode,
-        paymentMethod: formData.paymentMethod,
-      },
-    };
+        if (directItem) {
+          try {
+            const parsed = JSON.parse(
+              directItem,
+            );
 
-    localStorage.setItem(
-      "lastOrder",
-      JSON.stringify(orderData)
-    );
+            finalItems = [
+              {
+                id: parsed.id,
+                name: parsed.name,
+                price: Number(parsed.price),
+                image: parsed.image,
+                quantity: parsed.quantity || 1,
+              },
+            ];
+          } catch (error) {
+            console.error(
+              "Failed to read direct checkout item:",
+              error,
+            );
+          }
+        }
+      }
 
-    localStorage.removeItem("directCheckoutItem");
+      if (finalItems.length === 0) {
+        setSubmitError(
+          "Your cart is empty. Please add a vehicle before placing an order.",
+        );
+        return;
+      }
 
-    dispatch(clearCart());
+      /*
+       * Backend /api/orders accepts one bike per request.
+       *
+       * Therefore, if cart has multiple bikes,
+       * create one order for each bike.
+       */
+      const createdOrders: CreatedOrder[] = [];
 
-    router.push("/order-placed");
+      for (const item of finalItems) {
+        const response = await fetch(
+          "https://evinn.evermontech.com/api/orders",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              bike: item.id,
+              quantity: Number(
+                item.quantity || 1,
+              ),
+              shippingAddress: {
+                fullName:
+                  formData.fullName.trim(),
+
+                phoneNumber:
+                  formData.phoneNumber.trim(),
+
+                address:
+                  formData.address.trim(),
+
+                postalCode:
+                  formData.postalCode.trim(),
+
+                city: formData.city.trim(),
+              },
+
+              paymentMethod:
+                "cash on delivery",
+            }),
+          },
+        );
+
+        const data: OrderResponse =
+          await response
+            .json()
+            .catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message ||
+              "Failed to place the order.",
+          );
+        }
+
+        if (data.order) {
+          createdOrders.push(data.order);
+        }
+      }
+
+      /*
+       * Save response for Order Success page.
+       *
+       * We keep the same lastOrder structure
+       * so /order-placed can display it.
+       */
+      const orderData = {
+        orderId:
+          createdOrders.length === 1
+            ? createdOrders[0]._id
+            : createdOrders
+                .map((order) => order._id)
+                .join(", "),
+
+        placedAt:
+          createdOrders[0]?.createdAt ||
+          new Date().toISOString(),
+
+        items: createdOrders.map((order) => {
+          const originalItem =
+            finalItems.find(
+              (item) =>
+                String(item.id) ===
+                String(order.bike?._id),
+            );
+
+          return {
+            id:
+              order.bike?._id ||
+              originalItem?.id,
+
+            name:
+              order.bikeName ||
+              originalItem?.name ||
+              "Electric Vehicle",
+
+            price: Number(
+              order.unitPrice ||
+                originalItem?.price ||
+                0,
+            ),
+
+            image:
+              order.bike?.imageUrl ||
+              originalItem?.image ||
+              "",
+
+            quantity: Number(
+              order.quantity || 1,
+            ),
+          };
+        }),
+
+        customer: {
+          fullName:
+            formData.fullName.trim(),
+
+          phoneNumber:
+            formData.phoneNumber.trim(),
+
+          address:
+            formData.address.trim(),
+
+          city: formData.city.trim(),
+
+          postalCode:
+            formData.postalCode.trim(),
+
+          paymentMethod:
+            "cash on delivery",
+        },
+
+        apiOrders: createdOrders,
+      };
+
+      localStorage.setItem(
+        "lastOrder",
+        JSON.stringify(orderData),
+      );
+
+      localStorage.removeItem(
+        "directCheckoutItem",
+      );
+
+      dispatch(clearCart());
+
+      router.push("/order-placed");
+    } catch (error) {
+      console.error(
+        "Place Order API Error:",
+        error,
+      );
+
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while placing your order.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-white flex justify-center items-center px-4 py-10">
-      <div className="w-full max-w-4xl p-6 rounded-2xl">
+    <div className="flex min-h-screen items-center justify-center bg-[#0B0F17] px-4 py-10 text-white">
+      <div className="w-full max-w-4xl rounded-2xl p-6">
 
-        <h2 className="text-3xl font-semibold mb-6">
+        <h2 className="mb-6 text-3xl font-semibold">
           Shipping Details
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {submitError && (
+          <div className="mb-5 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+            {submitError}
+          </div>
+        )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+        >
+
+          {/* Full Name + Phone */}
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
             <div>
-              <label className="block text-xs text-gray-400 mb-1">
-                Full Name <span className="text-green-400">*</span>
+              <label className="mb-1 block text-xs text-gray-400">
+                Full Name{" "}
+                <span className="text-green-400">
+                  *
+                </span>
               </label>
 
               <input
@@ -217,22 +462,27 @@ export default function ShippingForm() {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
-                  errors.fullName ? "border-red-500" : "border-gray-800"
+                className={`w-full rounded-xl border bg-[#121824] px-4 py-3 text-sm text-white transition focus:border-green-400 focus:outline-none ${
+                  errors.fullName
+                    ? "border-red-500"
+                    : "border-gray-800"
                 }`}
                 required
               />
 
               {errors.fullName && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {errors.fullName}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs text-gray-400 mb-1">
-                Phone Number <span className="text-green-400">*</span>
+              <label className="mb-1 block text-xs text-gray-400">
+                Phone Number{" "}
+                <span className="text-green-400">
+                  *
+                </span>
               </label>
 
               <input
@@ -241,7 +491,7 @@ export default function ShippingForm() {
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                className={`w-full rounded-xl border bg-[#121824] px-4 py-3 text-sm text-white transition focus:border-green-400 focus:outline-none ${
                   errors.phoneNumber
                     ? "border-red-500"
                     : "border-gray-800"
@@ -250,7 +500,7 @@ export default function ShippingForm() {
               />
 
               {errors.phoneNumber && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {errors.phoneNumber}
                 </p>
               )}
@@ -258,9 +508,14 @@ export default function ShippingForm() {
 
           </div>
 
+          {/* Address */}
+
           <div>
-            <label className="block text-xs text-gray-400 mb-1">
-              Address <span className="text-green-400">*</span>
+            <label className="mb-1 block text-xs text-gray-400">
+              Address{" "}
+              <span className="text-green-400">
+                *
+              </span>
             </label>
 
             <input
@@ -269,24 +524,31 @@ export default function ShippingForm() {
               placeholder="Enter your address"
               value={formData.address}
               onChange={handleChange}
-              className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
-                errors.address ? "border-red-500" : "border-gray-800"
+              className={`w-full rounded-xl border bg-[#121824] px-4 py-3 text-sm text-white transition focus:border-green-400 focus:outline-none ${
+                errors.address
+                  ? "border-red-500"
+                  : "border-gray-800"
               }`}
               required
             />
 
             {errors.address && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="mt-1 text-xs text-red-500">
                 {errors.address}
               </p>
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* City + Postal Code */}
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
             <div>
-              <label className="block text-xs text-gray-400 mb-1">
-                City <span className="text-green-400">*</span>
+              <label className="mb-1 block text-xs text-gray-400">
+                City{" "}
+                <span className="text-green-400">
+                  *
+                </span>
               </label>
 
               <input
@@ -295,22 +557,27 @@ export default function ShippingForm() {
                 value={formData.city}
                 onChange={handleChange}
                 placeholder="Enter your city"
-                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
-                  errors.city ? "border-red-500" : "border-gray-800"
+                className={`w-full rounded-xl border bg-[#121824] px-4 py-3 text-sm text-white transition focus:border-green-400 focus:outline-none ${
+                  errors.city
+                    ? "border-red-500"
+                    : "border-gray-800"
                 }`}
                 required
               />
 
               {errors.city && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {errors.city}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs text-gray-400 mb-1">
-                Postal Code <span className="text-green-400">*</span>
+              <label className="mb-1 block text-xs text-gray-400">
+                Postal Code{" "}
+                <span className="text-green-400">
+                  *
+                </span>
               </label>
 
               <input
@@ -319,7 +586,7 @@ export default function ShippingForm() {
                 placeholder="Enter your postal code"
                 value={formData.postalCode}
                 onChange={handleChange}
-                className={`w-full bg-[#121824] border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-400 transition ${
+                className={`w-full rounded-xl border bg-[#121824] px-4 py-3 text-sm text-white transition focus:border-green-400 focus:outline-none ${
                   errors.postalCode
                     ? "border-red-500"
                     : "border-gray-800"
@@ -328,7 +595,7 @@ export default function ShippingForm() {
               />
 
               {errors.postalCode && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {errors.postalCode}
                 </p>
               )}
@@ -336,33 +603,44 @@ export default function ShippingForm() {
 
           </div>
 
+          {/* Payment */}
+
           <div className="pt-4">
 
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="mb-4 text-xl font-semibold">
               Payment Method
             </h3>
 
             <div className="space-y-3">
 
+              {/* JazzCash / Easypaisa */}
+
               <div
-                onClick={() => handlePaymentSelect("jazzcash")}
-                className={`flex items-start p-4 rounded-xl border cursor-pointer transition ${
-                  formData.paymentMethod === "jazzcash"
+                onClick={() =>
+                  handlePaymentSelect(
+                    "jazzcash",
+                  )
+                }
+                className={`flex cursor-not-allowed items-start rounded-xl border p-4 opacity-50 transition ${
+                  formData.paymentMethod ===
+                  "jazzcash"
                     ? "border-gray-700 bg-[#121824]/60"
                     : "border-gray-800 bg-[#121824]"
                 }`}
               >
-                <div className="flex items-center h-5 mt-0.5">
+                <div className="mt-0.5 flex h-5 items-center">
 
                   <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                      formData.paymentMethod === "jazzcash"
+                    className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                      formData.paymentMethod ===
+                      "jazzcash"
                         ? "border-green-400"
                         : "border-gray-600"
                     }`}
                   >
-                    {formData.paymentMethod === "jazzcash" && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                    {formData.paymentMethod ===
+                      "jazzcash" && (
+                      <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
 
@@ -375,31 +653,38 @@ export default function ShippingForm() {
                   </p>
 
                   <p className="text-xs text-gray-400">
-                    Pay via JazzCash or Easypaisa
+                    Currently unavailable
                   </p>
 
                 </div>
               </div>
 
+              {/* Bank */}
+
               <div
-                onClick={() => handlePaymentSelect("bank")}
-                className={`flex items-start p-4 rounded-xl border cursor-pointer transition ${
-                  formData.paymentMethod === "bank"
+                onClick={() =>
+                  handlePaymentSelect("bank")
+                }
+                className={`flex cursor-not-allowed items-start rounded-xl border p-4 opacity-50 transition ${
+                  formData.paymentMethod ===
+                  "bank"
                     ? "border-gray-700 bg-[#121824]/60"
                     : "border-gray-800 bg-[#121824]"
                 }`}
               >
-                <div className="flex items-center h-5 mt-0.5">
+                <div className="mt-0.5 flex h-5 items-center">
 
                   <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                      formData.paymentMethod === "bank"
+                    className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                      formData.paymentMethod ===
+                      "bank"
                         ? "border-green-400"
                         : "border-gray-600"
                     }`}
                   >
-                    {formData.paymentMethod === "bank" && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                    {formData.paymentMethod ===
+                      "bank" && (
+                      <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
 
@@ -412,31 +697,38 @@ export default function ShippingForm() {
                   </p>
 
                   <p className="text-xs text-gray-400">
-                    Pay via bank transfer
+                    Currently unavailable
                   </p>
 
                 </div>
               </div>
 
+              {/* COD */}
+
               <div
-                onClick={() => handlePaymentSelect("cod")}
-                className={`flex items-start p-4 rounded-xl border cursor-pointer transition ${
-                  formData.paymentMethod === "cod"
+                onClick={() =>
+                  handlePaymentSelect("cod")
+                }
+                className={`flex cursor-pointer items-start rounded-xl border p-4 transition ${
+                  formData.paymentMethod ===
+                  "cod"
                     ? "border-gray-700 bg-[#121824]/60"
                     : "border-gray-800 bg-[#121824]"
                 }`}
               >
-                <div className="flex items-center h-5 mt-0.5">
+                <div className="mt-0.5 flex h-5 items-center">
 
                   <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                      formData.paymentMethod === "cod"
+                    className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                      formData.paymentMethod ===
+                      "cod"
                         ? "border-green-400"
                         : "border-gray-600"
                     }`}
                   >
-                    {formData.paymentMethod === "cod" && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                    {formData.paymentMethod ===
+                      "cod" && (
+                      <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
                     )}
                   </div>
 
@@ -458,21 +750,29 @@ export default function ShippingForm() {
             </div>
 
             {errors.paymentMethod && (
-              <p className="text-red-500 text-xs mt-2">
+              <p className="mt-2 text-xs text-red-500">
                 {errors.paymentMethod}
               </p>
             )}
 
           </div>
 
+          {/* Submit */}
+
           <div className="pt-4">
 
             <button
               type="submit"
-              className="w-full bg-[#A3E635] hover:bg-[#8acc27] text-black font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer"
+              disabled={loading}
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#A3E635] py-3.5 font-semibold text-black transition hover:bg-[#8acc27] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Confirm Order
-              <ArrowRight className="w-4 h-4" />
+              {loading
+                ? "Placing Order..."
+                : "Confirm Order"}
+
+              {!loading && (
+                <ArrowRight className="h-4 w-4" />
+              )}
             </button>
 
           </div>

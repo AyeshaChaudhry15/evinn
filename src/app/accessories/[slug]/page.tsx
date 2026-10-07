@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { addToCart } from "@/app/redux/cart-slice";
-import { api } from "../../../lib/api";
 
 interface Accessory {
   _id: string;
@@ -21,6 +20,7 @@ interface Accessory {
 
 interface AccessoryResponse {
   accessory: Accessory;
+  message?: string;
 }
 
 export default function AccessoryDetail() {
@@ -39,26 +39,41 @@ export default function AccessoryDetail() {
 
   useEffect(() => {
     const fetchAccessory = async () => {
-      if (!currentSlug) return;
+      if (!currentSlug) {
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
         setError("");
 
-        const response =
-          await api.get<AccessoryResponse>(
-            `/accessories/${currentSlug}`
-          );
+        const response = await fetch(
+          `https://evinn.evermontech.com/api/accessories/${currentSlug}`,
+          {
+            method: "GET",
+          }
+        );
 
-        setAccessory(response.data.accessory);
+        const data: AccessoryResponse =
+          await response.json().catch(() => ({} as AccessoryResponse));
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message || "Failed to load accessory."
+          );
+        }
+
+        setAccessory(data?.accessory || null);
       } catch (err: any) {
         console.error("Accessory API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          err?.message ||
             "Something went wrong while loading accessory."
         );
+
+        setAccessory(null);
       } finally {
         setLoading(false);
       }

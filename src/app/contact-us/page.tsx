@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -12,7 +11,6 @@ import {
 import { FaInstagram, FaYoutube } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { api } from "../../lib/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -103,15 +101,41 @@ export default function Contact() {
       setLoading(true);
       setSuccess("");
 
-      const response = await api.post("/contact-submissions", {
-        fullName: formData.name.trim(),
-        email: formData.email.trim(),
-        reason: formData.inquiry,
-        message: formData.message.trim(),
-      });
+      const response = await fetch(
+        "https://evinn.evermontech.com/api/contact-submissions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            fullName: formData.name.trim(),
+            email: formData.email.trim(),
+            reason: formData.inquiry,
+            message: formData.message.trim(),
+          }),
+        }
+      );
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setSuccess(
+            "You've sent several messages already. Please try again later."
+          );
+        } else {
+          setSuccess(
+            data?.message || "Something went wrong. Please try again."
+          );
+        }
+
+        return;
+      }
 
       setSuccess(
-        response.data?.message ||
+        data?.message ||
           "Thanks for reaching out! We'll get back to you soon."
       );
 
@@ -124,19 +148,9 @@ export default function Contact() {
     } catch (err: any) {
       console.error("Contact Form API Error:", err);
 
-      const status = err.response?.status;
-
-      if (status === 429) {
-        setSuccess(
-          "You've sent several messages already. Please try again later."
-        );
-      } else {
-        setSuccess(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong. Please try again."
-        );
-      }
+      setSuccess(
+        err?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -338,12 +352,13 @@ export default function Contact() {
                 <option value="General Inquiry">
                   General Inquiry
                 </option>
+
                 <option value="Product Inquiry">
                   Product Inquiry
                 </option>
-                <option value="Support">
-                  Support
-                </option>
+
+                <option value="Support">Support</option>
+
                 <option value="Business Inquiry">
                   Business Inquiry
                 </option>
@@ -473,4 +488,3 @@ export default function Contact() {
     </main>
   );
 }
-

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { api } from "../../lib/api";
 
 interface Vehicle {
   _id: string;
@@ -26,18 +25,6 @@ interface Vehicle {
     weight?: string;
     warranty?: string;
     features?: string;
-  };
-}
-
-interface BikesResponse {
-  bikes: Vehicle[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
   };
 }
 
@@ -70,24 +57,29 @@ export default function CompareVehicles() {
         setLoading(true);
         setError("");
 
-        const response = await api.get<BikesResponse>("/bikes", {
-          params: {
-            page: 1,
-            limit: 100,
-          },
-        });
+        const response = await fetch(
+          "https://evinn.evermontech.com/api/bikes?page=1&limit=100",
+        );
 
-        const vehicles = response.data.bikes || [];
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(
+            data?.message || "Failed to load vehicles.",
+          );
+        }
+
+        const vehicles: Vehicle[] = data?.bikes || [];
 
         setAllVehicles(vehicles);
         setSelectedVehicles(vehicles.slice(0, 3));
-      } catch (err: any) {
+      } catch (err) {
         console.error("Compare Vehicles API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading vehicles.",
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading vehicles.",
         );
       } finally {
         setLoading(false);
@@ -97,7 +89,10 @@ export default function CompareVehicles() {
     fetchVehicles();
   }, []);
 
-  const handleSelectChange = (index: number, vehicle: Vehicle) => {
+  const handleSelectChange = (
+    index: number,
+    vehicle: Vehicle,
+  ) => {
     const updated = [...selectedVehicles];
 
     updated[index] = vehicle;
@@ -111,14 +106,18 @@ export default function CompareVehicles() {
     if (selectedVehicles.length >= 3) return;
 
     const available = allVehicles.find(
-      (v) =>
+      (vehicle) =>
         !selectedVehicles.some(
-          (sv) => String(sv._id) === String(v._id),
+          (selected) =>
+            String(selected._id) === String(vehicle._id),
         ),
     );
 
     if (available) {
-      setSelectedVehicles([...selectedVehicles, available]);
+      setSelectedVehicles([
+        ...selectedVehicles,
+        available,
+      ]);
     }
   };
 
@@ -127,13 +126,14 @@ export default function CompareVehicles() {
 
     setSelectedVehicles(
       selectedVehicles.filter(
-        (v) => String(v._id) !== String(id),
+        (vehicle) => String(vehicle._id) !== String(id),
       ),
     );
   };
 
-  const formatPKR = (price: number) =>
-    `PKR ${price.toLocaleString("en-PK")}`;
+  const formatPKR = (price: number) => {
+    return `PKR ${Number(price || 0).toLocaleString("en-PK")}`;
+  };
 
   if (loading) {
     return (
@@ -153,7 +153,9 @@ export default function CompareVehicles() {
     return (
       <section className="flex min-h-[500px] w-full items-center justify-center bg-[#07151d] p-6 md:p-8">
         <div className="text-center">
-          <p className="text-red-400">{error}</p>
+          <p className="text-red-400">
+            {error}
+          </p>
         </div>
       </section>
     );
@@ -214,6 +216,7 @@ export default function CompareVehicles() {
             gridTemplateColumns: `1fr repeat(${selectedVehicles.length}, 1fr)`,
           }}
         >
+          {/* Features Column */}
           <div className="flex flex-col gap-2">
             <div className="flex h-[170px] items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] text-3xl font-semibold text-[#8fdf0d]">
               Features
@@ -236,13 +239,23 @@ export default function CompareVehicles() {
             ))}
           </div>
 
+          {/* Vehicle Columns */}
           {selectedVehicles.map((item, index) => {
             const isOpen = openDropdownIndex === index;
 
-            const filteredVehicles = allVehicles.filter((v) =>
-              v.name
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()),
+            const filteredVehicles = allVehicles.filter(
+              (vehicle) => {
+                const query = searchQuery.toLowerCase();
+
+                return (
+                  vehicle.name
+                    .toLowerCase()
+                    .includes(query) ||
+                  vehicle.brand?.displayName
+                    ?.toLowerCase()
+                    .includes(query)
+                );
+              },
             );
 
             return (
@@ -257,18 +270,33 @@ export default function CompareVehicles() {
                 }}
                 className="relative flex flex-col gap-2"
               >
+                {/* Vehicle Header */}
                 <motion.div
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.2 }}
                   className="relative flex h-[170px] flex-col items-center justify-between rounded-lg border border-[#1c3039] bg-[#0b1b24] p-3 text-center"
                 >
+                  {/* Remove Button */}
                   {selectedVehicles.length > 1 && (
                     <motion.button
-                      initial={{ opacity: 0, scale: 0.7 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      whileHover={{ scale: 1.15 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
+                      type="button"
+                      initial={{
+                        opacity: 0,
+                        scale: 0.7,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                      }}
+                      whileHover={{
+                        scale: 1.15,
+                      }}
+                      whileTap={{
+                        scale: 0.9,
+                      }}
+                      transition={{
+                        duration: 0.2,
+                      }}
                       onClick={() =>
                         handleRemoveVehicle(item._id)
                       }
@@ -279,10 +307,15 @@ export default function CompareVehicles() {
                     </motion.button>
                   )}
 
+                  {/* Vehicle Dropdown */}
                   <div className="relative w-full pr-4">
                     <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{
+                        scale: 1.02,
+                      }}
+                      whileTap={{
+                        scale: 0.98,
+                      }}
                       onClick={() => {
                         setOpenDropdownIndex(
                           isOpen ? null : index,
@@ -312,52 +345,75 @@ export default function CompareVehicles() {
                             y: -8,
                             scale: 0.98,
                           }}
-                          transition={{ duration: 0.2 }}
+                          transition={{
+                            duration: 0.2,
+                          }}
                           className="absolute left-0 right-0 top-full z-50 mt-1 max-h-48 overflow-y-auto rounded border border-[#1c3039] bg-[#06111a] p-1 text-left shadow-lg"
                         >
                           <motion.input
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.2 }}
+                            initial={{
+                              opacity: 0,
+                            }}
+                            animate={{
+                              opacity: 1,
+                            }}
+                            transition={{
+                              duration: 0.2,
+                            }}
                             type="text"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) =>
-                              setSearchQuery(e.target.value)
+                              setSearchQuery(
+                                e.target.value,
+                              )
                             }
                             autoFocus
                             className="mb-1 w-full rounded border border-[#1c3039] bg-[#0b1b24] px-2 py-1 text-xs text-white outline-none focus:border-[#8fdf0d]"
                           />
 
                           {filteredVehicles.length > 0 ? (
-                            filteredVehicles.map((v, i) => (
-                              <motion.div
-                                key={v._id}
-                                initial={{
-                                  opacity: 0,
-                                  x: -10,
-                                }}
-                                animate={{
-                                  opacity: 1,
-                                  x: 0,
-                                }}
-                                transition={{
-                                  duration: 0.2,
-                                  delay: i * 0.03,
-                                }}
-                                whileHover={{ x: 3 }}
-                                onClick={() =>
-                                  handleSelectChange(index, v)
-                                }
-                                className="cursor-pointer rounded px-2 py-1.5 text-xs text-white hover:bg-[#8fdf0d] hover:text-[#06111a]"
-                              >
-                                {v.name} ({v.type})
-                              </motion.div>
-                            ))
+                            filteredVehicles.map(
+                              (vehicle, i) => (
+                                <motion.div
+                                  key={vehicle._id}
+                                  initial={{
+                                    opacity: 0,
+                                    x: -10,
+                                  }}
+                                  animate={{
+                                    opacity: 1,
+                                    x: 0,
+                                  }}
+                                  transition={{
+                                    duration: 0.2,
+                                    delay:
+                                      i * 0.03,
+                                  }}
+                                  whileHover={{
+                                    x: 3,
+                                  }}
+                                  onClick={() =>
+                                    handleSelectChange(
+                                      index,
+                                      vehicle,
+                                    )
+                                  }
+                                  className="cursor-pointer rounded px-2 py-1.5 text-xs text-white hover:bg-[#8fdf0d] hover:text-[#06111a]"
+                                >
+                                  {vehicle.name} (
+                                  {vehicle.type})
+                                </motion.div>
+                              ),
+                            )
                           ) : (
                             <motion.div
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
+                              initial={{
+                                opacity: 0,
+                              }}
+                              animate={{
+                                opacity: 1,
+                              }}
                               className="px-2 py-1 text-xs text-gray-400"
                             >
                               No match found
@@ -368,14 +424,24 @@ export default function CompareVehicles() {
                     </AnimatePresence>
                   </div>
 
+                  {/* Vehicle Image */}
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{
+                      opacity: 0,
+                      scale: 0.9,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
                     transition={{
                       duration: 0.5,
-                      delay: 0.15 + index * 0.1,
+                      delay:
+                        0.15 + index * 0.1,
                     }}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{
+                      scale: 1.05,
+                    }}
                     className="relative h-16 w-full"
                   >
                     <img
@@ -385,12 +451,20 @@ export default function CompareVehicles() {
                     />
                   </motion.div>
 
+                  {/* Price */}
                   <motion.p
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{
+                      opacity: 0,
+                      y: 8,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
                     transition={{
                       duration: 0.4,
-                      delay: 0.25 + index * 0.1,
+                      delay:
+                        0.25 + index * 0.1,
                     }}
                     className="text-xs font-semibold text-[#8fdf0d]"
                   >
@@ -398,17 +472,28 @@ export default function CompareVehicles() {
                   </motion.p>
                 </motion.div>
 
+                {/* Vehicle Specs */}
                 {specsList.map((spec, i) => (
                   <motion.div
                     key={spec.key}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    initial={{
+                      opacity: 0,
+                      y: 15,
+                    }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    viewport={{
+                      once: true,
+                    }}
                     transition={{
                       duration: 0.35,
                       delay: i * 0.06,
                     }}
-                    whileHover={{ y: -2 }}
+                    whileHover={{
+                      y: -2,
+                    }}
                     className="flex h-11 items-center justify-center rounded-lg border border-[#1c3039] bg-[#0b1b24] px-2 text-center text-xs text-gray-200 md:text-sm"
                   >
                     {item.specs?.[
@@ -422,20 +507,45 @@ export default function CompareVehicles() {
         </div>
       </motion.div>
 
+      {/* Buttons */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        initial={{
+          opacity: 0,
+          y: 30,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+        }}
+        transition={{
+          duration: 0.6,
+        }}
         className="mt-8 flex justify-center gap-4"
       >
         {selectedVehicles.length < 3 && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.04, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.2 }}
+            type="button"
+            initial={{
+              opacity: 0,
+              scale: 0.9,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            whileHover={{
+              scale: 1.04,
+              y: -2,
+            }}
+            whileTap={{
+              scale: 0.97,
+            }}
+            transition={{
+              duration: 0.2,
+            }}
             onClick={handleAddVehicle}
             className="rounded-lg border border-[#1c3039] bg-[#0b1b24] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#10232d]"
           >
@@ -444,12 +554,29 @@ export default function CompareVehicles() {
         )}
 
         <motion.button
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.04, y: -2 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ duration: 0.2, delay: 0.1 }}
-          onClick={() => alert("Full comparison view")}
+          type="button"
+          initial={{
+            opacity: 0,
+            scale: 0.9,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          whileHover={{
+            scale: 1.04,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.97,
+          }}
+          transition={{
+            duration: 0.2,
+            delay: 0.1,
+          }}
+          onClick={() =>
+            alert("Full comparison view")
+          }
           className="rounded-lg bg-[#8fdf0d] px-6 py-2.5 text-sm font-semibold text-[#07151d] transition hover:bg-[#a3f722]"
         >
           View Full Comparison

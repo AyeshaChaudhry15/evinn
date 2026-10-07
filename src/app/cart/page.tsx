@@ -31,19 +31,17 @@ export default function CartPage() {
   );
 
   const totalItems = cartItems.reduce(
-    (total: number, item: any) =>
-      total + item.quantity,
+    (total: number, item: any) => total + item.quantity,
     0
   );
 
   const subtotal = cartItems.reduce(
     (total: number, item: any) =>
-      total + item.price * item.quantity,
+      total + Number(item.price || 0) * item.quantity,
     0
   );
 
   const shipping = 0;
-
   const total = subtotal + shipping;
 
   return (
@@ -192,13 +190,14 @@ export default function CartPage() {
                           )}
 
                           <p className="mt-2 text-sm text-gray-300">
-                            {formatPrice(item.price)}
+                            {formatPrice(Number(item.price || 0))}
                           </p>
                         </div>
 
                         <p className="hidden text-sm font-medium text-gray-300 sm:block">
                           {formatPrice(
-                            item.price * item.quantity
+                            Number(item.price || 0) *
+                              item.quantity
                           )}
                         </p>
                       </div>
@@ -217,6 +216,7 @@ export default function CartPage() {
                             "
                           >
                             <button
+                              type="button"
                               onClick={() =>
                                 dispatch(
                                   decrementQuantity(item.id)
@@ -247,6 +247,7 @@ export default function CartPage() {
                             </span>
 
                             <button
+                              type="button"
                               onClick={() =>
                                 dispatch(
                                   incrementQuantity(item.id)
@@ -267,6 +268,7 @@ export default function CartPage() {
                           </div>
 
                           <button
+                            type="button"
                             onClick={() =>
                               dispatch(
                                 removeFromCart(item.id)
@@ -290,7 +292,8 @@ export default function CartPage() {
 
                         <p className="text-sm font-medium text-gray-300 sm:hidden">
                           {formatPrice(
-                            item.price * item.quantity
+                            Number(item.price || 0) *
+                              item.quantity
                           )}
                         </p>
 
