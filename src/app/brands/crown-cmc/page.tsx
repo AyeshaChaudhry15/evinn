@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -31,6 +30,10 @@ interface Vehicle {
     weight: string;
     warranty: string;
   };
+}
+
+interface BrandsResponse {
+  brands: Brand[];
 }
 
 interface BikesResponse {
@@ -60,22 +63,44 @@ export default function CrownCmcPage() {
         setLoading(true);
         setError("");
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          query: {
-            page: 1,
-            limit: 100,
-          },
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
         });
 
-        const bikes = bikesResponse?.bikes || [];
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands.");
+        }
 
-        const crownCmcBikes = bikes.filter(
-          (bike) =>
-            bike.brand?.displayName?.toLowerCase().trim() ===
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const crownCmcBrand = brandsData.brands?.find(
+          (brand) =>
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
-        setBrandVehicles(crownCmcBikes);
+        if (!crownCmcBrand) {
+          throw new Error("Crown CMC brand not found.");
+        }
+
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            crownCmcBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
+
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Crown CMC motorcycles.");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
       } catch (err) {
         console.error("Crown CMC API Error:", err);
 

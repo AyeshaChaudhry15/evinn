@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -22,11 +21,24 @@ interface Vehicle {
   rating: number;
   imageUrl: string;
   slug: string;
+  specs?: {
+    range: string;
+    topSpeed: string;
+    battery: string;
+    chargingTime: string;
+    motorPower: string;
+    weight: string;
+    warranty: string;
+  };
+}
+
+interface BrandsResponse {
+  brands: Brand[];
 }
 
 interface BikesResponse {
-  bikes?: Vehicle[];
-  pagination?: {
+  bikes: Vehicle[];
+  pagination: {
     page: number;
     limit: number;
     total: number;
@@ -46,41 +58,63 @@ export default function OrevoPage() {
   const brandSlug = "orevo";
 
   useEffect(() => {
-    const fetchBrandBikes = async () => {
+    const fetchOrevoBikes = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
-            page: 1,
-            limit: 100,
-          },
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
         });
 
-        const bikes = bikesResponse.data?.bikes || [];
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands");
+        }
 
-        const orevoBikes = bikes.filter(
-          (bike) =>
-            bike.brand?.displayName?.toLowerCase().trim() ===
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const orevoBrand = brandsData.brands?.find(
+          (brand) =>
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
-        setBrandVehicles(orevoBikes);
-      } catch (err: any) {
+        if (!orevoBrand) {
+          throw new Error("Orevo brand not found");
+        }
+
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            orevoBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
+
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Orevo motorcycles");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
+      } catch (err) {
         console.error("Orevo API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading Orevo bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBrandBikes();
+    fetchOrevoBikes();
   }, []);
 
   const sortedVehicles = [...brandVehicles].sort((a, b) => {

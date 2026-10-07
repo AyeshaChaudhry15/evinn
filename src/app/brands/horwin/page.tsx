@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -64,28 +63,44 @@ export default function HorwinPage() {
         setLoading(true);
         setError("");
 
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
+        });
 
-        const horwinBrand = brandsResponse?.brands?.find(
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands.");
+        }
+
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const horwinBrand = brandsData.brands?.find(
           (brand) =>
             brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
         if (!horwinBrand) {
-          setBrandVehicles([]);
-          return;
+          throw new Error("Horwin brand not found.");
         }
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          query: {
-            brand: horwinBrand._id,
-            page: 1,
-            limit: 100,
-          },
-        });
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            horwinBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
 
-        setBrandVehicles(bikesResponse?.bikes || []);
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Horwin motorcycles.");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
       } catch (err) {
         console.error("Horwin API Error:", err);
 
@@ -114,8 +129,9 @@ export default function HorwinPage() {
     return 0;
   });
 
-  const formatPKR = (price: number) =>
-    `PKR ${price.toLocaleString("en-PK")}`;
+  const formatPKR = (price: number) => {
+    return `PKR ${price.toLocaleString("en-PK")}`;
+  };
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">

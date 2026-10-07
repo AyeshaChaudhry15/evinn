@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -64,28 +63,44 @@ export default function HispeedPage() {
         setLoading(true);
         setError("");
 
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
+        });
 
-        const hispeedBrand = brandsResponse?.brands?.find(
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands.");
+        }
+
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const hispeedBrand = brandsData.brands?.find(
           (brand) =>
             brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
         if (!hispeedBrand) {
-          setBrandVehicles([]);
-          return;
+          throw new Error("Hi speed brand not found.");
         }
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          query: {
-            brand: hispeedBrand._id,
-            page: 1,
-            limit: 100,
-          },
-        });
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            hispeedBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
 
-        setBrandVehicles(bikesResponse?.bikes || []);
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Hi speed motorcycles.");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
       } catch (err) {
         console.error("Hi speed API Error:", err);
 

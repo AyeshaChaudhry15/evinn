@@ -1,10 +1,10 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../../../../components/add-to-cart";
-import { api } from "../../../lib/api";
 
 interface Brand {
   _id: string;
@@ -63,11 +63,20 @@ export default function LuyuanPage() {
         setLoading(true);
         setError("");
 
-        const brandsResponse = await api.get<BrandsResponse>("/brands");
+        const brandsResponse = await fetch("/api/brands", {
+          credentials: "include",
+          cache: "no-store",
+        });
 
-        const luyuanBrand = brandsResponse.data.brands.find(
+        if (!brandsResponse.ok) {
+          throw new Error("Failed to load brands");
+        }
+
+        const brandsData: BrandsResponse = await brandsResponse.json();
+
+        const luyuanBrand = brandsData.brands?.find(
           (brand) =>
-            brand.displayName.toLowerCase().trim() ===
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
@@ -75,22 +84,30 @@ export default function LuyuanPage() {
           throw new Error("Luyuan brand not found");
         }
 
-        const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
-            brand: luyuanBrand._id,
-            page: 1,
-            limit: 100,
-          },
-        });
+        const bikesResponse = await fetch(
+          `/api/bikes?brand=${encodeURIComponent(
+            luyuanBrand._id
+          )}&page=1&limit=100`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
-      } catch (err: any) {
+        if (!bikesResponse.ok) {
+          throw new Error("Failed to load Luyuan motorcycles");
+        }
+
+        const bikesData: BikesResponse = await bikesResponse.json();
+
+        setBrandVehicles(bikesData.bikes || []);
+      } catch (err) {
         console.error("Luyuan API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
