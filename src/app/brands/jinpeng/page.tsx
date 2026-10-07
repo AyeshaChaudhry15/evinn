@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -65,32 +66,33 @@ export default function JinpengPage() {
 
         const brandsResponse = await api.get<BrandsResponse>("/brands");
 
-        const jinpengBrand = brandsResponse.data.brands.find(
+        const jinpengBrand = brandsResponse?.brands?.find(
           (brand) =>
-            brand.displayName.toLowerCase().trim() ===
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
         if (!jinpengBrand) {
-          throw new Error("Jinpeng brand not found");
+          setBrandVehicles([]);
+          return;
         }
 
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
+          query: {
             brand: jinpengBrand._id,
             page: 1,
             limit: 100,
           },
         });
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
-      } catch (err: any) {
+        setBrandVehicles(bikesResponse?.bikes || []);
+      } catch (err) {
         console.error("Jinpeng API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
@@ -234,3 +236,4 @@ export default function JinpengPage() {
     </main>
   );
 }
+

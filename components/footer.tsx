@@ -1,7 +1,7 @@
+
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -134,7 +134,10 @@ export default function Footer() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     whileHover={{ y: -4, scale: 1.05 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: 0.3 + index * 0.05,
+                    }}
                   >
                     <Icon />
                   </motion.a>
@@ -144,11 +147,8 @@ export default function Footer() {
           </motion.div>
 
           <FooterCol title="SHOP" links={shopLinks} />
-
           <FooterCol title="SERVICES" links={serviceLinks} />
-
           <FooterCol title="INFORMATION" links={infoLinks} />
-
           <FooterCol title="POPULAR BRANDS" links={brandLinks} />
 
           <motion.div
@@ -183,25 +183,30 @@ export default function Footer() {
             </form>
 
             <div className="grid grid-cols-2 gap-2">
-              {badges.map((b, index) => (
+              {badges.map((badge, index) => (
                 <motion.div
-                  key={b.title}
+                  key={badge.title}
                   className="min-w-0 rounded-md border border-white/10 px-2 py-2.5 text-center"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   whileHover={{ y: -4 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: 0.3 + index * 0.08,
+                  }}
                 >
-                  <div className="mb-1 text-base text-lime-400">{b.icon}</div>
+                  <div className="mb-1 text-base text-lime-400">
+                    {badge.icon}
+                  </div>
 
                   <div className="text-[10px] text-gray-400 sm:text-[11px]">
                     <span className="block font-medium text-gray-300">
-                      {b.title}
+                      {badge.title}
                     </span>
 
                     <span className="mt-0.5 block text-[9px] sm:text-[10px]">
-                      {b.sub}
+                      {badge.sub}
                     </span>
                   </div>
                 </motion.div>
@@ -233,40 +238,6 @@ export default function Footer() {
             <span>Trusted by</span>
             <span className="font-semibold text-white">10K+</span>
             <span>Happy Customers</span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Image
-              src="/visa.png"
-              alt="Visa"
-              width={55}
-              height={32}
-              className="h-7 w-auto object-contain"
-            />
-
-            <Image
-              src="/meezan-bank.png"
-              alt="Meezan Bank"
-              width={70}
-              height={32}
-              className="h-7 w-auto object-contain"
-            />
-
-            <Image
-              src="/easy-paisa.png"
-              alt="Easypaisa"
-              width={80}
-              height={32}
-              className="h-7 w-auto object-contain"
-            />
-
-            <Image
-              src="/jazz-cash.jfif"
-              alt="JazzCash"
-              width={70}
-              height={32}
-              className="h-7 w-auto object-contain"
-            />
           </div>
         </motion.div>
       </div>
@@ -315,3 +286,4 @@ function FooterCol({
     </motion.div>
   );
 }
+

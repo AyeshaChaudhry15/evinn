@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -60,13 +61,13 @@ export default function CrownCmcPage() {
         setError("");
 
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
+          query: {
             page: 1,
             limit: 100,
           },
         });
 
-        const bikes = bikesResponse.data?.bikes || [];
+        const bikes = bikesResponse?.bikes || [];
 
         const crownCmcBikes = bikes.filter(
           (bike) =>
@@ -75,13 +76,13 @@ export default function CrownCmcPage() {
         );
 
         setBrandVehicles(crownCmcBikes);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Crown CMC API Error:", err);
 
         setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
@@ -226,3 +227,4 @@ export default function CrownCmcPage() {
     </main>
   );
 }
+

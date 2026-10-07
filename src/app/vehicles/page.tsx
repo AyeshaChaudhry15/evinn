@@ -1,115 +1,268 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
-import vehiclesData from "../../bike-details/bikes-scooter.json";
 import AddToCartButton from "../../../components/add-to-cart";
+import { request } from "@/lib/api"
+
+interface Brand {
+  _id: string;
+  displayName: string;
+  logoUrl: string;
+  origin?: string;
+}
+
+interface BikeSpecs {
+  range?: string;
+  topSpeed?: string;
+  battery?: string;
+  chargingTime?: string;
+  motorPower?: string;
+  weight?: string;
+  warranty?: string;
+}
 
 interface Vehicle {
-  id: string | number;
+  _id: string;
   name: string;
-  brand: string;
-  type: string;
-  price: number;
-  priceText: string;
-  rating: number;
-  image: string;
   slug: string;
-  specs?: {
-    range: string;
-    topSpeed: string;
-    battery: string;
-    chargingTime: string;
-    motorPower: string;
-    weight: string;
-    warranty: string;
+  brand: {
+    _id: string;
+    displayName: string;
+    logoUrl?: string;
   };
+  type: "bike" | "scooter";
+  price: number;
+  rating: number;
+  imageUrl: string;
+  specs?: BikeSpecs;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+interface BikesResponse {
+  bikes: Vehicle[];
+  pagination: Pagination;
+}
+
+interface BrandsResponse {
+  brands: Brand[];
 }
 
 const PRICE_MIN = 0;
-const PRICE_MAX = 5000000;
 const PRICE_STEP = 50000;
 const MIN_GAP = 50000;
 
 export default function Vehicles() {
-  const scooters: Vehicle[] = [
-    ...(vehiclesData?.bikes || []),
-    ...(vehiclesData?.scooters || []),
-  ];
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [vehicleType, setVehicleType] = useState("All Types");
   const [brand, setBrand] = useState("All Brands");
   const [topSpeed, setTopSpeed] = useState("All");
   const [range, setRange] = useState("All");
   const [sortBy, setSortBy] = useState("Popular");
+
   const [minPrice, setMinPrice] = useState(PRICE_MIN);
-  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
+  const [maxPrice, setMaxPrice] = useState(5000000);
+  const [priceLimit, setPriceLimit] = useState(5000000);
+
   const [visibleProducts, setVisibleProducts] = useState(9);
 
-  let filteredScooters = scooters.filter((scooter) => {
-    const brandMatch =
-      brand === "All Brands" || scooter.brand === brand;
+  useEffect(() => {
+    let mounted = true;
 
-    const typeMatch =
-      vehicleType === "All Types" ||
-      (vehicleType === "Bike" && scooter.type === "bike") ||
-      (vehicleType === "Scooter" && scooter.type === "scooter");
+    const loadVehicles = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-    const priceMatch =
-      scooter.price >= minPrice && scooter.price <= maxPrice;
+        const firstPage = await request<BikesResponse>("/bikes", {
+          query: {
+            page: 1,
+            limit: 100,
+          },
+        });
 
-    let speedMatch = true;
+        let allVehicles = [...firstPage.bikes];
 
-    if (topSpeed !== "All" && scooter.specs) {
-      const speedValue = parseInt(scooter.specs.topSpeed);
+        let currentPage = 1;
+        let hasNextPage = firstPage.pagination?.hasNextPage ?? false;
 
-      if (topSpeed === "Under 60 km/h") {
-        speedMatch = speedValue < 60;
-      } else if (topSpeed === "60 - 90 km/h") {
-        speedMatch = speedValue >= 60 && speedValue <= 90;
-      } else if (topSpeed === "90+ km/h") {
-        speedMatch = speedValue > 90;
+        while (hasNextPage) {
+          currentPage += 1;
+
+          const nextPage = await request<BikesResponse>("/bikes", {
+            query: {
+              page: currentPage,
+              limit: 100,
+            },
+          });
+
+          allVehicles = [...allVehicles, ...nextPage.bikes];
+
+          hasNextPage = nextPage.pagination?.hasNextPage ?? false;
+        }
+
+        const brandsResponse = await request<BrandsResponse>("/brands");
+
+        if (!mounted) {
+          return;
+        }
+
+        setVehicles(allVehicles);
+        setBrands(brandsResponse.brands || []);
+
+        const highestPrice = allVehicles.reduce(
+          (highest, vehicle) =>
+            Math.max(highest, Number(vehicle.price) || 0),
+          0,
+        );
+
+        const calculatedMax = Math.max(
+          5000000,
+          Math.ceil(highestPrice / PRICE_STEP) * PRICE_STEP,
+        );
+
+        setPriceLimit(calculatedMax);
+        setMaxPrice(calculatedMax);
+      } catch (err) {
+        if (!mounted) {
+          return;
+        }
+
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Unable to load vehicles.",
+        );
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
       }
+    };
+
+    loadVehicles();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const filteredVehicles = useMemo(() => {
+    const filtered = vehicles.filter((vehicle) => {
+      const brandMatch =
+        brand === "All Brands" ||
+        vehicle.brand?.displayName === brand;
+
+      const typeMatch =
+        vehicleType === "All Types" ||
+        (vehicleType === "Bike" && vehicle.type === "bike") ||
+        (vehicleType === "Scooter" &&
+          vehicle.type === "scooter");
+
+      const priceMatch =
+        vehicle.price >= minPrice &&
+        vehicle.price <= maxPrice;
+
+      let speedMatch = true;
+
+      if (topSpeed !== "All") {
+        const speedValue = parseInt(
+          vehicle.specs?.topSpeed || "0",
+        );
+
+        if (topSpeed === "Under 60 km/h") {
+          speedMatch = speedValue < 60;
+        }
+
+        if (topSpeed === "60 - 90 km/h") {
+          speedMatch =
+            speedValue >= 60 && speedValue <= 90;
+        }
+
+        if (topSpeed === "90+ km/h") {
+          speedMatch = speedValue > 90;
+        }
+      }
+
+      let rangeMatch = true;
+
+      if (range !== "All") {
+        const rangeValue = parseInt(
+          vehicle.specs?.range || "0",
+        );
+
+        if (range === "Under 80 km") {
+          rangeMatch = rangeValue < 80;
+        }
+
+        if (range === "80 - 150 km") {
+          rangeMatch =
+            rangeValue >= 80 && rangeValue <= 150;
+        }
+
+        if (range === "150+ km") {
+          rangeMatch = rangeValue > 150;
+        }
+      }
+
+      return (
+        brandMatch &&
+        typeMatch &&
+        priceMatch &&
+        speedMatch &&
+        rangeMatch
+      );
+    });
+
+    if (sortBy === "Price: Low to High") {
+      filtered.sort((a, b) => a.price - b.price);
     }
 
-    let rangeMatch = true;
-
-    if (range !== "All" && scooter.specs) {
-      const rangeValue = parseInt(scooter.specs.range);
-
-      if (range === "Under 80 km") {
-        rangeMatch = rangeValue < 80;
-      } else if (range === "80 - 150 km") {
-        rangeMatch = rangeValue >= 80 && rangeValue <= 150;
-      } else if (range === "150+ km") {
-        rangeMatch = rangeValue > 150;
-      }
+    if (sortBy === "Price: High to Low") {
+      filtered.sort((a, b) => b.price - a.price);
     }
 
-    return (
-      brandMatch &&
-      typeMatch &&
-      priceMatch &&
-      speedMatch &&
-      rangeMatch
-    );
-  });
+    if (sortBy === "Newest") {
+      filtered.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime(),
+      );
+    }
 
-  if (sortBy === "Price: Low to High") {
-    filteredScooters.sort((a, b) => a.price - b.price);
-  }
+    return filtered;
+  }, [
+    vehicles,
+    brand,
+    vehicleType,
+    minPrice,
+    maxPrice,
+    topSpeed,
+    range,
+    sortBy,
+  ]);
 
-  if (sortBy === "Price: High to Low") {
-    filteredScooters.sort((a, b) => b.price - a.price);
-  }
-
-  if (sortBy === "Newest") {
-    filteredScooters.sort(
-      (a, b) => Number(b.id) - Number(a.id)
-    );
-  }
+  const displayedVehicles = filteredVehicles.slice(
+    0,
+    visibleProducts,
+  );
 
   const clearFilters = () => {
     setVehicleType("All Types");
@@ -118,7 +271,7 @@ export default function Vehicles() {
     setRange("All");
     setSortBy("Popular");
     setMinPrice(PRICE_MIN);
-    setMaxPrice(PRICE_MAX);
+    setMaxPrice(priceLimit);
     setVisibleProducts(9);
   };
 
@@ -127,11 +280,11 @@ export default function Vehicles() {
   };
 
   const handleMinChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const value = Math.min(
       Number(e.target.value),
-      maxPrice - MIN_GAP
+      maxPrice - MIN_GAP,
     );
 
     setMinPrice(value);
@@ -139,21 +292,22 @@ export default function Vehicles() {
   };
 
   const handleMaxChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const value = Math.max(
       Number(e.target.value),
-      minPrice + MIN_GAP
+      minPrice + MIN_GAP,
     );
 
     setMaxPrice(value);
     setVisibleProducts(9);
   };
 
-  const displayedScooters = filteredScooters.slice(
-    0,
-    visibleProducts
-  );
+  const formatPrice = (price: number) => {
+    return `PKR ${new Intl.NumberFormat("en-PK").format(
+      price,
+    )}`;
+  };
 
   return (
     <main className="min-h-screen bg-[#06111A] px-4 py-8 text-white sm:px-6 lg:px-12 lg:py-14">
@@ -262,12 +416,7 @@ export default function Vehicles() {
             Filters
           </motion.h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.35 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Vehicle Type
             </label>
@@ -292,12 +441,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Brand
             </label>
@@ -313,13 +457,14 @@ export default function Vehicles() {
               >
                 <option>All Brands</option>
 
-                {[...new Set(scooters.map((s) => s.brand))].map(
-                  (b) => (
-                    <option key={b} value={b}>
-                      {b}
-                    </option>
-                  )
-                )}
+                {brands.map((item) => (
+                  <option
+                    key={item._id}
+                    value={item.displayName}
+                  >
+                    {item.displayName}
+                  </option>
+                ))}
               </select>
 
               <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#89949A]">
@@ -328,23 +473,18 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.45 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Price Range
             </label>
 
             <div className="mb-4 flex justify-between text-[10px] text-[#8E999E]">
               <span>
-                PKR {minPrice.toLocaleString("en-US")}
+                PKR {minPrice.toLocaleString("en-PK")}
               </span>
 
               <span>
-                PKR {maxPrice.toLocaleString("en-US")}
+                PKR {maxPrice.toLocaleString("en-PK")}
               </span>
             </div>
 
@@ -354,9 +494,9 @@ export default function Vehicles() {
               <div
                 className="absolute top-[8px] h-[5px] rounded-full bg-[#8fdf0d]"
                 style={{
-                  left: `${(minPrice / PRICE_MAX) * 100}%`,
+                  left: `${(minPrice / priceLimit) * 100}%`,
                   right: `${
-                    100 - (maxPrice / PRICE_MAX) * 100
+                    100 - (maxPrice / priceLimit) * 100
                   }%`,
                 }}
               />
@@ -364,7 +504,7 @@ export default function Vehicles() {
               <input
                 type="range"
                 min={PRICE_MIN}
-                max={PRICE_MAX}
+                max={priceLimit}
                 step={PRICE_STEP}
                 value={minPrice}
                 onChange={handleMinChange}
@@ -374,7 +514,7 @@ export default function Vehicles() {
               <input
                 type="range"
                 min={PRICE_MIN}
-                max={PRICE_MAX}
+                max={priceLimit}
                 step={PRICE_STEP}
                 value={maxPrice}
                 onChange={handleMaxChange}
@@ -383,12 +523,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.5 }}
-            className="mb-7"
-          >
+          <motion.div className="mb-7">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Top Speed
             </label>
@@ -414,12 +549,7 @@ export default function Vehicles() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.55 }}
-            className="mb-8"
-          >
+          <motion.div className="mb-8">
             <label className="mb-3 block pl-[2px] text-sm font-semibold text-[#D5DADD]">
               Range
             </label>
@@ -456,11 +586,33 @@ export default function Vehicles() {
         </motion.aside>
 
         <section className="w-full">
-          {displayedScooters.length > 0 ? (
+          {loading ? (
+            <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E]">
+              <div className="text-center">
+                <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-[#263640] border-t-[#8fdf0d]" />
+
+                <p className="mt-4 text-sm text-[#78858C]">
+                  Loading vehicles...
+                </p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="flex min-h-[400px] items-center justify-center rounded-[10px] border border-[#23333D] bg-[#0A151E] px-5">
+              <div className="text-center">
+                <p className="text-lg font-semibold text-white">
+                  Unable to load vehicles
+                </p>
+
+                <p className="mt-2 text-sm text-[#78858C]">
+                  {error}
+                </p>
+              </div>
+            </div>
+          ) : displayedVehicles.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {displayedScooters.map((scooter, index) => (
+              {displayedVehicles.map((vehicle, index) => (
                 <motion.div
-                  key={`${scooter.type}-${scooter.id}`}
+                  key={vehicle._id}
                   initial={{ opacity: 0, y: 35 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -471,13 +623,13 @@ export default function Vehicles() {
                   whileHover={{ y: -5 }}
                 >
                   <Link
-                    href={`/${scooter.slug || "model-detail"}`}
+                    href={`/${vehicle.slug}`}
                     className="group block min-w-0 overflow-hidden rounded-[10px] border border-[#23333D] bg-[#0A151E] transition duration-300 hover:-translate-y-1 hover:border-[#43545E] hover:shadow-[0_14px_35px_rgba(0,0,0,0.3)]"
                   >
                     <div className="flex h-[205px] items-center justify-center bg-white p-3.5">
                       <motion.img
-                        src={scooter.image}
-                        alt={scooter.name}
+                        src={vehicle.imageUrl}
+                        alt={vehicle.name}
                         whileHover={{ scale: 1.04 }}
                         transition={{ duration: 0.3 }}
                         className="block h-full w-full object-contain transition duration-300 group-hover:scale-[1.04]"
@@ -486,11 +638,11 @@ export default function Vehicles() {
 
                     <div className="px-[17px] pb-[17px] pt-2">
                       <h3 className="mb-2 text-[15px] font-semibold text-[#E7EBED]">
-                        {scooter.name}
+                        {vehicle.name}
                       </h3>
 
                       <p className="mb-2 text-sm font-bold tracking-[0.2px] text-[#B9ED42]">
-                        {scooter.priceText}
+                        {formatPrice(vehicle.price)}
                       </p>
 
                       <div className="mb-3 flex items-center justify-between text-xs text-[#6F7B81]">
@@ -499,16 +651,22 @@ export default function Vehicles() {
                             ★
                           </span>
 
-                          <span>{scooter.rating}</span>
+                          <span>
+                            {vehicle.rating || 0}
+                          </span>
                         </div>
+
+                        <span className="text-[#75828A]">
+                          {vehicle.brand?.displayName}
+                        </span>
                       </div>
 
                       <AddToCartButton
                         product={{
-                          id: scooter.id,
-                          name: scooter.name,
-                          price: scooter.price,
-                          image: scooter.image,
+                          id: vehicle._id,
+                          name: vehicle.name,
+                          price: vehicle.price,
+                          image: vehicle.imageUrl,
                         }}
                         className="h-[40px] w-full rounded-lg bg-[#B9ED42] text-sm font-semibold text-[#06111A] transition hover:bg-[#a6d835] active:scale-[0.98]"
                       >
@@ -538,20 +696,23 @@ export default function Vehicles() {
             </motion.div>
           )}
 
-          {visibleProducts < filteredScooters.length && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={loadMore}
-              className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
-            >
-              Load More
-            </motion.button>
-          )}
+          {!loading &&
+            !error &&
+            visibleProducts <
+              filteredVehicles.length && (
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={loadMore}
+                className="mx-auto mt-8 block h-[50px] w-[150px] rounded-lg border border-[#293A44] bg-[#0A151E] text-sm font-semibold text-[#DCE1E4] transition duration-200 hover:border-[#42545E] hover:bg-[#111F28] active:scale-[0.98]"
+              >
+                Load More
+              </motion.button>
+            )}
         </section>
       </div>
     </main>

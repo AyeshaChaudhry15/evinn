@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -65,32 +66,33 @@ export default function EveonPage() {
 
         const brandsResponse = await api.get<BrandsResponse>("/brands");
 
-        const eveonBrand = brandsResponse.data.brands?.find(
+        const eveonBrand = brandsResponse?.brands?.find(
           (brand) =>
-            brand.displayName.toLowerCase().trim() ===
+            brand.displayName?.toLowerCase().trim() ===
             brandName.toLowerCase().trim()
         );
 
         if (!eveonBrand) {
-          throw new Error("Eveon brand not found");
+          setBrandVehicles([]);
+          return;
         }
 
         const bikesResponse = await api.get<BikesResponse>("/bikes", {
-          params: {
+          query: {
             brand: eveonBrand._id,
             page: 1,
             limit: 100,
           },
         });
 
-        setBrandVehicles(bikesResponse.data.bikes || []);
-      } catch (err: any) {
+        setBrandVehicles(bikesResponse?.bikes || []);
+      } catch (err) {
         console.error("Eveon API Error:", err);
 
         setError(
-          err?.response?.data?.message ||
-            err?.message ||
-            "Something went wrong while loading bikes."
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while loading bikes."
         );
       } finally {
         setLoading(false);
@@ -238,3 +240,4 @@ export default function EveonPage() {
     </main>
   );
 }
+
